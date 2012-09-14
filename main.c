@@ -30,6 +30,7 @@
 #include "Hardware_Conf.h"
 #include "PID_Pressure.h"
 #include "PPG_Demod.h"
+#include "Timer.h"
 #include "Scanf.h"
 
 #define ORANGE_LED 6
@@ -75,14 +76,17 @@ int main(void) {
   usbDisconnectBus(serusbcfg.usbp);
   chThdSleepMilliseconds(100);
   usbConnectBus(serusbcfg.usbp);
-
+  /* Wait for USB to connect */
+  while(SDU1.config->usbp->state != USB_ACTIVE) {;}
 
   /*
    * Creates the blinker thread.
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 uint8_t g;//quick test code
-sscanf(&g,"%d",&g);
+sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
+  /* The LED PWM */
+  Setup_PPG_PWM();
   /* The pressure control PID loop */
   PID_Config PID_Pressure;
   /* Create the Pressure thread */
@@ -90,8 +94,8 @@ sscanf(&g,"%d",&g);
   /* Create the PPG thread */
   Spawn_PPG_Thread();
   /*
-   * Normal main() thread activity, in this demo it does nothing except
-   * sleeping in a loop and check the button state.
+   * main() thread activity;
+   * wait for mailbox data in a loop and dump it to usb
    */
   while (TRUE) {
     chThdSleepMilliseconds(1000);

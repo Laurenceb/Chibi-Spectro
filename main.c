@@ -66,6 +66,10 @@ int main(void) {
    *   RTOS is active.
    */
   halInit();
+
+  /* The LED PWM - do this here so the config is atomic */
+  Setup_PPG_PWM();
+
   chSysInit();
 
   /*
@@ -79,14 +83,13 @@ int main(void) {
   /* Wait for USB to connect */
   while(SDU1.config->usbp->state != USB_ACTIVE) {;}
 
+  BaseSequentialStream *USBout = (BaseSequentialStream *)&SDU1;
   /*
    * Creates the blinker thread.
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 uint8_t g;//quick test code
 sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
-  /* The LED PWM */
-  Setup_PPG_PWM();
   /* The pressure control PID loop */
   PID_Config PID_Pressure;
   /* Create the Pressure thread */
@@ -98,6 +101,7 @@ sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
    * wait for mailbox data in a loop and dump it to usb
    */
   while (TRUE) {
+    chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
     chThdSleepMilliseconds(1000);
   }
 }

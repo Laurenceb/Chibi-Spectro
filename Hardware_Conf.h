@@ -40,8 +40,21 @@
 #define Get_PWM_3()  TIM3->CCR3
 #define Get_PWM_4()  TIM9->CCR1
 
-#define CORE_TIMER TIM10	/* Extra timer used as spare gating source */
-#define INTERNAL_OUTPUT_CORE 1
+#define SPARE_TIMER TIM10	/* Extra timer used as spare gating source */
+
+/* Gate output config - this is all internal */
+
+#define SPARE_GATE_OUTPUT 	1
+#define CHAN1_GATE_OUTPUT	3
+#define CHAN2_GATE_OUTPUT	2
+#define CHAN4_GATE_OUTPUT	2
+
+/* TS slave mode internal trigger source config for the slave timers */
+
+#define TIM4_TS		1
+#define TIM3_TS		3
+#define TIM5_TS		1
+#define TIM9_TS		2
 
 /* General thread related */
 

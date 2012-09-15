@@ -96,6 +96,8 @@ sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
   Spawn_Pressure_Thread((void*)&PID_Pressure);
   /* Create the PPG thread */
   Spawn_PPG_Thread();
+  /* Turn on the PPG LEDs here */
+  Enable_PPG_PWM();
   /*
    * main() thread activity;
    * wait for mailbox data in a loop and dump it to usb

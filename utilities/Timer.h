@@ -23,6 +23,8 @@
  * Timers   3: 4 : 2 : 5 :9
 */
 
+#define DIM_LED		  PWM_PERIOD_CENTER/100
+
 void Setup_PPG_PWM(void);
 void Enable_PPG_PWM(void);
 void Disable_PPG_PWM(void);

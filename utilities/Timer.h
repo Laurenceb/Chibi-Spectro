@@ -24,3 +24,5 @@
 */
 
 void Setup_PPG_PWM(void);
+void Enable_PPG_PWM(void);
+void Disable_PPG_PWM(void);

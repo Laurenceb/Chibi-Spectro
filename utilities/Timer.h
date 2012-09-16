@@ -12,6 +12,13 @@
 #define PWM_CLK_TRIM_FOUR  15
 #define PWM_CLK_TRIM_SPARE 43
 
+#define PWM_INIT_ONE	   0
+#define PWM_INIT_TWO	   0
+#define PWM_INIT_THREE	   610
+#define PWM_INIT_FOUR	   9108
+#define PWM_INIT_FIVE	   10700
+
+
 /* The timer setup uses two gated chains
  * Expressed in terms of the channels these are:
  * 1->2->4->3

@@ -57,11 +57,16 @@ void Setup_PPG_PWM(void) {
 	TIM9->CCMR1=0x0070|TIM_CCMR1_OC1PE;//Use OC1 in PWM2 mode with preload as the LED signal
 	TIM9->CCR1=DIM_LED;		//OC1 initial output - not enabled at this point
 	/* Do not Configure the OC units to generate PWM to the LEDs yet here */
-	/* Set Timers to differing phases to reduce the Peak to average ratio TODO*/
+	/* Set Timers to differing phases to reduce the Peak to average ratio - uses matlab script in ./phasing*/
+	TIM2->CNT=PWM_INIT_ONE;
+	TIM4->CNT=PWM_INIT_TWO;
+	TIM5->CNT=PWM_INIT_THREE;
+	TIM3->CNT=PWM_INIT_FOUR;
+	TIM9->CNT=PWM_INIT_FIVE;
 	//Enable timers atomically - careful where this is called from
 	SPARE_TIMER->CR1=TIM_CR1_CEN;	//Enable the timer
 	TIM2->CR1=TIM_CR1_CEN;
-	TIM3->CR1=TIM_CR1_CEN;
+	TIM4->CR1=TIM_CR1_CEN;
 	TIM4->CR1=TIM_CR1_CEN;
 	TIM5->CR1=TIM_CR1_CEN;
 	TIM9->CR1=TIM_CR1_CEN;

@@ -98,13 +98,26 @@ sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
   Spawn_PPG_Thread();
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
+  /* Variables for dumping data */
+  float pressure;
+  uint32_t ppg[PPG_CHANNELS],iterations=0;;
+  /* A bit of debug info here */
+  chprintf(USBout, "Firmware compiled __DATE__, running ChibiOS\r\n");
+  chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
+  chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   /*
    * main() thread activity;
    * wait for mailbox data in a loop and dump it to usb
    */
   while (TRUE) {
-    chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
-    chThdSleepMilliseconds(1000);
+	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
+	for(uint8_t n=0; n<PPG_CHANNELS; n++)
+		chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
+	chprintf(USBout, "%3f,%3f", (float)iterations/PPG_SAMPLE_RATE,pressure);
+	for(uint8_t n=0; n<PPG_CHANNELS; n++)
+		chprintf(USBout, ",%lu", ppg[n]);
+	chprintf(USBout, "\r\n");	//Terminating new line
+	iterations++;	
   }
 }
 

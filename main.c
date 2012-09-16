@@ -109,6 +109,7 @@ int main(void) {
   	numchars+=chnReadTimeout(USBin, scanbuff, sizeof(scanbuff), MS2ST(1000));//1 second timeout
   } while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
   sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
+  //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
   /* Set the brightness once on start up - TODO inpliment it later*/

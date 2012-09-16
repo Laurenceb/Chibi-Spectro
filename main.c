@@ -84,20 +84,17 @@ int main(void) {
   while(SDU1.config->usbp->state != USB_ACTIVE) {;}
 
   BaseSequentialStream *USBout = (BaseSequentialStream *)&SDU1;
+  BaseChannel *USBin = (BaseChannel *)&SDU1;
   /*
    * Creates the blinker thread.
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
-uint8_t g;//quick test code
-sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
   /* The pressure control PID loop */
   PID_Config PID_Pressure;
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&PID_Pressure);
   /* Create the PPG thread */
   Spawn_PPG_Thread();
-  /* Turn on the PPG LEDs here */
-  Enable_PPG_PWM();
   /* Variables for dumping data */
   float pressure;
   uint32_t ppg[PPG_CHANNELS],iterations=0;;
@@ -105,6 +102,15 @@ sscanf(&g,"%d",&g);//scanf will exentually allow setpoints input
   chprintf(USBout, "Firmware compiled __DATE__, running ChibiOS\r\n");
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
+  /* Try and read input over usb */
+  uint8_t scanbuff[255];//Buffer for input data
+  uint8_t numchars=0;
+  do {
+  	numchars+=chnReadTimeout(USBin, scanbuff, sizeof(scanbuff), MS2ST(1000));//1 second timeout
+  } while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
+  sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
+  /* Turn on the PPG LEDs here */
+  Enable_PPG_PWM();
   /*
    * main() thread activity;
    * wait for mailbox data in a loop and dump it to usb

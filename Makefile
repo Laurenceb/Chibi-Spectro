@@ -181,7 +181,7 @@ DINCDIR =
 DLIBDIR =
 
 # List all default libraries here
-DLIBS =
+DLIBS = -lm
 
 #
 # End of default section

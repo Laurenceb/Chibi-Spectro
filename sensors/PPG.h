@@ -33,5 +33,6 @@ extern volatile float Last_PPG_Values[PPG_CHANNELS];/* Last values from the PPG 
 
 void PPG_LO_Filter(volatile uint16_t* buff, Mailbox *Output_Mailbox);
 void PPG_Frequency_Bin_Rotate(float Bin[2], uint8_t Direction);
+void PPG_Automatic_Brightness_Control(void);
 uint16_t PPG_correct_brightness(uint32_t Decimated_value, uint16_t PWM_value);
 float PWM_Linear(uint16_t PWM_value);

@@ -113,6 +113,9 @@
  * Port A setup.
  * All input with pull-up except:
  * PA0  - GPIOA_BUTTON          (input floating).
+ * PA1  - GPIOA_TIM5            (alternate 2).
+ * PA2  - GPIOA_TIM9            (alternate 3).
+ * PA3  - GPIOA_TIM2            (alternate 1).
  * PA4  - GPIOA_LRCK            (alternate 6).
  * PA5  - GPIOA_SPC             (alternate 5).
  * PA6  - GPIOA_SDO             (alternate 5).
@@ -125,9 +128,9 @@
  * PA14 - GPIOA_SWCLK           (alternate 0).
  */
 #define VAL_GPIOA_MODER             (PIN_MODE_INPUT(GPIOA_BUTTON) |         \
-                                     PIN_MODE_INPUT(1) |                    \
-                                     PIN_MODE_INPUT(2) |                    \
-                                     PIN_MODE_INPUT(3) |                    \
+                                     PIN_MODE_ALTERNATE(1) |                \
+                                     PIN_MODE_ALTERNATE(2) |                \
+                                     PIN_MODE_ALTERNATE(3) |                \
                                      PIN_MODE_ALTERNATE(GPIOA_LRCK) |       \
                                      PIN_MODE_ALTERNATE(GPIOA_SPC) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_SDO) |        \
@@ -163,7 +166,10 @@
                                      PIN_AFIO_AF(GPIOA_SPC, 5) |            \
                                      PIN_AFIO_AF(GPIOA_SDO, 5) |            \
                                      PIN_AFIO_AF(GPIOA_SDI, 5))
-#define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_OTG_FS_ID, 10) |     \
+#define VAL_GPIOA_AFRH              (PIN_AFIO_AF(1, 2) |		     \
+				     PIN_AFIO_AF(2, 3) |		     \
+				     PIN_AFIO_AF(3, 1) |		     \
+				     PIN_AFIO_AF(GPIOA_OTG_FS_ID, 10) |     \
                                      PIN_AFIO_AF(GPIOA_OTG_FS_DM, 10) |     \
                                      PIN_AFIO_AF(GPIOA_OTG_FS_DP, 10) |     \
                                      PIN_AFIO_AF(GPIOA_SWDIO, 0) |          \
@@ -172,11 +178,13 @@
 /*
  * Port B setup.
  * All input with pull-up except:
+ * PB0  - GPIOB-TIM3		(alternate 2).
  * PB3  - GPIOB_SWO             (alternate 0).
  * PB6  - GPIOB_SCL             (alternate 4).
+ * PB8  - GPIOB-TIM4		(alternate 2).
  * PB9  - GPIOB_SDA             (alternate 4).
  */
-#define VAL_GPIOB_MODER             (PIN_MODE_INPUT(0) |                    \
+#define VAL_GPIOB_MODER             (PIN_MODE_ALTERNATE(0) |                \
                                      PIN_MODE_INPUT(1) |                    \
                                      PIN_MODE_INPUT(2) |                    \
                                      PIN_MODE_ALTERNATE(GPIOB_SWO) |        \
@@ -184,7 +192,7 @@
                                      PIN_MODE_INPUT(5) |                    \
                                      PIN_MODE_ALTERNATE(GPIOB_SCL) |        \
                                      PIN_MODE_INPUT(7) |                    \
-                                     PIN_MODE_INPUT(8) |                    \
+                                     PIN_MODE_ALTERNATE(8) |                \
                                      PIN_MODE_ALTERNATE(GPIOB_SDA) |        \
                                      PIN_MODE_INPUT(10) |                   \
                                      PIN_MODE_INPUT(11) |                   \
@@ -213,6 +221,8 @@
                                      PIN_PUDR_PULLUP(15))
 #define VAL_GPIOB_ODR               0xFFFFFFFF
 #define VAL_GPIOB_AFRL              (PIN_AFIO_AF(GPIOB_SWO, 0) |            \
+                                     PIN_AFIO_AF(0, 2)) |	    	    \
+                                     PIN_AFIO_AF(8, 2)) |	    	    \
                                      PIN_AFIO_AF(GPIOB_SCL, 4))
 #define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_SDA, 4))
 
@@ -228,8 +238,8 @@
                                      PIN_MODE_INPUT(1) |                    \
                                      PIN_MODE_INPUT(2) |                    \
                                      PIN_MODE_INPUT(3) |                    \
-                                     PIN_MODE_INPUT(4) |                    \
-                                     PIN_MODE_INPUT(5) |                    \
+                                     PIN_MODE_ANALOG(4) |                   \
+                                     PIN_MODE_ANALOG(5) |                   \
                                      PIN_MODE_INPUT(6) |                    \
                                      PIN_MODE_ALTERNATE(GPIOC_MCLK) |       \
                                      PIN_MODE_INPUT(8) |                    \
@@ -246,8 +256,8 @@
                                      PIN_PUDR_PULLUP(1) |                   \
                                      PIN_PUDR_PULLUP(2) |                   \
                                      PIN_PUDR_PULLUP(3) |                   \
-                                     PIN_PUDR_PULLUP(4) |                   \
-                                     PIN_PUDR_PULLUP(5) |                   \
+                                     PIN_PUDR_FLOATING(4) |                 \
+                                     PIN_PUDR_FLOATING(5) |                 \
                                      PIN_PUDR_PULLUP(6) |                   \
                                      PIN_PUDR_FLOATING(GPIOC_MCLK)  |       \
                                      PIN_PUDR_PULLUP(8) |                   \
@@ -317,6 +327,7 @@
  * PE0  - GPIOE_INT1                (input floating).
  * PE1  - GPIOE_INT2                (input floating).
  * PE3  - GPIOE_CS_SPI              (output push-pull).
+ * PE9  - GPIOE_TIM1                (alternate push-pull).
  */
 #define VAL_GPIOE_MODER             (PIN_MODE_INPUT(GPIOE_INT1) |           \
                                      PIN_MODE_INPUT(GPIOE_INT2) |           \
@@ -327,7 +338,7 @@
                                      PIN_MODE_INPUT(6) |                    \
                                      PIN_MODE_INPUT(7) |                    \
                                      PIN_MODE_INPUT(8) |                    \
-                                     PIN_MODE_INPUT(9) |                    \
+                                     PIN_MODE_ALTERNATE(9) |                \
                                      PIN_MODE_INPUT(10) |                   \
                                      PIN_MODE_INPUT(11) |                   \
                                      PIN_MODE_INPUT(12) |                   \
@@ -354,7 +365,7 @@
                                      PIN_PUDR_PULLUP(15))
 #define VAL_GPIOE_ODR               0xFFFFFFFF
 #define VAL_GPIOE_AFRL              0x00000000
-#define VAL_GPIOE_AFRH              0x00000000
+#define VAL_GPIOE_AFRH              (PIN_AFIO_AF(9, 1))
 
 /*
  * Port F setup.

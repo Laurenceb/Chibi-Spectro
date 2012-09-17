@@ -1,22 +1,22 @@
 #include "stm32f4xx.h"
 #include "Hardware_Conf.h"
 
-#define PWM_PERIOD_CENTER  14400
-#define PWM_PERIOD_TWO	   14200
-#define PWM_PERIOD_THREE   14530
-#define PWM_PERIOD_FOUR	   14082
-#define PWM_PERIOD_FIVE	   14650
+#define PWM_PERIOD_CENTER  7200
+#define PWM_PERIOD_TWO	   7100
+#define PWM_PERIOD_THREE   7248
+#define PWM_PERIOD_FOUR	   7041
+#define PWM_PERIOD_FIVE	   7300
 
-#define PWM_CLK_TRIM_ONE   58
-#define PWM_CLK_TRIM_TWO   36
-#define PWM_CLK_TRIM_FOUR  15
-#define PWM_CLK_TRIM_SPARE 43
+#define PWM_CLK_TRIM_ONE   29
+#define PWM_CLK_TRIM_TWO   18
+#define PWM_CLK_TRIM_FOUR  24
+#define PWM_CLK_TRIM_SPARE 46
 
 #define PWM_INIT_ONE	   0
 #define PWM_INIT_TWO	   0
-#define PWM_INIT_THREE	   610
-#define PWM_INIT_FOUR	   9108
-#define PWM_INIT_FIVE	   10700
+#define PWM_INIT_THREE	   304
+#define PWM_INIT_FOUR	   4554
+#define PWM_INIT_FIVE	   5332
 
 
 /* The timer setup uses two gated chains

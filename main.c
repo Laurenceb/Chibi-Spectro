@@ -68,7 +68,7 @@ int main(void) {
   halInit();
 
   /* The LED PWM - do this here so the config is atomic */
-  Setup_PPG_PWM();
+  //Setup_PPG_PWM();
 
   chSysInit();
 
@@ -82,9 +82,9 @@ int main(void) {
   usbConnectBus(serusbcfg.usbp);
   /* Wait for USB to connect */
   while(SDU1.config->usbp->state != USB_ACTIVE) {;}
-
-  BaseSequentialStream *USBout = (BaseSequentialStream *)&SDU1;
-  BaseChannel *USBin = (BaseChannel *)&SDU1;
+  //while(1);
+  //BaseSequentialStream *USBout = (BaseSequentialStream *)&SDU1;
+  //BaseChannel *USBin = (BaseChannel *)&SDU1;
   /*
    * Creates the blinker thread.
    */
@@ -92,41 +92,41 @@ int main(void) {
   /* The pressure control PID loop */
   PID_Config PID_Pressure;
   /* Create the Pressure thread */
-  Spawn_Pressure_Thread((void*)&PID_Pressure);
+  //Spawn_Pressure_Thread((void*)&PID_Pressure);
   /* Create the PPG thread */
-  Spawn_PPG_Thread();
+  //Spawn_PPG_Thread();
   /* Variables for dumping data */
   float pressure;
   uint32_t ppg[PPG_CHANNELS],iterations=0;
   /* A bit of debug info here */
-  chprintf(USBout, "Firmware compiled __DATE__, running ChibiOS\r\n");
-  chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
-  chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
+  //chprintf(USBout, "Firmware compiled __DATE__, running ChibiOS\r\n");
+  //chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
+  //chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   /* Try and read input over usb */
-  uint8_t scanbuff[255];//Buffer for input data
-  uint8_t numchars=0;
-  do {
-  	numchars+=chnReadTimeout(USBin, scanbuff, sizeof(scanbuff), MS2ST(1000));//1 second timeout
-  } while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
-  sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
+  //uint8_t scanbuff[255];//Buffer for input data
+  //uint8_t numchars=0;
+  //do {
+  //	numchars+=chnReadTimeout(USBin, scanbuff, sizeof(scanbuff), MS2ST(1000));//1 second timeout
+  //} while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
+  //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
   /* Set the brightness once on start up - TODO inpliment it later*/
-  PPG_Automatic_Brightness_Control();
+  //PPG_Automatic_Brightness_Control();
   /*
    * main() thread activity;
    * wait for mailbox data in a loop and dump it to usb
    */
   while (TRUE) {
 	//TODO impliment pressure cycles using config data supplied over USB
-	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
-	for(uint8_t n=0; n<PPG_CHANNELS; n++)
-		chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
-	chprintf(USBout, "%3f,%3f", (float)iterations/PPG_SAMPLE_RATE,pressure);
-	for(uint8_t n=0; n<PPG_CHANNELS; n++)
-		chprintf(USBout, ",%lu", ppg[n]);
-	chprintf(USBout, "\r\n");	//Terminating new line
+	//chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
+	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
+	//	chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
+	//chprintf(USBout, "%3f,%3f", (float)iterations/PPG_SAMPLE_RATE,pressure);
+	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
+	//	chprintf(USBout, ",%lu", ppg[n]);
+	//chprintf(USBout, "\r\n");	//Terminating new line
 	iterations++;	
   }
 }

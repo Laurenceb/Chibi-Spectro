@@ -11,7 +11,7 @@
 /*===========================================================================*/
 
 /*
- * Serial over USB Driver structure.
+ * USB Driver structure.
  */
 SerialUSBDriver SDU1;
 
@@ -208,30 +208,24 @@ static const USBDescriptor *get_descriptor(USBDriver *usbp,
 static USBInEndpointState ep1instate;
 
 /**
- * @brief   OUT EP1 state.
- */
-static USBOutEndpointState ep1outstate;
-
-/**
- * @brief   EP1 initialization structure (both IN and OUT).
+ * @brief   EP1 initialization structure (IN only).
  */
 static const USBEndpointConfig ep1config = {
   USB_EP_MODE_TYPE_BULK,
   NULL,
   sduDataTransmitted,
-  sduDataReceived,
+  NULL,
   0x0040,
-  0x0040,
+  0x0000,
   &ep1instate,
-  &ep1outstate,
-  2,
+  NULL,
   NULL
 };
 
 /**
- * @brief   IN EP2 state.
+ * @brief   OUT EP1 state.
  */
-static USBInEndpointState ep2instate;
+USBOutEndpointState ep1outstate;
 
 /**
  * @brief   EP2 initialization structure (IN only).
@@ -243,9 +237,28 @@ static const USBEndpointConfig ep2config = {
   NULL,
   0x0010,
   0x0000,
-  &ep2instate,
   NULL,
-  1,
+  &ep1outstate,
+  NULL
+};
+
+/**
+ * @brief   OUT EP2 state.
+ */
+USBOutEndpointState ep2outstate;
+
+/**
+ * @brief   EP3 initialization structure (OUT only).
+ */
+static const USBEndpointConfig ep3config = {
+  USB_EP_MODE_TYPE_BULK,
+  NULL,
+  NULL,
+  sduDataReceived,
+  0x0000,
+  0x0040,
+  NULL,
+  &ep2outstate,
   NULL
 };
 
@@ -260,17 +273,13 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
   case USB_EVENT_ADDRESS:
     return;
   case USB_EVENT_CONFIGURED:
-    chSysLockFromIsr();
-
     /* Enables the endpoints specified into the configuration.
        Note, this callback is invoked from an ISR so I-Class functions
        must be used.*/
+    chSysLockFromIsr();
     usbInitEndpointI(usbp, USB_CDC_DATA_REQUEST_EP, &ep1config);
     usbInitEndpointI(usbp, USB_CDC_INTERRUPT_REQUEST_EP, &ep2config);
-
-    /* Resetting the state of the CDC subsystem.*/
-    sduConfigureHookI(usbp);
-
+    usbInitEndpointI(usbp, USB_CDC_DATA_AVAILABLE_EP, &ep3config);
     chSysUnlockFromIsr();
     return;
   case USB_EVENT_SUSPEND:
@@ -284,19 +293,15 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
 }
 
 /*
- * USB driver configuration.
- */
-static const USBConfig usbcfg = {
-  usb_event,
-  get_descriptor,
-  sduRequestsHook,
-  NULL
-};
-
-/*
  * Serial over USB driver configuration.
  */
 const SerialUSBConfig serusbcfg = {
-  &USBD1
+  &USBD1,
+  {
+    usb_event,
+    get_descriptor,
+    sduRequestsHook,
+    NULL
+  }
 };
 

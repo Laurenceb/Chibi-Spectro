@@ -53,7 +53,7 @@ static msg_t Thread1(void *arg) {
     chThdSleepMilliseconds(500);
   }
 }
- 
+
 /*
  * Application entry point.
  */
@@ -73,6 +73,10 @@ int main(void) {
   chSysInit();
 
   /*
+   * Creates the blinker thread.
+   */
+  chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
+  /*
    * Activates the USB driver and then the USB bus pull-up on D+.
    */
   sduObjectInit(&SDU1);
@@ -83,12 +87,8 @@ int main(void) {
   /* Wait for USB to connect */
   while(SDU1.config->usbp->state != USB_ACTIVE) {;}
   //while(1);
-  //BaseSequentialStream *USBout = (BaseSequentialStream *)&SDU1;
+  BaseSequentialStream *USBout = (BaseSequentialStream *)&SDU1;
   //BaseChannel *USBin = (BaseChannel *)&SDU1;
-  /*
-   * Creates the blinker thread.
-   */
-  chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
   /* The pressure control PID loop */
   PID_Config PID_Pressure;
   /* Create the Pressure thread */
@@ -111,7 +111,7 @@ int main(void) {
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   /* Turn on the PPG LEDs here */
-  Enable_PPG_PWM();
+  //Enable_PPG_PWM();
   /* Set the brightness once on start up - TODO inpliment it later*/
   //PPG_Automatic_Brightness_Control();
   /*
@@ -126,7 +126,8 @@ int main(void) {
 	//chprintf(USBout, "%3f,%3f", (float)iterations/PPG_SAMPLE_RATE,pressure);
 	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	//	chprintf(USBout, ",%lu", ppg[n]);
-	//chprintf(USBout, "\r\n");	//Terminating new line
+	chprintf(USBout, "dhgadh\n");	//Terminating new line
+	chThdSleepMilliseconds(100);
 	iterations++;	
   }
 }

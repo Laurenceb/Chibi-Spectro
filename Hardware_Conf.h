@@ -59,3 +59,5 @@
 /* General thread related */
 
 #define MAILBOX_SIZE 128
+
+#define PRESSURE_PROFILE_LENGTH_MS 15000

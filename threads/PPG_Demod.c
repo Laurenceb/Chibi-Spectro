@@ -122,8 +122,8 @@ msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 		/ Now we spit out the pressure data into the output mailbox fifos
 		*/
 		//The pressure is at 100Hz - slightly slower than the PPG samples, so we dont always get a sample
-		if(chMBFetchI(&Pressures_Reported, (msg_t*)&Pressure_Read_) == RDY_OK)
+		if(chMBFetch(&Pressures_Reported, (msg_t*)&Pressure_Read_, TIME_IMMEDIATE) == RDY_OK)
 			Pressure_Read=Pressure_Read_;
-		chMBPostI(&Pressures_Output, (msg_t)Pressure_Read);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
+		chMBPost(&Pressures_Output, (msg_t)Pressure_Read, TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
 	}
 }

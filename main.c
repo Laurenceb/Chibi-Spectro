@@ -98,8 +98,8 @@ int main(void) {
   /* Create the PPG thread */
   //Spawn_PPG_Thread();
   /* Variables for dumping data */
-  float pressure;
-  uint32_t ppg[PPG_CHANNELS],iterations=0;
+  float pressure,pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL];
+  uint32_t ppg[PPG_CHANNELS],iterations=0,loaded_setpoints=0,n=0;
   /* A bit of debug info here */
   chprintf(USBout, "Firmware compiled %s, running ChibiOS\r\n",__DATE__);
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
@@ -122,6 +122,15 @@ int main(void) {
    */
   while (TRUE) {
 	//TODO impliment pressure cycles using config data supplied over USB
+	while(1) {
+		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
+			n++;
+			if(n==sizeof(pressure_set_array)/sizeof(msg_t))
+				n=0;	//Loop around to start of buffer
+		}
+		else
+			break;		//Break once the mailbox fifo is filled
+	}
 	chMBFetch( &Pressures_Reported/*Output*/, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
 	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	//	chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted

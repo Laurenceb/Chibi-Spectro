@@ -128,9 +128,9 @@
  * PA14 - GPIOA_SWCLK           (alternate 0).
  */
 #define VAL_GPIOA_MODER             (PIN_MODE_INPUT(GPIOA_BUTTON) |         \
-                                     PIN_MODE_ALTERNATE(1) |                \
-                                     PIN_MODE_ALTERNATE(2) |                \
-                                     PIN_MODE_ALTERNATE(3) |                \
+                                     PIN_MODE_INPUT(1) |                \
+                                     PIN_MODE_INPUT(2) |                \
+                                     PIN_MODE_INPUT(3) |                \
                                      PIN_MODE_ALTERNATE(GPIOA_LRCK) |       \
                                      PIN_MODE_ALTERNATE(GPIOA_SPC) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_SDO) |        \
@@ -162,14 +162,14 @@
                                      PIN_PUDR_PULLDOWN(GPIOA_SWCLK) |       \
                                      PIN_PUDR_PULLUP(15))
 #define VAL_GPIOA_ODR               0xFFFFFFFF
-#define VAL_GPIOA_AFRL              (PIN_AFIO_AF(GPIOA_LRCK, 6) |           \
+#define VAL_GPIOA_AFRL              (PIN_AFIO_AF(1, 2) |		    \
+				     PIN_AFIO_AF(2, 3) |		    \
+				     PIN_AFIO_AF(3, 1) |		    \
+				     PIN_AFIO_AF(GPIOA_LRCK, 6) |           \
                                      PIN_AFIO_AF(GPIOA_SPC, 5) |            \
                                      PIN_AFIO_AF(GPIOA_SDO, 5) |            \
                                      PIN_AFIO_AF(GPIOA_SDI, 5))
-#define VAL_GPIOA_AFRH              (PIN_AFIO_AF(1, 2) |		     \
-				     PIN_AFIO_AF(2, 3) |		     \
-				     PIN_AFIO_AF(3, 1) |		     \
-				     PIN_AFIO_AF(GPIOA_OTG_FS_ID, 10) |     \
+#define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_OTG_FS_ID, 10) |     \
                                      PIN_AFIO_AF(GPIOA_OTG_FS_DM, 10) |     \
                                      PIN_AFIO_AF(GPIOA_OTG_FS_DP, 10) |     \
                                      PIN_AFIO_AF(GPIOA_SWDIO, 0) |          \
@@ -221,8 +221,8 @@
                                      PIN_PUDR_PULLUP(15))
 #define VAL_GPIOB_ODR               0xFFFFFFFF
 #define VAL_GPIOB_AFRL              (PIN_AFIO_AF(GPIOB_SWO, 0) |            \
-                                     PIN_AFIO_AF(0, 2)) |	    	    \
-                                     PIN_AFIO_AF(8, 2)) |	    	    \
+                                     PIN_AFIO_AF(0, 2) |	    	    \
+                                     PIN_AFIO_AF(8, 2) |	    	    \
                                      PIN_AFIO_AF(GPIOB_SCL, 4))
 #define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_SDA, 4))
 

@@ -39,7 +39,7 @@ Thread* Spawn_Pressure_Thread(PID_Config *arg) {
 	/*
 	* Creates the thread. Thread has priority slightly below normal and takes no argument
 	*/
-	return chThdCreateStatic(waThreadPressure, sizeof(waThreadPressure), NORMALPRIO-1, Pressure_Thread, (void*)arg);
+	return chThdCreateStatic(waThreadPressure, sizeof(waThreadPressure), NORMALPRIO+1, Pressure_Thread, (void*)arg);
 }
 
 //ADC callback functions, no adccallback as adc Convert wakes up the thread
@@ -61,7 +61,7 @@ static const ADCConversionGroup adcgrpcfg1 = {
   adcerrorcallback,
   0,                        /* CR1 */
   ADC_CR2_SWSTART,          /* CR2 */
-  ADC_SMPR1_SMP_AN11(ADC_SAMPLE_480),
+  ADC_SMPR1_SMP_AN14(ADC_SAMPLE_480),
   0,                        /* SMPR2 */
   ADC_SQR1_NUM_CH(PRESSURE_ADC_NUM_CHANNELS),
   0,                        /* SQR2 */
@@ -95,6 +95,8 @@ msg_t Pressure_Thread(void *Loop_Config) {
 	adcsample_t Pressure_Sample;
 	float PID_Out,Pressure,Setpoint;
 	chRegSetThreadName("PID_Pressure");
+	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
+	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));
 	/*
 	* Activates the ADC2 driver *and the thermal sensor*.
 	*/
@@ -104,7 +106,7 @@ msg_t Pressure_Thread(void *Loop_Config) {
 	/ Now we run the sensor offset calibration loop
 	*/
 	do {
-		adcConvert(&ADCD1, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
+		adcConvert(&ADCD2, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
 	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));
 	/*
 	* Activates the PWM driver
@@ -116,13 +118,13 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		/*
 		* Linear conversion.
 		*/
-		adcConvert(&ADCD1, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
+		adcConvert(&ADCD2, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
 		/*
 		/ Now we process the data and apply the PID controller
 		*/
 		Pressure=Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
 		/* Retrieve a new setpoint from the setpoint mailbox, only continue if we get it*/
-		if(chMBFetchI(&Pressures_Setpoint, (msg_t*)&Setpoint) == RDY_OK) {
+		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
 			Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
 			PID_Out = Run_PID_Loop(Loop_Config, &Pressure_PID, Setpoint, Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run the PID Loop */
 		}
@@ -132,8 +134,8 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		/ Now we apply the PID output to the PWM based solenoid controller, and feed data into the mailbox output - Note fractional input
 		*/
 		pwmEnableChannel(&PWM_Driver_Solenoid, (pwmchannel_t)PWM_CHANNEL_SOLENOID, (pwmcnt_t)PWM_FRACTION_TO_WIDTH(&PWM_Driver_Solenoid, 1000\
-														, (uint32_t)(1000.0*PID_Out))); 	
-		chMBPostI(&Pressures_Reported, (msg_t)Pressure);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
+														, (uint32_t)(1000.0*PID_Out)));	
+		chMBPost(&Pressures_Reported, *((msg_t*)&Pressure), TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
 		/*
 		/ The Thread is syncronised to system time
 		*/	

@@ -12,7 +12,7 @@
 
 /* Solenoid PWM control related */
 
-#define PWM_CHANNEL_SOLENOID	1
+#define PWM_CHANNEL_SOLENOID	0
 #define PWM_Driver_Solenoid	PWMD1/* Solenoid uses Timer1 channel1 */
 
 /* PPG related */

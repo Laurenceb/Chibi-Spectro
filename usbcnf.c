@@ -296,12 +296,12 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
  * Serial over USB driver configuration.
  */
 const SerialUSBConfig serusbcfg = {
-  &USBD1,
+  &USBD1/*,
   {
     usb_event,
     get_descriptor,
     sduRequestsHook,
     NULL
-  }
+  }*/
 };
 

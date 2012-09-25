@@ -68,7 +68,7 @@ int main(void) {
   halInit();
 
   /* The LED PWM - do this here so the config is atomic */
-  Setup_PPG_PWM();
+  //Setup_PPG_PWM();
 
   chSysInit();
 
@@ -122,7 +122,7 @@ int main(void) {
    */
   while (TRUE) {
 	//TODO impliment pressure cycles using config data supplied over USB
-	while(1) {
+	/*while(1) {
 		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;
 			if(n==sizeof(pressure_set_array)/sizeof(msg_t))
@@ -130,8 +130,8 @@ int main(void) {
 		}
 		else
 			break;		//Break once the mailbox fifo is filled
-	}
-	chMBFetch( &Pressures_Reported/*Output*/, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
+	}*/
+	//chMBFetch( &Pressures_Reported/*Output*/, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
 	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	//	chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
 	chprintf(USBout, "%3f,", (float)iterations/PPG_SAMPLE_RATE);

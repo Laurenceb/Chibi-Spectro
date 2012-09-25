@@ -58,7 +58,7 @@ static void adc1callback(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
 	/* Wakes up the thread.*/
 	chSysLockFromIsr();
 	if (tp != NULL) {
-		//tp->p_u.rdymsg = (msg_t)55;     /* Sending the message, optional.*/
+		tp->p_u.rdymsg = (buffer==PPG_Sample_Buffer? (msg_t)1 : (msg_t)0 );/* Sending the message, gives buffer index.*/
 		chSchReadyI(tp);
 		tp = NULL;
 	}
@@ -97,7 +97,7 @@ static const ADCConversionGroup adcgrpcfg2 = {
   * @retval msg_t status
   */
 msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
-	msg_t Pressure_Read, Pressure_Read_;	/* Used to read the pressure buffer */
+	msg_t Pressure_Read, Pressure_Read_, msg;/* Used to read the pressure buffer */
 	chRegSetThreadName("PPG");
 	/*
 	* Activates the ADC1 driver
@@ -114,10 +114,10 @@ msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 		chSysLock();
 		tp = chThdSelf();
 		chSchGoSleepS(THD_STATE_SUSPENDED);
-		//msg = chThdSelf()->p_u.rdymsg;  /* Retrieving the message, optional.*/
+		msg = chThdSelf()->p_u.rdymsg;  /* Retrieving the message, optional.*/
 		chSysUnlock();
 		/* Perform processing, places results into milbox fifo */
-		PPG_LO_Filter( (volatile uint16_t*) PPG_Sample_Buffer, &PPG_Demod );
+		PPG_LO_Filter( msg?(volatile uint16_t*) PPG_Sample_Buffer:(volatile uint16_t*) &PPG_Sample_Buffer[ADC_BUFF_SIZE/2], PPG_Demod );
 		/*
 		/ Now we spit out the pressure data into the output mailbox fifos
 		*/

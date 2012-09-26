@@ -22,7 +22,7 @@ static msg_t Pressures_Output_Buff[MAILBOX_SIZE];
 /*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPressure, 128);
+static WORKING_AREA(waThreadPressure, 128*PPG_CHANNELS*4+1024);
 
 /*
  * Thread pointer used for thread wakeup processing

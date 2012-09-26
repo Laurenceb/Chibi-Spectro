@@ -26,7 +26,7 @@
 #include "usb_cdc.h"
 #include "chprintf.h"
 
-#include "usbcnf.h"
+#include "usbcfg.h"
 #include "Hardware_Conf.h"
 #include "PID_Pressure.h"
 #include "PPG_Demod.h"
@@ -35,7 +35,8 @@
 
 #define ORANGE_LED 6
 
-
+/* Virtual serial port over USB.*/
+static SerialUSBDriver SDU1;
 
 /*
  * This is a periodic thread that does absolutely nothing except flashing
@@ -73,12 +74,19 @@ int main(void) {
   chSysInit();
 
   /*
-   * Activates the USB driver and then the USB bus pull-up on D+.
+   * Initializes a serial-over-USB CDC driver.
    */
   sduObjectInit(&SDU1);
   sduStart(&SDU1, &serusbcfg);
+
+  /*
+   * Activates the USB driver and then the USB bus pull-up on D+.
+   * Note, a delay is inserted in order to not have to disconnect the cable
+   * after a reset.
+   */
   usbDisconnectBus(serusbcfg.usbp);
-  chThdSleepMilliseconds(100);
+  chThdSleepMilliseconds(1000);
+  usbStart(serusbcfg.usbp, &usbcfg);
   usbConnectBus(serusbcfg.usbp);
   /* Wait for USB to connect */
   while(SDU1.config->usbp->state != USB_ACTIVE) {chThdSleepMilliseconds(20);}
@@ -113,7 +121,7 @@ int main(void) {
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   /* Turn on the PPG LEDs here */
-  Enable_PPG_PWM();
+  //Enable_PPG_PWM();
   /* Set the brightness once on start up - TODO inpliment it later*/
   //PPG_Automatic_Brightness_Control();
   /*
@@ -122,16 +130,16 @@ int main(void) {
    */
   while (TRUE) {
 	//TODO impliment pressure cycles using config data supplied over USB
-	/*while(1) {
-		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
+	while(1) {
+		if(chMBPost(&Pressures_Setpoint, (msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;
 			if(n==sizeof(pressure_set_array)/sizeof(msg_t))
 				n=0;	//Loop around to start of buffer
 		}
 		else
 			break;		//Break once the mailbox fifo is filled
-	}*/
-	//chMBFetch( &Pressures_Reported/*Output*/, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
+	}
+	chMBFetch( &Pressures_Reported/*Output*/, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
 	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	//	chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
 	chprintf(USBout, "%3f,", (float)iterations/PPG_SAMPLE_RATE);

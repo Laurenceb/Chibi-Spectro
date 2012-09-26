@@ -5,9 +5,11 @@
 *.dll
 *.exe
 *.o
+*.d
 *.so
 *.bin
 *.elf
+*.lst
 
 # Packages #
 ############

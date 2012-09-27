@@ -66,6 +66,7 @@ int main(void) {
    * - Kernel initialization, the main() function becomes a thread and the
    *   RTOS is active.
    */
+ SYSCFG->PMC = 0;
   halInit();
   usbDisconnectBus(serusbcfg.usbp);
   /* The LED PWM - do this here so the config is atomic */

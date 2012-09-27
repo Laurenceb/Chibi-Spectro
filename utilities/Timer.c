@@ -7,6 +7,9 @@
   * This does not turn on the PWM output, call atomically
   */
 void Setup_PPG_PWM(void) {
+	/* Clk the timers */
+	RCC->APB1ENR|=RCC_APB1ENR_TIM2EN|RCC_APB1ENR_TIM3EN|RCC_APB1ENR_TIM4EN|RCC_APB1ENR_TIM5EN;
+	RCC->APB2ENR|=RCC_APB2ENR_TIM10EN|RCC_APB2ENR_TIM9EN; 
 	/* Configure the timers */
 	//Spare
 	SPARE_TIMER->CR1=TIM_CR1_ARPE;	//Preload enable
@@ -64,12 +67,12 @@ void Setup_PPG_PWM(void) {
 	TIM3->CNT=PWM_INIT_FOUR;
 	TIM9->CNT=PWM_INIT_FIVE;
 	//Enable timers atomically - careful where this is called from
-	SPARE_TIMER->CR1=TIM_CR1_CEN;	//Enable the timer
-	TIM2->CR1=TIM_CR1_CEN;
-	TIM4->CR1=TIM_CR1_CEN;
-	TIM4->CR1=TIM_CR1_CEN;
-	TIM5->CR1=TIM_CR1_CEN;
-	TIM9->CR1=TIM_CR1_CEN;
+	SPARE_TIMER->CR1|=TIM_CR1_CEN;	//Enable the timer
+	TIM2->CR1|=TIM_CR1_CEN;
+	TIM4->CR1|=TIM_CR1_CEN;
+	TIM4->CR1|=TIM_CR1_CEN;
+	TIM5->CR1|=TIM_CR1_CEN;
+	TIM9->CR1|=TIM_CR1_CEN;
 }
 
 /**
@@ -78,11 +81,11 @@ void Setup_PPG_PWM(void) {
   * @retval None
   */
 void Enable_PPG_PWM(void) {
-	TIM2->CCER=TIM_CCER_CC4E;
-	TIM3->CCER=TIM_CCER_CC3E;
-	TIM4->CCER=TIM_CCER_CC3E;
-	TIM5->CCER=TIM_CCER_CC2E;
-	TIM9->CCER=TIM_CCER_CC1E;
+	TIM2->CCER|=TIM_CCER_CC4E;
+	TIM3->CCER|=TIM_CCER_CC3E;
+	TIM4->CCER|=TIM_CCER_CC3E;
+	TIM5->CCER|=TIM_CCER_CC2E;
+	TIM9->CCER|=TIM_CCER_CC1E;
 }
 
 /**

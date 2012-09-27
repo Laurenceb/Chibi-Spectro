@@ -128,9 +128,9 @@
  * PA14 - GPIOA_SWCLK           (alternate 0).
  */
 #define VAL_GPIOA_MODER             (PIN_MODE_INPUT(GPIOA_BUTTON) |         \
-                                     PIN_MODE_INPUT(1) |                \
-                                     PIN_MODE_INPUT(2) |                \
-                                     PIN_MODE_INPUT(3) |                \
+                                     PIN_MODE_ALTERNATE(1) |                \
+                                     PIN_MODE_ALTERNATE(2) |                \
+                                     PIN_MODE_ALTERNATE(3) |                \
                                      PIN_MODE_ALTERNATE(GPIOA_LRCK) |       \
                                      PIN_MODE_ALTERNATE(GPIOA_SPC) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_SDO) |        \
@@ -222,9 +222,9 @@
 #define VAL_GPIOB_ODR               0xFFFFFFFF
 #define VAL_GPIOB_AFRL              (PIN_AFIO_AF(GPIOB_SWO, 0) |            \
                                      PIN_AFIO_AF(0, 2) |	    	    \
-                                     PIN_AFIO_AF(8, 2) |	    	    \
                                      PIN_AFIO_AF(GPIOB_SCL, 4))
-#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_SDA, 4))
+#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_SDA, 4) |            \
+                                     PIN_AFIO_AF(8, 2))
 
 /*
  * Port C setup.

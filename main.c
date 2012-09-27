@@ -66,9 +66,9 @@ int main(void) {
    * - Kernel initialization, the main() function becomes a thread and the
    *   RTOS is active.
    */
- SYSCFG->PMC = 0;
-  halInit();
+  SYSCFG->PMC = 0;
   usbDisconnectBus(serusbcfg.usbp);
+  halInit();
   /* The LED PWM - do this here so the config is atomic */
   Setup_PPG_PWM();
 
@@ -85,7 +85,7 @@ int main(void) {
    * Note, a delay is inserted in order to not have to disconnect the cable
    * after a reset.
    */
-  usbDisconnectBus(serusbcfg.usbp);
+  //usbDisconnectBus(serusbcfg.usbp);
   chThdSleepMilliseconds(1000);
   usbStart(serusbcfg.usbp, &usbcfg);
   usbConnectBus(serusbcfg.usbp);

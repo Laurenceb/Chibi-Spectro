@@ -104,7 +104,7 @@ int main(void) {
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&PID_Pressure);
   /* Create the PPG thread */
-  //Spawn_PPG_Thread();
+  Spawn_PPG_Thread();
   /* Variables for dumping data */
   float pressure,pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL];
   uint32_t ppg[PPG_CHANNELS],iterations=0,loaded_setpoints=0,n=0;
@@ -121,7 +121,7 @@ int main(void) {
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   /* Turn on the PPG LEDs here */
-  //Enable_PPG_PWM();
+  Enable_PPG_PWM();
   /* Set the brightness once on start up - TODO inpliment it later*/
   //PPG_Automatic_Brightness_Control();
   /*
@@ -139,13 +139,13 @@ int main(void) {
 		else
 			break;		//Break once the mailbox fifo is filled
 	}
-	chMBFetch( &Pressures_Reported/*Output*/, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
+	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
 	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	//	chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
 	chprintf(USBout, "%3f,", (float)iterations/PPG_SAMPLE_RATE);
-	chprintf(USBout, "%3f,", pressure);
-	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
-	//	chprintf(USBout, ",%lu", ppg[n]);
+	chprintf(USBout, "%3f", pressure);
+	for(uint8_t n=0; n<PPG_CHANNELS; n++)
+		chprintf(USBout, ",%lu", ppg[n]);
 	chprintf(USBout, "\r\n");
 	chThdSleepMilliseconds(5);
 	iterations++;	

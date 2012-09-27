@@ -22,7 +22,7 @@ static msg_t Pressures_Output_Buff[MAILBOX_SIZE];
 /*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPressure, 128*PPG_CHANNELS*4+1024);
+static WORKING_AREA(waThreadPPG, 128);
 
 /*
  * Thread pointer used for thread wakeup processing
@@ -49,7 +49,7 @@ Thread* Spawn_PPG_Thread(void) {
 	/*
 	* Creates the thread. Thread has priority slightly above normal and takes no argument
 	*/
-	return chThdCreateStatic(waThreadPressure, sizeof(waThreadPressure), NORMALPRIO+1, Pressure_Thread, (void*)NULL);
+	return chThdCreateStatic(waThreadPPG, sizeof(waThreadPPG), NORMALPRIO+1, PPG_Thread, (void*)NULL);
 }
 
 //ADC callback functions, adccallback as adc Convert wakes up the thread
@@ -116,7 +116,7 @@ msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 		chSchGoSleepS(THD_STATE_SUSPENDED);
 		msg = chThdSelf()->p_u.rdymsg;  /* Retrieving the message, optional.*/
 		chSysUnlock();
-		/* Perform processing, places results into milbox fifo */
+		/* Perform processing, places results into mailbox fifo */
 		PPG_LO_Filter( msg?(volatile uint16_t*) PPG_Sample_Buffer:(volatile uint16_t*) &PPG_Sample_Buffer[ADC_BUFF_SIZE/2], PPG_Demod );
 		/*
 		/ Now we spit out the pressure data into the output mailbox fifos

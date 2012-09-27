@@ -22,7 +22,7 @@ static msg_t Pressures_Output_Buff[MAILBOX_SIZE];
 /*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPPG, 128);
+static WORKING_AREA(waThreadPPG, 1024);
 
 /*
  * Thread pointer used for thread wakeup processing
@@ -32,7 +32,7 @@ static Thread *tp = NULL;
 /*
 *  Samples buffer for photodiode ADC
 */
-adcsample_t PPG_Sample_Buffer[ADC_BUFF_SIZE];
+static adcsample_t PPG_Sample_Buffer[ADC_BUFF_SIZE];
 
 /**
   * @brief  This function spawns the pressure control thread
@@ -49,7 +49,7 @@ Thread* Spawn_PPG_Thread(void) {
 	/*
 	* Creates the thread. Thread has priority slightly above normal and takes no argument
 	*/
-	return chThdCreateStatic(waThreadPPG, sizeof(waThreadPPG), NORMALPRIO+1, PPG_Thread, (void*)NULL);
+	return chThdCreateStatic(waThreadPPG, sizeof(waThreadPPG), NORMALPRIO+2, PPG_Thread, (void*)NULL);
 }
 
 //ADC callback functions, adccallback as adc Convert wakes up the thread
@@ -71,7 +71,7 @@ static void adc1errorcallback(ADCDriver *adcp, adcerror_t err) {
   (void)err;
 }
 
-//The ADC1 configuration for the pressure monitoring
+//The ADC1 configuration for the PPG monitoring
 /*
  * ADC conversion group.
  * Mode:        Circular buffer, ADC_BUFFER_SIZE/2 samples of 1 channel, continuous triggered.
@@ -83,7 +83,7 @@ static const ADCConversionGroup adcgrpcfg2 = {
   adc1callback,
   adc1errorcallback,
   0,                        /* CR1 */
-  ADC_CR2_CONT,             /* CR2 */
+  ADC_CR2_CONT|ADC_CR2_SWSTART,/* CR2 */
   ADC_SMPR1_SMP_AN11(ADC_SAMPLE_3),
   0,                        /* SMPR2 */
   ADC_SQR1_NUM_CH(1),

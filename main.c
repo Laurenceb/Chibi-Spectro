@@ -67,9 +67,9 @@ int main(void) {
    *   RTOS is active.
    */
   halInit();
-
+  usbDisconnectBus(serusbcfg.usbp);
   /* The LED PWM - do this here so the config is atomic */
-  //Setup_PPG_PWM();
+  Setup_PPG_PWM();
 
   chSysInit();
 
@@ -123,7 +123,7 @@ int main(void) {
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
   /* Set the brightness once on start up - TODO inpliment it later*/
-  //PPG_Automatic_Brightness_Control();
+  PPG_Automatic_Brightness_Control();
   /*
    * main() thread activity;
    * wait for mailbox data in a loop and dump it to usb
@@ -140,8 +140,8 @@ int main(void) {
 			break;		//Break once the mailbox fifo is filled
 	}
 	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
-	//for(uint8_t n=0; n<PPG_CHANNELS; n++)
-	//	chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
+	for(uint8_t n=0; n<PPG_CHANNELS; n++)
+		chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
 	chprintf(USBout, "%3f,", (float)iterations/PPG_SAMPLE_RATE);
 	chprintf(USBout, "%3f", pressure);
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)

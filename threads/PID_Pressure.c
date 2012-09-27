@@ -23,7 +23,7 @@ static msg_t Pressures_Reported_Buff[MAILBOX_SIZE];
 /*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPressure, 128);
+static WORKING_AREA(waThreadPressure, 512);
 
 /**
   * @brief  This function spawns the pressure control thread

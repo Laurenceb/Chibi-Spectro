@@ -70,16 +70,16 @@ void PPG_LO_Filter(volatile uint16_t* Buff, Mailbox Output_Mailbox[PPG_CHANNELS]
   * @param  Pointer to the phasor array
   * @retval None - rotated in place
 */
-void PPG_Frequency_Bin_Rotate(float Bin[2],uint8_t Direction) {
+void PPG_Frequency_Bin_Rotate(int32_t Bin[2],uint8_t Direction) {
 	int32_t a=Bin[0];
 	if(Direction) {				// Positive bins
 		Bin[0]=Bin[0]*7+Bin[1]*7;	//Rotate the phasor in the bin - real here (45degree rotation)
-		Bin[1]=Bin[1]*9-a*4;		//complex here
+		Bin[1]=Bin[1]*7-a*7;		//complex here
 		Bin[1]/=10;Bin[0]/=10;		//divide by 10
 	}
 	else {					// Negative bins
 		Bin[0]=Bin[0]*7-Bin[1]*7;	//Rotate the phasor in the bin - real here (45degree rotation)
-		Bin[1]=Bin[1]*9+a*4;		//complex here
+		Bin[1]=Bin[1]*7+a*7;		//complex here
 		Bin[1]/=10;Bin[0]/=10;		//divide by 10
 	}
 }

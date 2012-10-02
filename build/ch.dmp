@@ -28,31 +28,31 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   5 .bss          00002f48  2000a130  08006f28  00012130  2**3
                   ALLOC
-  6 .debug_abbrev 000059e3  00000000  00000000  00012130  2**0
+  6 .debug_abbrev 000059d6  00000000  00000000  00012130  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0001cacc  00000000  00000000  00017b13  2**0
+  7 .debug_info   0001cacf  00000000  00000000  00017b06  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0001919f  00000000  00000000  000345df  2**0
+  8 .debug_line   00019187  00000000  00000000  000345d5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_macinfo 00ebc884  00000000  00000000  0004d77e  2**0
+  9 .debug_macinfo 00ebc884  00000000  00000000  0004d75c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00007ccd  00000000  00000000  00f0a002  2**0
+ 10 .debug_loc    00007cdc  00000000  00000000  00f09fe0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubnames 0000183b  00000000  00000000  00f11ccf  2**0
+ 11 .debug_pubnames 0000183b  00000000  00000000  00f11cbc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00004110  00000000  00000000  00f1350a  2**0
+ 12 .debug_pubtypes 00004110  00000000  00000000  00f134f7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000ea0  00000000  00000000  00f1761a  2**0
+ 13 .debug_aranges 00000ea0  00000000  00000000  00f17607  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000e50  00000000  00000000  00f184ba  2**0
+ 14 .debug_ranges 00000e50  00000000  00000000  00f184a7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    00003cbb  00000000  00000000  00f1930a  2**0
+ 15 .debug_str    00003cbb  00000000  00000000  00f192f7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000002a  00000000  00000000  00f1cfc5  2**0
+ 16 .comment      0000002a  00000000  00000000  00f1cfb2  2**0
                   CONTENTS, READONLY
- 17 .ARM.attributes 00000037  00000000  00000000  00f1cfef  2**0
+ 17 .ARM.attributes 00000037  00000000  00000000  00f1cfdc  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00002754  00000000  00000000  00f1d028  2**2
+ 18 .debug_frame  00002740  00000000  00000000  00f1d014  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -324,7 +324,7 @@ SYMBOL TABLE:
 080023e8 g     F .text	00000012 __aeabi_fcmpgt
 08001864 g     F .text	00000022 __floatsidf
 08003400 g     F .text	00000030 adcConvert
-08006120 g     F .text	000001bc Setup_PPG_PWM
+08006120 g     F .text	000001b8 Setup_PPG_PWM
 080029f0 g     F .text	00000024 chSchReadyI
 08000188 g       startup	00000000 __fini_array_end
 08002640  w    F .text	00000004 port_halt

@@ -91,25 +91,50 @@ void PPG_Frequency_Bin_Rotate(int32_t Bin[2],uint8_t Direction) {
 */
 void PPG_Automatic_Brightness_Control(void) {
 	uint8_t channel;
-	uint16_t vals[3]={0,0,0};
-	uint16_t old_vals[3];			//This function iterates until the PWM duty correction falls below a limit set in header
+	uint16_t vals[PPG_CHANNELS]={};
+	uint16_t old_vals[PPG_CHANNELS];		//This function iterates until the PWM duty correction falls below a limit set in header
 	do {
 		memcpy(old_vals,vals,sizeof(old_vals));//Copy over to the old values
 		for(channel=0;channel<PPG_CHANNELS;channel++) {	//Loop through the channels
-			uint16_t pwm=Get_PWM_0();
-			if(channel==1)
-				pwm=Get_PWM_1();
-			else if(channel==2)
-				pwm=Get_PWM_2();//Retreives the set pwm for this channel
+			uint16_t pwm;
+			switch(channel) {
+				case 0:
+					pwm=Get_PWM_0();
+					break;
+				case 1:
+					pwm=Get_PWM_1();
+					break;
+				case 2:
+					pwm=Get_PWM_2();//Retreives the set pwm for this channel
+					break;
+				case 3:
+					pwm=Get_PWM_3();
+					break;
+				default:
+					pwm=Get_PWM_4();
+			}
 			vals[channel]=PPG_correct_brightness((uint32_t)Last_PPG_Values[channel], pwm);
 		}
 		//Apply the pwm duty correction here
-		Set_PWM_2(vals[2]);
-		Set_PWM_1(vals[1]);
 		Set_PWM_0(vals[0]);
-		chThdSleepMilliseconds((uint32_t)(4000.0/PPG_SAMPLE_RATE));//Delay for a period of 4 PPG samples to let the analogue stabilise	
-	}while((abs(vals[0]-old_vals[0])>old_vals[0]/PWM_STEP_LIM)||(abs(vals[1]-old_vals[1])>old_vals[1]/PWM_STEP_LIM)||\
-		(abs(vals[2]-old_vals[2])>old_vals[2]/PWM_STEP_LIM));
+#if PPG_CHANNELS>1
+		Set_PWM_1(vals[1]);
+#if PPG_CHANNELS>2
+		Set_PWM_2(vals[2]);
+#if PPG_CHANNELS>3
+		Set_PWM_3(vals[3]);
+#if PPG_CHANNELS>4
+		Set_PWM_4(vals[4]);
+#endif
+#endif
+#endif
+#endif
+		chThdSleepMilliseconds((uint32_t)(4000.0/PPG_SAMPLE_RATE));//Delay for a period of 4 PPG samples to let the analogue stabilise
+		for(channel=0;channel<PPG_CHANNELS;channel++) {	//Loop through the channels
+			if(abs(vals[channel]-old_vals[channel])>old_vals[channel]/PWM_STEP_LIM)
+				break;
+		}
+	}while(channel<PPG_CHANNELS);
 }
 
 

@@ -36,11 +36,11 @@ void Setup_PPG_PWM(void) {
 	//Channel 3
 	//TIM5->CR1=TIM_CR1_ARPE;	//Preload enable
 	TIM5->CR2|=TIM_CR2_MMS_2|(CHAN3_GATE_OUTPUT-1)<<4;//The internal trigger output from this timer
-	TIM5->ARR=PWM_PERIOD_THREE;
+	TIM5->ARR=PWM_PERIOD_THREE-1;
 	TIM5->SMCR|=TIM_SMCR_MSM|0x0005|TIM5_TS<<4;//Gated, Trigger source
-	TIM3->CCMR1|=0x6000|TIM_CCMR1_OC2PE;//Use OC2 in PWM1 mode with preload as the internal signal
-	TIM3->CCR2=PWM_PERIOD_THREE-PWM_CLK_TRIM_THREE;//OC2 Gate output
-	TIM5->CCMR1=0x7000|TIM_CCMR1_OC2PE;//Use OC2 in PWM2 mode with preload as the LED signal
+	TIM5->CCMR1|=0x0060|TIM_CCMR1_OC1PE;//Use OC1 in PWM1 mode with preload as the internal signal
+	TIM5->CCR1=PWM_PERIOD_THREE-PWM_CLK_TRIM_THREE;//OC2 Gate output
+	TIM5->CCMR1|=0x7000|TIM_CCMR1_OC2PE;//Use OC2 in PWM2 mode with preload as the LED signal
 	TIM5->CCR2=DIM_LED;		//OC2 initial output - not enabled at this point
 	//Channel 4
 	//TIM3->CR1|=TIM_CR1_ARPE;	//Preload enable

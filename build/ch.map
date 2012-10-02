@@ -1640,9 +1640,8 @@ destructors     0x08000188        0x0
                 0x080060c0                filterloop
  *fill*         0x08006118        0x8 00
  .text.Setup_PPG_PWM
-                0x08006120      0x19c build/obj/Timer.o
+                0x08006120      0x1a0 build/obj/Timer.o
                 0x08006120                Setup_PPG_PWM
- *fill*         0x080062bc        0x4 00
  .text.Enable_PPG_PWM
                 0x080062c0       0x50 build/obj/Timer.o
                 0x080062c0                Enable_PPG_PWM
@@ -2082,7 +2081,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x0001c156      0x463 build/obj/Scanf.o
  .debug_info    0x0001c5b9      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x19186
+.debug_line     0x00000000    0x19182
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2156,7 +2155,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x00018751       0x64 build/obj/PID_Control.o
  .debug_line    0x000187b5      0x353 build/obj/Pressure_Filter.o
  .debug_line    0x00018b08      0x427 build/obj/Scanf.o
- .debug_line    0x00018f2f      0x257 build/obj/Timer.o
+ .debug_line    0x00018f2f      0x253 build/obj/Timer.o
 
 .debug_macinfo  0x00000000   0xebc87f
  .debug_macinfo

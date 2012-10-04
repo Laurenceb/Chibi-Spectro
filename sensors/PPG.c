@@ -24,7 +24,7 @@ void PPG_LO_Filter(volatile uint16_t* Buff, Mailbox Output_Mailbox[PPG_CHANNELS]
 	for(uint16_t n=0;n<ADC_BUFF_SIZE/2;n++) {//Loop through multiplying by the LO
 		I+=(int16_t)Buff[n]*(int16_t)cosinusoid[m];
 		Q+=(int16_t)Buff[n]*(int16_t)sinusoid[m];
-		if(m++>=120)			//There are 120 samples
+		if(++m>=120)			//There are 120 samples
 			m=0;
 	}
 	//Now run the "baseband" decimating filter(s)

@@ -57,8 +57,9 @@ void PPG_LO_Filter(volatile uint16_t* Buff, Mailbox Output_Mailbox[PPG_CHANNELS]
 	//End of decimating filters
 	if(++bindex==PPG_NO_SUBSAMPLES) {	//Decimation factor of 12 - 62.004Hz data output
 		for(uint8_t n=0;n<PPG_CHANNELS;n++) {
-			Last_PPG_Values[n]=sqrtf(((float)Frequency_Bin[n][0]*(float)Frequency_Bin[n][0])+((float)Frequency_Bin[n][1]*(float)Frequency_Bin[n][1]));
-			chMBPostI(&Output_Mailbox[n], (msg_t)(((uint32_t)Last_PPG_Values[n])>>8));//Will always be at least 8 bits on noise, so shift out the mess
+			Last_PPG_Values[n]=sqrtf(((float)Frequency_Bin[n][0]*(float)Frequency_Bin[n][0])\
+						+((float)Frequency_Bin[n][1]*(float)Frequency_Bin[n][1]));
+			chMBPost(&Output_Mailbox[n], (msg_t)(((uint32_t)Last_PPG_Values[n])>>8), TIME_IMMEDIATE);//Always >8 bits of noise, shift out mess
 		}				//Fill the array of buffers
 		memset(Frequency_Bin,0,sizeof(Frequency_Bin));//Zero everything
 		bindex=0;			//Reset this

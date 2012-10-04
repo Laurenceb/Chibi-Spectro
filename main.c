@@ -123,7 +123,9 @@ int main(void) {
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
-  /* Set the brightness once on start up - TODO inpliment it later*/
+  /* Wait for front end to stabilise and get some data */
+  chThdSleepMilliseconds(50);
+  /* Set the brightness once on start up - TODO inpliment it later */
   PPG_Automatic_Brightness_Control();
   /*
    * main() thread activity;

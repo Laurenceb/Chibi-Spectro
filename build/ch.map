@@ -1607,8 +1607,9 @@ destructors     0x08000188        0x0
                 0x08005c90                PPG_Frequency_Bin_Rotate
  *fill*         0x08005cd6        0xa 00
  .text.PPG_LO_Filter
-                0x08005ce0      0x140 build/obj/PPG.o
+                0x08005ce0      0x13c build/obj/PPG.o
                 0x08005ce0                PPG_LO_Filter
+ *fill*         0x08005e1c        0x4 00
  .text.PWM_Linear
                 0x08005e20       0x28 build/obj/PPG.o
                 0x08005e20                PWM_Linear
@@ -1618,9 +1619,9 @@ destructors     0x08000188        0x0
                 0x08005e50                PPG_correct_brightness
  *fill*         0x08005eb8        0x8 00
  .text.PPG_Automatic_Brightness_Control
-                0x08005ec0       0xd8 build/obj/PPG.o
+                0x08005ec0       0xd4 build/obj/PPG.o
                 0x08005ec0                PPG_Automatic_Brightness_Control
- *fill*         0x08005f98        0x8 00
+ *fill*         0x08005f94        0xc 00
  .text.Calibrate_Sensor
                 0x08005fa0       0x44 build/obj/Pressure.o
                 0x08005fa0                Calibrate_Sensor
@@ -2079,7 +2080,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x0001c156      0x463 build/obj/Scanf.o
  .debug_info    0x0001c5b9      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x1918d
+.debug_line     0x00000000    0x1918f
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2148,12 +2149,12 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x000169cd      0x604 build/obj/usbcfg.o
  .debug_line    0x00016fd1      0x6a5 build/obj/PID_Pressure.o
  .debug_line    0x00017676      0x6ab build/obj/PPG_Demod.o
- .debug_line    0x00017d21      0x6ce build/obj/PPG.o
- .debug_line    0x000183ef      0x36d build/obj/Pressure.o
- .debug_line    0x0001875c       0x64 build/obj/PID_Control.o
- .debug_line    0x000187c0      0x353 build/obj/Pressure_Filter.o
- .debug_line    0x00018b13      0x427 build/obj/Scanf.o
- .debug_line    0x00018f3a      0x253 build/obj/Timer.o
+ .debug_line    0x00017d21      0x6d0 build/obj/PPG.o
+ .debug_line    0x000183f1      0x36d build/obj/Pressure.o
+ .debug_line    0x0001875e       0x64 build/obj/PID_Control.o
+ .debug_line    0x000187c2      0x353 build/obj/Pressure_Filter.o
+ .debug_line    0x00018b15      0x427 build/obj/Scanf.o
+ .debug_line    0x00018f3c      0x253 build/obj/Timer.o
 
 .debug_macinfo  0x00000000   0xebc849
  .debug_macinfo
@@ -2305,7 +2306,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00e83668    0x391e1 build/obj/Timer.o
 
-.debug_loc      0x00000000     0x7cdc
+.debug_loc      0x00000000     0x7cc6
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o
  .debug_loc     0x000000b2      0x11e build/obj/chcore_v7m.o
  .debug_loc     0x000001d0      0x102 build/obj/nvic.o
@@ -2343,12 +2344,12 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_loc     0x0000720d       0xab build/obj/usbcfg.o
  .debug_loc     0x000072b8       0xf2 build/obj/PID_Pressure.o
  .debug_loc     0x000073aa      0x15f build/obj/PPG_Demod.o
- .debug_loc     0x00007509      0x226 build/obj/PPG.o
- .debug_loc     0x0000772f       0x31 build/obj/Pressure.o
- .debug_loc     0x00007760       0x3b build/obj/PID_Control.o
- .debug_loc     0x0000779b       0x63 build/obj/Pressure_Filter.o
- .debug_loc     0x000077fe      0x4be build/obj/Scanf.o
- .debug_loc     0x00007cbc       0x20 build/obj/Timer.o
+ .debug_loc     0x00007509      0x210 build/obj/PPG.o
+ .debug_loc     0x00007719       0x31 build/obj/Pressure.o
+ .debug_loc     0x0000774a       0x3b build/obj/PID_Control.o
+ .debug_loc     0x00007785       0x63 build/obj/Pressure_Filter.o
+ .debug_loc     0x000077e8      0x4be build/obj/Scanf.o
+ .debug_loc     0x00007ca6       0x20 build/obj/Timer.o
 
 .debug_pubnames
                 0x00000000     0x183b
@@ -2694,7 +2695,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_aranges
                 0x00000e70       0x30 build/obj/Timer.o
 
-.debug_ranges   0x00000000      0xe50
+.debug_ranges   0x00000000      0xe48
  .debug_ranges  0x00000000       0x48 build/obj/crt0.o
  .debug_ranges  0x00000048       0x10 build/obj/vectors.o
  .debug_ranges  0x00000058       0x10 build/obj/chcore.o
@@ -2736,12 +2737,12 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_ranges  0x00000ce8       0x18 build/obj/usbcfg.o
  .debug_ranges  0x00000d00       0x20 build/obj/PID_Pressure.o
  .debug_ranges  0x00000d20       0x28 build/obj/PPG_Demod.o
- .debug_ranges  0x00000d48       0x70 build/obj/PPG.o
- .debug_ranges  0x00000db8       0x18 build/obj/Pressure.o
- .debug_ranges  0x00000dd0       0x10 build/obj/PID_Control.o
- .debug_ranges  0x00000de0       0x10 build/obj/Pressure_Filter.o
- .debug_ranges  0x00000df0       0x40 build/obj/Scanf.o
- .debug_ranges  0x00000e30       0x20 build/obj/Timer.o
+ .debug_ranges  0x00000d48       0x68 build/obj/PPG.o
+ .debug_ranges  0x00000db0       0x18 build/obj/Pressure.o
+ .debug_ranges  0x00000dc8       0x10 build/obj/PID_Control.o
+ .debug_ranges  0x00000dd8       0x10 build/obj/Pressure_Filter.o
+ .debug_ranges  0x00000de8       0x40 build/obj/Scanf.o
+ .debug_ranges  0x00000e28       0x20 build/obj/Timer.o
 
 .debug_str      0x00000000     0x3cbb
  .debug_str     0x00000000      0x251 build/obj/crt0.o

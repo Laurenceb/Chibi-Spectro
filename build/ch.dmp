@@ -32,27 +32,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_info   0001cacf  00000000  00000000  00017b06  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0001918d  00000000  00000000  000345d5  2**0
+  8 .debug_line   0001918f  00000000  00000000  000345d5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_macinfo 00ebc849  00000000  00000000  0004d762  2**0
+  9 .debug_macinfo 00ebc849  00000000  00000000  0004d764  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00007cdc  00000000  00000000  00f09fab  2**0
+ 10 .debug_loc    00007cc6  00000000  00000000  00f09fad  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubnames 0000183b  00000000  00000000  00f11c87  2**0
+ 11 .debug_pubnames 0000183b  00000000  00000000  00f11c73  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00004110  00000000  00000000  00f134c2  2**0
+ 12 .debug_pubtypes 00004110  00000000  00000000  00f134ae  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000ea0  00000000  00000000  00f175d2  2**0
+ 13 .debug_aranges 00000ea0  00000000  00000000  00f175be  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000e50  00000000  00000000  00f18472  2**0
+ 14 .debug_ranges 00000e48  00000000  00000000  00f1845e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    00003cbb  00000000  00000000  00f192c2  2**0
+ 15 .debug_str    00003cbb  00000000  00000000  00f192a6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000002a  00000000  00000000  00f1cf7d  2**0
+ 16 .comment      0000002a  00000000  00000000  00f1cf61  2**0
                   CONTENTS, READONLY
- 17 .ARM.attributes 00000037  00000000  00000000  00f1cfa7  2**0
+ 17 .ARM.attributes 00000037  00000000  00000000  00f1cf8b  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  0000273c  00000000  00000000  00f1cfe0  2**2
+ 18 .debug_frame  0000273c  00000000  00000000  00f1cfc4  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -474,7 +474,7 @@ SYMBOL TABLE:
 08002630  w    F .text	00000002 Vector13C
 08001b84 g     F .text	000001d0 __divdf3
 08003910 g     F .text	00000026 _usb_reset
-08005ce0 g     F .text	00000140 PPG_LO_Filter
+08005ce0 g     F .text	0000013c PPG_LO_Filter
 08001fbc g     F .text	00000024 __aeabi_ui2f
 08002630  w    F .text	00000002 Vector100
 08001930 g     F .text	00000254 __muldf3
@@ -568,7 +568,7 @@ SYMBOL TABLE:
 08003dd0 g     F .text	0000002c Vector78
 2001c000 g       *ABS*	00000000 __ram_end__
 2000a130 g       .data	00000000 _edata
-08005ec0 g     F .text	000000d8 PPG_Automatic_Brightness_Control
+08005ec0 g     F .text	000000d4 PPG_Automatic_Brightness_Control
 2000d078 g       *ABS*	00000000 _end
 08003890 g     F .text	0000001e usbPrepareQueuedTransmit
 2000cffc g     O .bss	00000014 Last_PPG_Values

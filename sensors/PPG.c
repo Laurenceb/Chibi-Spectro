@@ -130,7 +130,7 @@ void PPG_Automatic_Brightness_Control(void) {
 #endif
 #endif
 #endif
-		chThdSleepMilliseconds((uint32_t)(4000.0/*/PPG_SAMPLE_RATE*/));//Delay for a period of 4 PPG samples to let the analogue stabilise
+		chThdSleepMilliseconds((uint32_t)(4000.0/PPG_SAMPLE_RATE));//Delay for a period of 4 PPG samples to let the analogue stabilise
 		for(channel=0;channel<PPG_CHANNELS;channel++) {	//Loop through the channels
 			if(abs(vals[channel]-old_vals[channel])>old_vals[channel]/PWM_STEP_LIM)
 				break;

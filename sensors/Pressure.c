@@ -10,7 +10,7 @@ static float Pressure_Offset;			/* Stores the sensor offset */
   */
 bool Calibrate_Sensor(uint16_t diff) {
 	static uint8_t n=0;
-	if(n++) {				/* Take 256 samples from the pressure sensor */
+	if(++n) {				/* Take 256 samples from the pressure sensor */
 		Pressure_Offset+=diff;
 		return TRUE;
 	}

@@ -1623,9 +1623,9 @@ destructors     0x08000188        0x0
                 0x08005ec0                PPG_Automatic_Brightness_Control
  *fill*         0x08005f94        0xc 00
  .text.Calibrate_Sensor
-                0x08005fa0       0x44 build/obj/Pressure.o
+                0x08005fa0       0x48 build/obj/Pressure.o
                 0x08005fa0                Calibrate_Sensor
- *fill*         0x08005fe4        0xc 00
+ *fill*         0x08005fe8        0x8 00
  .text.Convert_Pressure
                 0x08005ff0       0x28 build/obj/Pressure.o
                 0x08005ff0                Convert_Pressure

@@ -144,7 +144,9 @@
                                      PIN_MODE_ALTERNATE(GPIOA_SWCLK) |      \
                                      PIN_MODE_INPUT(15))
 #define VAL_GPIOA_OTYPER            0x00000000
-#define VAL_GPIOA_OSPEEDR           0xFFFFFFFF
+#define VAL_GPIOA_OSPEEDR           (0xFFFFFFFF &~ (PIN_OSPEED_2M(1) |      \
+						    PIN_OSPEED_2M(2) |	    \
+						    PIN_OSPEED_2M(3) ))
 #define VAL_GPIOA_PUPDR             (PIN_PUDR_FLOATING(GPIOA_BUTTON) |      \
                                      PIN_PUDR_PULLUP(1) |                   \
                                      PIN_PUDR_PULLUP(2) |                   \
@@ -202,7 +204,8 @@
                                      PIN_MODE_INPUT(15))
 #define VAL_GPIOB_OTYPER            (PIN_OTYPE_OPENDRAIN(GPIOB_SCL) |       \
                                      PIN_OTYPE_OPENDRAIN(GPIOB_SDA))
-#define VAL_GPIOB_OSPEEDR           0xFFFFFFFF
+#define VAL_GPIOB_OSPEEDR           (0xFFFFFFFF &~ (PIN_OSPEED_2M(0) |      \
+						    PIN_OSPEED_2M(8) ))
 #define VAL_GPIOB_PUPDR             (PIN_PUDR_PULLUP(0) |                   \
                                      PIN_PUDR_PULLUP(1) |                   \
                                      PIN_PUDR_PULLUP(2) |                   \
@@ -338,7 +341,7 @@
                                      PIN_MODE_INPUT(6) |                    \
                                      PIN_MODE_INPUT(7) |                    \
                                      PIN_MODE_INPUT(8) |                    \
-                                     PIN_MODE_ALTERNATE(9) |                \
+                                     PIN_MODE_INPUT(9)/*ALTERNATE(9)*/ |                \
                                      PIN_MODE_INPUT(10) |                   \
                                      PIN_MODE_INPUT(11) |                   \
                                      PIN_MODE_INPUT(12) |                   \
@@ -346,7 +349,7 @@
                                      PIN_MODE_INPUT(14) |                   \
                                      PIN_MODE_INPUT(15))
 #define VAL_GPIOE_OTYPER            0x00000000
-#define VAL_GPIOE_OSPEEDR           0xFFFFFFFF
+#define VAL_GPIOE_OSPEEDR           (0xFFFFFFFF &~ (PIN_OSPEED_25M(9)))
 #define VAL_GPIOE_PUPDR             (PIN_PUDR_FLOATING(GPIOE_INT1) |        \
                                      PIN_PUDR_FLOATING(GPIOE_INT2) |        \
                                      PIN_PUDR_PULLUP(2) |                   \
@@ -356,7 +359,7 @@
                                      PIN_PUDR_PULLUP(6) |                   \
                                      PIN_PUDR_PULLUP(7) |                   \
                                      PIN_PUDR_PULLUP(8) |                   \
-                                     PIN_PUDR_PULLUP(9) |                   \
+                                     PIN_PUDR_PULLDOWN(9) |                 \
                                      PIN_PUDR_PULLUP(10) |                  \
                                      PIN_PUDR_PULLUP(11) |                  \
                                      PIN_PUDR_PULLUP(12) |                  \

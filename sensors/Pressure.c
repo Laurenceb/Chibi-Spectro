@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "Pressure.h"
 #include "Hardware_Conf.h"			/* Location of the sensor sensitivity data */
 

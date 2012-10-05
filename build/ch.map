@@ -1581,9 +1581,9 @@ destructors     0x08000188        0x0
                 0x08005a00        0x2 build/obj/PID_Pressure.o
  *fill*         0x08005a02        0xe 00
  .text.Pressure_Thread
-                0x08005a10      0x144 build/obj/PID_Pressure.o
+                0x08005a10      0x14c build/obj/PID_Pressure.o
                 0x08005a10                Pressure_Thread
- *fill*         0x08005b54        0xc 00
+ *fill*         0x08005b5c        0x4 00
  .text.Spawn_Pressure_Thread
                 0x08005b60       0x44 build/obj/PID_Pressure.o
                 0x08005b60                Spawn_Pressure_Thread
@@ -1917,7 +1917,7 @@ destructors     0x08000188        0x0
                 0x2000d014       0x28 build/obj/PPG.o
  .bss.Pressure_Offset
                 0x2000d03c        0x4 build/obj/Pressure.o
- .bss.n.4685    0x2000d040        0x1 build/obj/Pressure.o
+ .bss.n.5367    0x2000d040        0x1 build/obj/Pressure.o
  *fill*         0x2000d041        0x3 00
  .bss.xv        0x2000d044       0x34 build/obj/Pressure_Filter.o
                 0x2000d078                . = ALIGN (0x4)
@@ -2006,7 +2006,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x0000570f      0x200 build/obj/Scanf.o
  .debug_abbrev  0x0000590f       0xc7 build/obj/Timer.o
 
-.debug_info     0x00000000    0x1caea
+.debug_info     0x00000000    0x1caf8
  .debug_info    0x00000000      0x52f build/obj/crt0.o
  .debug_info    0x0000052f       0xb9 build/obj/vectors.o
  .debug_info    0x000005e8       0x8f build/obj/chcore.o
@@ -2076,13 +2076,13 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x00019321     0x12ae build/obj/PID_Pressure.o
  .debug_info    0x0001a5cf      0xd99 build/obj/PPG_Demod.o
  .debug_info    0x0001b368      0xaaf build/obj/PPG.o
- .debug_info    0x0001be17      0x117 build/obj/Pressure.o
- .debug_info    0x0001bf2e      0x138 build/obj/PID_Control.o
- .debug_info    0x0001c066      0x10b build/obj/Pressure_Filter.o
- .debug_info    0x0001c171      0x463 build/obj/Scanf.o
- .debug_info    0x0001c5d4      0x516 build/obj/Timer.o
+ .debug_info    0x0001be17      0x125 build/obj/Pressure.o
+ .debug_info    0x0001bf3c      0x138 build/obj/PID_Control.o
+ .debug_info    0x0001c074      0x10b build/obj/Pressure_Filter.o
+ .debug_info    0x0001c17f      0x463 build/obj/Scanf.o
+ .debug_info    0x0001c5e2      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x191bd
+.debug_line     0x00000000    0x19397
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2149,16 +2149,16 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x00015c73      0x453 build/obj/chprintf.o
  .debug_line    0x000160c6      0x913 build/obj/main.o
  .debug_line    0x000169d9      0x604 build/obj/usbcfg.o
- .debug_line    0x00016fdd      0x6c2 build/obj/PID_Pressure.o
- .debug_line    0x0001769f      0x6b0 build/obj/PPG_Demod.o
- .debug_line    0x00017d4f      0x6d0 build/obj/PPG.o
- .debug_line    0x0001841f      0x36d build/obj/Pressure.o
- .debug_line    0x0001878c       0x64 build/obj/PID_Control.o
- .debug_line    0x000187f0      0x353 build/obj/Pressure_Filter.o
- .debug_line    0x00018b43      0x427 build/obj/Scanf.o
- .debug_line    0x00018f6a      0x253 build/obj/Timer.o
+ .debug_line    0x00016fdd      0x6c3 build/obj/PID_Pressure.o
+ .debug_line    0x000176a0      0x6b0 build/obj/PPG_Demod.o
+ .debug_line    0x00017d50      0x6d0 build/obj/PPG.o
+ .debug_line    0x00018420      0x546 build/obj/Pressure.o
+ .debug_line    0x00018966       0x64 build/obj/PID_Control.o
+ .debug_line    0x000189ca      0x353 build/obj/Pressure_Filter.o
+ .debug_line    0x00018d1d      0x427 build/obj/Scanf.o
+ .debug_line    0x00019144      0x253 build/obj/Timer.o
 
-.debug_macinfo  0x00000000   0xebc849
+.debug_macinfo  0x00000000   0xec0d9a
  .debug_macinfo
                 0x00000000     0x76e5 build/obj/crt0.o
  .debug_macinfo
@@ -2206,107 +2206,107 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x000a23b5     0x75e3 build/obj/chmempools.o
  .debug_macinfo
-                0x000a9998    0x4e0d3 build/obj/hal.o
+                0x000a9998    0x4e155 build/obj/hal.o
  .debug_macinfo
-                0x000f7a6b    0x4e0d3 build/obj/adc.o
+                0x000f7aed    0x4e155 build/obj/adc.o
  .debug_macinfo
-                0x00145b3e    0x4e0d3 build/obj/can.o
+                0x00145c42    0x4e155 build/obj/can.o
  .debug_macinfo
-                0x00193c11    0x4e0d3 build/obj/ext.o
+                0x00193d97    0x4e155 build/obj/ext.o
  .debug_macinfo
-                0x001e1ce4    0x4e0d3 build/obj/gpt.o
+                0x001e1eec    0x4e155 build/obj/gpt.o
  .debug_macinfo
-                0x0022fdb7    0x4e0d3 build/obj/i2c.o
+                0x00230041    0x4e155 build/obj/i2c.o
  .debug_macinfo
-                0x0027de8a    0x4e0d3 build/obj/icu.o
+                0x0027e196    0x4e155 build/obj/icu.o
  .debug_macinfo
-                0x002cbf5d    0x4e0d3 build/obj/mac.o
+                0x002cc2eb    0x4e155 build/obj/mac.o
  .debug_macinfo
-                0x0031a030    0x4fd63 build/obj/mmc_spi.o
+                0x0031a440    0x4fde5 build/obj/mmc_spi.o
  .debug_macinfo
-                0x00369d93    0x4e0d3 build/obj/mmcsd.o
+                0x0036a225    0x4e155 build/obj/mmcsd.o
  .debug_macinfo
-                0x003b7e66    0x4e0d3 build/obj/pal.o
+                0x003b837a    0x4e155 build/obj/pal.o
  .debug_macinfo
-                0x00405f39    0x4e0d3 build/obj/pwm.o
+                0x004064cf    0x4e155 build/obj/pwm.o
  .debug_macinfo
-                0x0045400c    0x4e0d3 build/obj/rtc.o
+                0x00454624    0x4e155 build/obj/rtc.o
  .debug_macinfo
-                0x004a20df    0x4e0d3 build/obj/sdc.o
+                0x004a2779    0x4e155 build/obj/sdc.o
  .debug_macinfo
-                0x004f01b2    0x4e0d3 build/obj/serial.o
+                0x004f08ce    0x4e155 build/obj/serial.o
  .debug_macinfo
-                0x0053e285    0x4e3e8 build/obj/serial_usb.o
+                0x0053ea23    0x4e46a build/obj/serial_usb.o
  .debug_macinfo
-                0x0058c66d    0x4e0d3 build/obj/spi.o
+                0x0058ce8d    0x4e155 build/obj/spi.o
  .debug_macinfo
-                0x005da740    0x4e0d3 build/obj/tm.o
+                0x005dafe2    0x4e155 build/obj/tm.o
  .debug_macinfo
-                0x00628813    0x4e0d3 build/obj/uart.o
+                0x00629137    0x4e155 build/obj/uart.o
  .debug_macinfo
-                0x006768e6    0x4fd67 build/obj/usb.o
+                0x0067728c    0x4fde9 build/obj/usb.o
  .debug_macinfo
-                0x006c664d    0x4e16a build/obj/stm32_dma.o
+                0x006c7075    0x4e1ec build/obj/stm32_dma.o
  .debug_macinfo
-                0x007147b7    0x4e0d3 build/obj/hal_lld.o
+                0x00715261    0x4e155 build/obj/hal_lld.o
  .debug_macinfo
-                0x0076288a    0x4e1d8 build/obj/adc_lld.o
+                0x007633b6    0x4e25a build/obj/adc_lld.o
  .debug_macinfo
-                0x007b0a62    0x4e0d3 build/obj/ext_lld_isr.o
+                0x007b1610    0x4e155 build/obj/ext_lld_isr.o
  .debug_macinfo
-                0x007feb35    0x4e0d3 build/obj/can_lld.o
+                0x007ff765    0x4e155 build/obj/can_lld.o
  .debug_macinfo
-                0x0084cc08    0x4e0d3 build/obj/ext_lld.o
+                0x0084d8ba    0x4e155 build/obj/ext_lld.o
  .debug_macinfo
-                0x0089acdb    0x4e0d3 build/obj/gpt_lld.o
+                0x0089ba0f    0x4e155 build/obj/gpt_lld.o
  .debug_macinfo
-                0x008e8dae    0x4e0d3 build/obj/icu_lld.o
+                0x008e9b64    0x4e155 build/obj/icu_lld.o
  .debug_macinfo
-                0x00936e81    0x50609 build/obj/mac_lld.o
+                0x00937cb9    0x5068b build/obj/mac_lld.o
  .debug_macinfo
-                0x0098748a    0x4e0d3 build/obj/pwm_lld.o
+                0x00988344    0x4e155 build/obj/pwm_lld.o
  .debug_macinfo
-                0x009d555d    0x4fd63 build/obj/sdc_lld.o
+                0x009d6499    0x4fde5 build/obj/sdc_lld.o
  .debug_macinfo
-                0x00a252c0    0x4e0d3 build/obj/serial_lld.o
+                0x00a2627e    0x4e155 build/obj/serial_lld.o
  .debug_macinfo
-                0x00a73393    0x4e0d3 build/obj/spi_lld.o
+                0x00a743d3    0x4e155 build/obj/spi_lld.o
  .debug_macinfo
-                0x00ac1466    0x4e1c6 build/obj/pal_lld.o
+                0x00ac2528    0x4e248 build/obj/pal_lld.o
  .debug_macinfo
-                0x00b0f62c    0x4e0d3 build/obj/i2c_lld.o
+                0x00b10770    0x4e155 build/obj/i2c_lld.o
  .debug_macinfo
-                0x00b5d6ff    0x4fd72 build/obj/usb_lld.o
+                0x00b5e8c5    0x4fdf4 build/obj/usb_lld.o
  .debug_macinfo
-                0x00bad471    0x4e0d3 build/obj/rtc_lld.o
+                0x00bae6b9    0x4e155 build/obj/rtc_lld.o
  .debug_macinfo
-                0x00bfb544    0x4e0d3 build/obj/uart_lld.o
+                0x00bfc80e    0x4e155 build/obj/uart_lld.o
  .debug_macinfo
-                0x00c49617    0x4e0d3 build/obj/board.o
+                0x00c4a963    0x4e155 build/obj/board.o
  .debug_macinfo
-                0x00c976ea    0x4fdbb build/obj/shell.o
+                0x00c98ab8    0x4fe3d build/obj/shell.o
  .debug_macinfo
-                0x00ce74a5     0x776f build/obj/chprintf.o
+                0x00ce88f5     0x776f build/obj/chprintf.o
  .debug_macinfo
-                0x00ceec14    0x5258a build/obj/main.o
+                0x00cf0064    0x528ca build/obj/main.o
  .debug_macinfo
-                0x00d4119e    0x4e3e8 build/obj/usbcfg.o
+                0x00d4292e    0x4e46a build/obj/usbcfg.o
  .debug_macinfo
-                0x00d8f586    0x4e473 build/obj/PID_Pressure.o
+                0x00d90d98    0x4e5df build/obj/PID_Pressure.o
  .debug_macinfo
-                0x00ddd9f9    0x4ebce build/obj/PPG_Demod.o
+                0x00ddf377    0x4ee24 build/obj/PPG_Demod.o
  .debug_macinfo
-                0x00e2c5c7    0x40a0b build/obj/PPG.o
+                0x00e2e19b    0x40af5 build/obj/PPG.o
  .debug_macinfo
-                0x00e6cfd2     0x791e build/obj/Pressure.o
+                0x00e6ec90     0xa0c7 build/obj/Pressure.o
  .debug_macinfo
-                0x00e748f0     0x224b build/obj/PID_Control.o
+                0x00e78d57     0x224b build/obj/PID_Control.o
  .debug_macinfo
-                0x00e76b3b     0x7631 build/obj/Pressure_Filter.o
+                0x00e7afa2     0x7631 build/obj/Pressure_Filter.o
  .debug_macinfo
-                0x00e7e16c     0x54fc build/obj/Scanf.o
+                0x00e825d3     0x54fc build/obj/Scanf.o
  .debug_macinfo
-                0x00e83668    0x391e1 build/obj/Timer.o
+                0x00e87acf    0x392cb build/obj/Timer.o
 
 .debug_loc      0x00000000     0x7d0a
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o
@@ -2886,7 +2886,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_str     0x000039d0      0x173 build/obj/PPG.o
                                 0x4da (size before relaxing)
  .debug_str     0x00003b43       0x50 build/obj/Pressure.o
-                                0x127 (size before relaxing)
+                                0x13a (size before relaxing)
  .debug_str     0x00003b93       0x36 build/obj/PID_Control.o
                                  0xce (size before relaxing)
  .debug_str     0x00003bc9       0x35 build/obj/Pressure_Filter.o

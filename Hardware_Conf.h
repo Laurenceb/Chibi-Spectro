@@ -2,9 +2,15 @@
 
 
 /* Pressure sensor related */
+#define SENSOR_DIAMETER 14	/* 14mm diameter sensor */
+#define SENSOR_GAIN (-1.0/68.01)/* Honeywell sensor calibrated to Newtons of force */
 
-#define DIFF_GAIN (1.0/(1.2412*-5.7767*56.556))/* Pressure sensor 2SMPP with 56.6 times instrumentation amp gain but negative factor */
+#define PASCALS_2_PSI (1.0/6894.75729)/* Convertion constant to convert pascals to PSI */
 
+#define SENSOR_DIAMETER_ (SENSOR_DIAMETER/1000.0)/* Units origonally in mm */ 
+#define SENSOR_AREA (SENSOR_DIAMETER_*SENSOR_DIAMETER_*M_PI/4.0)/* Area in square meters */
+#define DIFF_GAIN_PASCALS (SENSOR_GAIN/SENSOR_AREA)/* Sensor area needs to be taken into account when calculating pressure */
+#define DIFF_GAIN (PASCALS_2_PSI*DIFF_GAIN_PASCALS)/* Need to multiply be this constant to convert to PSI from ADC delta value */
 /* ADC2 - pressure sensor related */
 
 #define PRESSURE_ADC_NUM_CHANNELS 1

@@ -96,7 +96,15 @@ msg_t Pressure_Thread(void *Loop_Config) {
 	float PID_Out,Pressure,Setpoint;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
-	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));
+	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));		/* Only set the pin as AF output here, so as to avoid solenoid getting driven earlier*/
+	/*
+	* Activates the PWM driver
+	*/
+	pwmStart(&PWM_Driver_Solenoid, &PWM_Config_Solenoid);	/* Have to define the timer to use for PWM_Driver in hardware config */
+	/*
+	* Set the solenoid PWM to off
+	*/
+	pwmEnableChannel(&PWM_Driver_Solenoid, (pwmchannel_t)PWM_CHANNEL_SOLENOID, (pwmcnt_t)0);
 	/*
 	* Activates the ADC2 driver *and the thermal sensor*.
 	*/
@@ -108,10 +116,6 @@ msg_t Pressure_Thread(void *Loop_Config) {
 	do {
 		adcConvert(&ADCD2, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
 	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));
-	/*
-	* Activates the PWM driver
-	*/
-	pwmStart(&PWM_Driver_Solenoid, &PWM_Config_Solenoid);	/* Have to define the timer to use for PWM_Driver in hardware config */
 	systime_t time = chTimeNow();				/* T0 */
 	/* Loop for the pressure control thread */
 	while(TRUE) {

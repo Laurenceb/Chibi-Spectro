@@ -97,7 +97,7 @@ static const ADCConversionGroup adcgrpcfg2 = {
   * @retval msg_t status
   */
 msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
-	msg_t Pressure_Read, Pressure_Read_, msg;/* Used to read the pressure buffer */
+	msg_t Pressure_Read=0, Pressure_Read_, msg;/* Used to read the pressure buffer */
 	chRegSetThreadName("PPG");
 	/*
 	* Activates the ADC1 driver

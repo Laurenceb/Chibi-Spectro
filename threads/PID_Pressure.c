@@ -90,7 +90,7 @@ static PWMConfig PWM_Config_Solenoid = {
   */
 msg_t Pressure_Thread(void *Loop_Config) {
 	/* This thread is passed a pointer to a PID loop configuration */
-	(PID_Config*)Loop_Config;
+	Loop_Config=(PID_Config*)Loop_Config;
 	PID_State Pressure_PID=PID_BLANK;			/* Initialise as zeros */
 	adcsample_t Pressure_Sample;
 	float PID_Out,Pressure,Setpoint;
@@ -126,10 +126,13 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		/* Retrieve a new setpoint from the setpoint mailbox, only continue if we get it*/
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
 			Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
+			Pressure=Pressure<0?0.0:Pressure;	/* A negative pressure is impossible with current hardware setup - disregard*/
 			PID_Out = Run_PID_Loop(Loop_Config, &Pressure_PID, Setpoint, Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run the PID Loop */
 		}
 		else
 			PID_Out=0;				/* So we can turn off the solenoid simply by failing to send Setpoints */
+		PID_Out=PID_Out>1.0?1.0:PID_Out;
+		PID_Out=PID_Out<0.0?0.0:PID_Out;		/* Enforce range limits on the PID output */
 		/*
 		/ Now we apply the PID output to the PWM based solenoid controller, and feed data into the mailbox output - Note fractional input
 		*/

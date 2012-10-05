@@ -12,10 +12,6 @@
 	#define TARGET_ADC 231612662UL*2/(3*3/*sqrt(PPG_CHANNELS+2)*/)/*This equation is true for arbitrary number of channels with correct phasing*/
 #endif
 
-#if ((TARGET_ADC)>59000000UL)
-#error "wrong adc setpoint"
-#endif
-
 #define ADC_BUFF_SIZE 1500		/* 1500 sample buffer for DMA (120*100/(8*2)) */
 
 #define PWM_STEP_LIM  100		/* A 1% or less shift per iteration causes termination */

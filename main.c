@@ -101,7 +101,7 @@ int main(void) {
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /* The pressure control PID loop */
-  PID_Config PID_Pressure={ .P_Const=0.5, .I_Const=2, .D_Const=-0.2, .I_Limit=0.7 };//P I D Ilim
+  PID_Config PID_Pressure={ .P_Const=0.06, .I_Const=0.1, .D_Const=-0.07, .I_Limit=0.7 };//P I D Ilim
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&PID_Pressure);
   /* Create the PPG thread */
@@ -121,7 +121,7 @@ int main(void) {
   //} while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
-  for(uint16_t n=0;n<300;n++)
+  for(uint16_t n=0;n<500;n++)
 	pressure_set_array[n]=2;
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();

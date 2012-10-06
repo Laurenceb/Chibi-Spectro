@@ -1,6 +1,7 @@
 #include "PID_Pressure.h"
 #include "Hardware_Conf.h"
 #include "Pressure_Filter.h"
+#include "Quickselect.h"
 #include "PID_Control.h"
 #include "Pressure.h"
 

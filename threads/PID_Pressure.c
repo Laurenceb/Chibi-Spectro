@@ -129,7 +129,7 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		Pressure=Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
 		/* Retrieve a new setpoint from the setpoint mailbox, only continue if we get it*/
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
+			//Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
 			Pressure=Pressure<0?0.0:Pressure;	/* A negative pressure is impossible with current hardware setup - disregard*/
 			PID_Out = Run_PID_Loop(Loop_Config, &Pressure_PID, Setpoint, Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run the PID Loop */
 		}

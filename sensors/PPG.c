@@ -95,7 +95,7 @@ void PPG_Automatic_Brightness_Control(void) {
 	uint16_t vals[PPG_CHANNELS]={};
 	uint16_t old_vals[PPG_CHANNELS];		//This function iterates until the PWM duty correction falls below a limit set in header
 	do {
-		memcpy(old_vals,vals,sizeof(old_vals));//Copy over to the old values
+		memcpy(old_vals,vals,sizeof(old_vals));	//Copy over to the old values
 		for(channel=0;channel<PPG_CHANNELS;channel++) {	//Loop through the channels
 			uint16_t pwm;
 			switch(channel) {

@@ -101,7 +101,7 @@ int main(void) {
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /* The pressure control PID loop */
-  PID_Config PID_Pressure={ .P_Const=0.06, .I_Const=0.1, .D_Const=-0.07, .I_Limit=0.7 };//P I D Ilim
+  PID_Config PID_Pressure={ .P_Const=0.054, .I_Const=5.0, .D_Const=-0.0009, .I_Limit=0.95 };//P I D Ilim
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&PID_Pressure);
   /* Create the PPG thread */
@@ -122,7 +122,7 @@ int main(void) {
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   for(uint16_t n=0;n<500;n++)
-	pressure_set_array[n]=2;
+	pressure_set_array[n]=3;
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
   /* Wait for front end to stabilise and get some data */
@@ -143,6 +143,7 @@ int main(void) {
 		}
 		else
 			break;		//Break once the mailbox fifo is filled
+		chThdSleepMilliseconds(4);
 	}
 	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)

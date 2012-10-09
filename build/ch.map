@@ -522,6 +522,11 @@ Discarded input sections
  .bss.xv        0x00000000       0x34 build/obj/Pressure_Filter.o
  .rodata.xcoeffs
                 0x00000000       0x34 build/obj/Pressure_Filter.o
+ .text          0x00000000        0x0 build/obj/Quickselect.o
+ .data          0x00000000        0x0 build/obj/Quickselect.o
+ .bss           0x00000000        0x0 build/obj/Quickselect.o
+ .text.quick_select
+                0x00000000       0xe6 build/obj/Quickselect.o
  .text          0x00000000        0x0 build/obj/Scanf.o
  .data          0x00000000        0x0 build/obj/Scanf.o
  .bss           0x00000000        0x0 build/obj/Scanf.o
@@ -695,6 +700,7 @@ LOAD build/obj/PPG.o
 LOAD build/obj/Pressure.o
 LOAD build/obj/PID_Control.o
 LOAD build/obj/Pressure_Filter.o
+LOAD build/obj/Quickselect.o
 LOAD build/obj/Scanf.o
 LOAD build/obj/Timer.o
 LOAD /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a
@@ -1927,7 +1933,7 @@ destructors     0x08000188        0x0
                 0x2001c000                __heap_end__ = __ram_end__
 OUTPUT(build/ch.elf elf32-littlearm)
 
-.debug_abbrev   0x00000000     0x59d6
+.debug_abbrev   0x00000000     0x5a74
  .debug_abbrev  0x00000000      0x163 build/obj/crt0.o
  .debug_abbrev  0x00000163       0x76 build/obj/vectors.o
  .debug_abbrev  0x000001d9       0x43 build/obj/chcore.o
@@ -2000,10 +2006,11 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x0000551d       0x81 build/obj/Pressure.o
  .debug_abbrev  0x0000559e       0xc8 build/obj/PID_Control.o
  .debug_abbrev  0x00005666       0xa9 build/obj/Pressure_Filter.o
- .debug_abbrev  0x0000570f      0x200 build/obj/Scanf.o
- .debug_abbrev  0x0000590f       0xc7 build/obj/Timer.o
+ .debug_abbrev  0x0000570f       0x9e build/obj/Quickselect.o
+ .debug_abbrev  0x000057ad      0x200 build/obj/Scanf.o
+ .debug_abbrev  0x000059ad       0xc7 build/obj/Timer.o
 
-.debug_info     0x00000000    0x1caf8
+.debug_info     0x00000000    0x1cccf
  .debug_info    0x00000000      0x52f build/obj/crt0.o
  .debug_info    0x0000052f       0xb9 build/obj/vectors.o
  .debug_info    0x000005e8       0x8f build/obj/chcore.o
@@ -2076,10 +2083,11 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x0001be17      0x125 build/obj/Pressure.o
  .debug_info    0x0001bf3c      0x138 build/obj/PID_Control.o
  .debug_info    0x0001c074      0x10b build/obj/Pressure_Filter.o
- .debug_info    0x0001c17f      0x463 build/obj/Scanf.o
- .debug_info    0x0001c5e2      0x516 build/obj/Timer.o
+ .debug_info    0x0001c17f      0x1d7 build/obj/Quickselect.o
+ .debug_info    0x0001c356      0x463 build/obj/Scanf.o
+ .debug_info    0x0001c7b9      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x1939a
+.debug_line     0x00000000    0x198a7
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2146,16 +2154,17 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x00015c73      0x453 build/obj/chprintf.o
  .debug_line    0x000160c6      0x917 build/obj/main.o
  .debug_line    0x000169dd      0x604 build/obj/usbcfg.o
- .debug_line    0x00016fe1      0x6c2 build/obj/PID_Pressure.o
- .debug_line    0x000176a3      0x6b0 build/obj/PPG_Demod.o
- .debug_line    0x00017d53      0x6d0 build/obj/PPG.o
- .debug_line    0x00018423      0x546 build/obj/Pressure.o
- .debug_line    0x00018969       0x64 build/obj/PID_Control.o
- .debug_line    0x000189cd      0x353 build/obj/Pressure_Filter.o
- .debug_line    0x00018d20      0x427 build/obj/Scanf.o
- .debug_line    0x00019147      0x253 build/obj/Timer.o
+ .debug_line    0x00016fe1      0x6d3 build/obj/PID_Pressure.o
+ .debug_line    0x000176b4      0x6b0 build/obj/PPG_Demod.o
+ .debug_line    0x00017d64      0x6d0 build/obj/PPG.o
+ .debug_line    0x00018434      0x546 build/obj/Pressure.o
+ .debug_line    0x0001897a       0x64 build/obj/PID_Control.o
+ .debug_line    0x000189de      0x353 build/obj/Pressure_Filter.o
+ .debug_line    0x00018d31      0x4fc build/obj/Quickselect.o
+ .debug_line    0x0001922d      0x427 build/obj/Scanf.o
+ .debug_line    0x00019654      0x253 build/obj/Timer.o
 
-.debug_macinfo  0x00000000   0xec0d9a
+.debug_macinfo  0x00000000   0xeca22f
  .debug_macinfo
                 0x00000000     0x76e5 build/obj/crt0.o
  .debug_macinfo
@@ -2289,23 +2298,25 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00d4292e    0x4e46a build/obj/usbcfg.o
  .debug_macinfo
-                0x00d90d98    0x4e5df build/obj/PID_Pressure.o
+                0x00d90d98    0x4e5f8 build/obj/PID_Pressure.o
  .debug_macinfo
-                0x00ddf377    0x4ee24 build/obj/PPG_Demod.o
+                0x00ddf390    0x4ee24 build/obj/PPG_Demod.o
  .debug_macinfo
-                0x00e2e19b    0x40af5 build/obj/PPG.o
+                0x00e2e1b4    0x40af5 build/obj/PPG.o
  .debug_macinfo
-                0x00e6ec90     0xa0c7 build/obj/Pressure.o
+                0x00e6eca9     0xa0c7 build/obj/Pressure.o
  .debug_macinfo
-                0x00e78d57     0x224b build/obj/PID_Control.o
+                0x00e78d70     0x224b build/obj/PID_Control.o
  .debug_macinfo
-                0x00e7afa2     0x7631 build/obj/Pressure_Filter.o
+                0x00e7afbb     0x7631 build/obj/Pressure_Filter.o
  .debug_macinfo
-                0x00e825d3     0x54fc build/obj/Scanf.o
+                0x00e825ec     0x947c build/obj/Quickselect.o
  .debug_macinfo
-                0x00e87acf    0x392cb build/obj/Timer.o
+                0x00e8ba68     0x54fc build/obj/Scanf.o
+ .debug_macinfo
+                0x00e90f64    0x392cb build/obj/Timer.o
 
-.debug_loc      0x00000000     0x7cfe
+.debug_loc      0x00000000     0x7edb
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o
  .debug_loc     0x000000b2      0x11e build/obj/chcore_v7m.o
  .debug_loc     0x000001d0      0x102 build/obj/nvic.o
@@ -2347,11 +2358,12 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_loc     0x00007751       0x31 build/obj/Pressure.o
  .debug_loc     0x00007782       0x3b build/obj/PID_Control.o
  .debug_loc     0x000077bd       0x63 build/obj/Pressure_Filter.o
- .debug_loc     0x00007820      0x4be build/obj/Scanf.o
- .debug_loc     0x00007cde       0x20 build/obj/Timer.o
+ .debug_loc     0x00007820      0x1dd build/obj/Quickselect.o
+ .debug_loc     0x000079fd      0x4be build/obj/Scanf.o
+ .debug_loc     0x00007ebb       0x20 build/obj/Timer.o
 
 .debug_pubnames
-                0x00000000     0x183b
+                0x00000000     0x185e
  .debug_pubnames
                 0x00000000       0x56 build/obj/crt0.o
  .debug_pubnames
@@ -2443,12 +2455,14 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_pubnames
                 0x00001798       0x21 build/obj/Pressure_Filter.o
  .debug_pubnames
-                0x000017b9       0x37 build/obj/Scanf.o
+                0x000017b9       0x23 build/obj/Quickselect.o
  .debug_pubnames
-                0x000017f0       0x4b build/obj/Timer.o
+                0x000017dc       0x37 build/obj/Scanf.o
+ .debug_pubnames
+                0x00001813       0x4b build/obj/Timer.o
 
 .debug_pubtypes
-                0x00000000     0x4110
+                0x00000000     0x412f
  .debug_pubtypes
                 0x00000000       0x5c build/obj/crt0.o
  .debug_pubtypes
@@ -2594,11 +2608,13 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_pubtypes
                 0x0000405b       0x1e build/obj/Pressure_Filter.o
  .debug_pubtypes
-                0x00004079       0x3f build/obj/Scanf.o
+                0x00004079       0x1f build/obj/Quickselect.o
  .debug_pubtypes
-                0x000040b8       0x58 build/obj/Timer.o
+                0x00004098       0x3f build/obj/Scanf.o
+ .debug_pubtypes
+                0x000040d7       0x58 build/obj/Timer.o
 
-.debug_aranges  0x00000000      0xea0
+.debug_aranges  0x00000000      0xec0
  .debug_aranges
                 0x00000000       0x40 build/obj/crt0.o
  .debug_aranges
@@ -2690,11 +2706,13 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_aranges
                 0x00000e00       0x20 build/obj/Pressure_Filter.o
  .debug_aranges
-                0x00000e20       0x50 build/obj/Scanf.o
+                0x00000e20       0x20 build/obj/Quickselect.o
  .debug_aranges
-                0x00000e70       0x30 build/obj/Timer.o
+                0x00000e40       0x50 build/obj/Scanf.o
+ .debug_aranges
+                0x00000e90       0x30 build/obj/Timer.o
 
-.debug_ranges   0x00000000      0xe48
+.debug_ranges   0x00000000      0xe58
  .debug_ranges  0x00000000       0x48 build/obj/crt0.o
  .debug_ranges  0x00000048       0x10 build/obj/vectors.o
  .debug_ranges  0x00000058       0x10 build/obj/chcore.o
@@ -2740,10 +2758,11 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_ranges  0x00000db0       0x18 build/obj/Pressure.o
  .debug_ranges  0x00000dc8       0x10 build/obj/PID_Control.o
  .debug_ranges  0x00000dd8       0x10 build/obj/Pressure_Filter.o
- .debug_ranges  0x00000de8       0x40 build/obj/Scanf.o
- .debug_ranges  0x00000e28       0x20 build/obj/Timer.o
+ .debug_ranges  0x00000de8       0x10 build/obj/Quickselect.o
+ .debug_ranges  0x00000df8       0x40 build/obj/Scanf.o
+ .debug_ranges  0x00000e38       0x20 build/obj/Timer.o
 
-.debug_str      0x00000000     0x3cbb
+.debug_str      0x00000000     0x3cf3
  .debug_str     0x00000000      0x251 build/obj/crt0.o
                                 0x296 (size before relaxing)
  .debug_str     0x00000251       0x4e build/obj/vectors.o
@@ -2888,9 +2907,11 @@ OUTPUT(build/ch.elf elf32-littlearm)
                                  0xce (size before relaxing)
  .debug_str     0x00003bc9       0x35 build/obj/Pressure_Filter.o
                                 0x103 (size before relaxing)
- .debug_str     0x00003bfe       0x7e build/obj/Scanf.o
+ .debug_str     0x00003bfe       0x38 build/obj/Quickselect.o
+                                0x101 (size before relaxing)
+ .debug_str     0x00003c36       0x7e build/obj/Scanf.o
                                 0x17e (size before relaxing)
- .debug_str     0x00003c7c       0x3f build/obj/Timer.o
+ .debug_str     0x00003cb4       0x3f build/obj/Timer.o
                                 0x2b7 (size before relaxing)
 
 .comment        0x00000000       0x2a
@@ -2967,6 +2988,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .comment       0x00000000       0x2b build/obj/Pressure.o
  .comment       0x00000000       0x2b build/obj/PID_Control.o
  .comment       0x00000000       0x2b build/obj/Pressure_Filter.o
+ .comment       0x00000000       0x2b build/obj/Quickselect.o
  .comment       0x00000000       0x2b build/obj/Scanf.o
  .comment       0x00000000       0x2b build/obj/Timer.o
 
@@ -3117,75 +3139,77 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .ARM.attributes
                 0x00000f41       0x37 build/obj/Pressure_Filter.o
  .ARM.attributes
-                0x00000f78       0x37 build/obj/Scanf.o
+                0x00000f78       0x37 build/obj/Quickselect.o
  .ARM.attributes
-                0x00000faf       0x37 build/obj/Timer.o
+                0x00000faf       0x37 build/obj/Scanf.o
  .ARM.attributes
-                0x00000fe6       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_sin.o)
+                0x00000fe6       0x37 build/obj/Timer.o
  .ARM.attributes
-                0x0000100f       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_asin.o)
+                0x0000101d       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_sin.o)
  .ARM.attributes
-                0x00001038       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
+                0x00001046       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_asin.o)
  .ARM.attributes
-                0x00001061       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_asin.o)
+                0x0000106f       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
  .ARM.attributes
-                0x0000108a       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_rem_pio2.o)
+                0x00001098       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_asin.o)
  .ARM.attributes
-                0x000010b3       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_sqrt.o)
+                0x000010c1       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_rem_pio2.o)
  .ARM.attributes
-                0x000010dc       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_cos.o)
+                0x000010ea       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_sqrt.o)
  .ARM.attributes
-                0x00001105       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_rem_pio2.o)
+                0x00001113       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_cos.o)
  .ARM.attributes
-                0x0000112e       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_sin.o)
+                0x0000113c       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_rem_pio2.o)
  .ARM.attributes
-                0x00001157       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_lib_ver.o)
+                0x00001165       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_sin.o)
  .ARM.attributes
-                0x00001180       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_matherr.o)
+                0x0000118e       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_lib_ver.o)
  .ARM.attributes
-                0x000011a9       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_nan.o)
+                0x000011b7       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_matherr.o)
  .ARM.attributes
-                0x000011d2       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fabs.o)
+                0x000011e0       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_nan.o)
  .ARM.attributes
-                0x000011fb       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_floor.o)
+                0x00001209       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fabs.o)
  .ARM.attributes
-                0x00001224       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fpclassify.o)
+                0x00001232       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_floor.o)
  .ARM.attributes
-                0x0000124d       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_scalbn.o)
+                0x0000125b       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fpclassify.o)
  .ARM.attributes
-                0x00001276       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_copysign.o)
+                0x00001284       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_scalbn.o)
  .ARM.attributes
-                0x0000129f       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_addsubdf3.o)
+                0x000012ad       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_copysign.o)
  .ARM.attributes
-                0x000012ba       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_muldivdf3.o)
+                0x000012d6       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_addsubdf3.o)
  .ARM.attributes
-                0x000012d5       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_fixdfsi.o)
+                0x000012f1       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_muldivdf3.o)
  .ARM.attributes
-                0x000012f0       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_truncdfsf2.o)
+                0x0000130c       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_fixdfsi.o)
  .ARM.attributes
-                0x0000130b       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_addsubsf3.o)
+                0x00001327       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_truncdfsf2.o)
  .ARM.attributes
-                0x00001326       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_muldivsf3.o)
+                0x00001342       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_addsubsf3.o)
  .ARM.attributes
-                0x00001341       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_cmpsf2.o)
+                0x0000135d       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_muldivsf3.o)
  .ARM.attributes
-                0x0000135c       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_fixsfsi.o)
+                0x00001378       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_cmpsf2.o)
  .ARM.attributes
-                0x00001377       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-ctype_.o)
+                0x00001393       0x1b /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_fixsfsi.o)
  .ARM.attributes
-                0x000013a0       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-errno.o)
+                0x000013ae       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-ctype_.o)
  .ARM.attributes
-                0x000013c9       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-impure.o)
+                0x000013d7       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-errno.o)
  .ARM.attributes
-                0x000013f2       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-memset.o)
+                0x00001400       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-impure.o)
  .ARM.attributes
-                0x0000141b       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strcasecmp.o)
+                0x00001429       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-memset.o)
  .ARM.attributes
-                0x00001444       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strchr.o)
+                0x00001452       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strcasecmp.o)
  .ARM.attributes
-                0x0000146d       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strspn.o)
+                0x0000147b       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strchr.o)
+ .ARM.attributes
+                0x000014a4       0x29 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strspn.o)
 
-.debug_frame    0x00000000     0x273c
+.debug_frame    0x00000000     0x2784
  .debug_frame   0x00000000       0x60 build/obj/crt0.o
  .debug_frame   0x00000060       0x20 build/obj/vectors.o
  .debug_frame   0x00000080       0x20 build/obj/chcore.o
@@ -3231,29 +3255,30 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_frame   0x00002200       0x30 build/obj/Pressure.o
  .debug_frame   0x00002230       0x20 build/obj/PID_Control.o
  .debug_frame   0x00002250       0x20 build/obj/Pressure_Filter.o
- .debug_frame   0x00002270       0xe8 build/obj/Scanf.o
- .debug_frame   0x00002358       0x50 build/obj/Timer.o
- .debug_frame   0x000023a8       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_sin.o)
- .debug_frame   0x000023d4       0x30 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_asin.o)
- .debug_frame   0x00002404       0x30 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
- .debug_frame   0x00002434       0x34 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_asin.o)
- .debug_frame   0x00002468       0x3c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_rem_pio2.o)
- .debug_frame   0x000024a4       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_sqrt.o)
- .debug_frame   0x000024d0       0x34 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_cos.o)
- .debug_frame   0x00002504       0x3c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_rem_pio2.o)
- .debug_frame   0x00002540       0x34 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_sin.o)
- .debug_frame   0x00002574       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_matherr.o)
- .debug_frame   0x00002594       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_nan.o)
- .debug_frame   0x000025b4       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fabs.o)
- .debug_frame   0x000025d4       0x30 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_floor.o)
- .debug_frame   0x00002604       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fpclassify.o)
- .debug_frame   0x00002624       0x28 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_scalbn.o)
- .debug_frame   0x0000264c       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_copysign.o)
- .debug_frame   0x0000266c       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-errno.o)
- .debug_frame   0x0000268c       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-memset.o)
- .debug_frame   0x000026b8       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strcasecmp.o)
- .debug_frame   0x000026e4       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strchr.o)
- .debug_frame   0x00002710       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strspn.o)
+ .debug_frame   0x00002270       0x48 build/obj/Quickselect.o
+ .debug_frame   0x000022b8       0xe8 build/obj/Scanf.o
+ .debug_frame   0x000023a0       0x50 build/obj/Timer.o
+ .debug_frame   0x000023f0       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_sin.o)
+ .debug_frame   0x0000241c       0x30 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_asin.o)
+ .debug_frame   0x0000244c       0x30 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
+ .debug_frame   0x0000247c       0x34 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_asin.o)
+ .debug_frame   0x000024b0       0x3c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_rem_pio2.o)
+ .debug_frame   0x000024ec       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_sqrt.o)
+ .debug_frame   0x00002518       0x34 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_cos.o)
+ .debug_frame   0x0000254c       0x3c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_rem_pio2.o)
+ .debug_frame   0x00002588       0x34 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_sin.o)
+ .debug_frame   0x000025bc       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_matherr.o)
+ .debug_frame   0x000025dc       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_nan.o)
+ .debug_frame   0x000025fc       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fabs.o)
+ .debug_frame   0x0000261c       0x30 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_floor.o)
+ .debug_frame   0x0000264c       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_fpclassify.o)
+ .debug_frame   0x0000266c       0x28 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_scalbn.o)
+ .debug_frame   0x00002694       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-sf_copysign.o)
+ .debug_frame   0x000026b4       0x20 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-errno.o)
+ .debug_frame   0x000026d4       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-memset.o)
+ .debug_frame   0x00002700       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strcasecmp.o)
+ .debug_frame   0x0000272c       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strchr.o)
+ .debug_frame   0x00002758       0x2c /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-strspn.o)
 
 Cross Reference Table
 
@@ -3945,6 +3970,7 @@ pwm_lld_start                                     build/obj/pwm_lld.o
                                                   build/obj/pwm.o
 pwm_lld_stop                                      build/obj/pwm_lld.o
                                                   build/obj/pwm.o
+quick_select                                      build/obj/Quickselect.o
 rlist                                             build/obj/chschd.o
                                                   build/obj/PPG_Demod.o
                                                   build/obj/PID_Pressure.o

@@ -98,6 +98,7 @@ static const ADCConversionGroup adcgrpcfg2 = {
   */
 msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 	msg_t Pressure_Read=0, Pressure_Read_, msg;/* Used to read the pressure buffer */
+	uint8_t index=0;
 	chRegSetThreadName("PPG");
 	/*
 	* Activates the ADC1 driver
@@ -121,9 +122,12 @@ msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 		/*
 		/ Now we spit out the pressure data into the output mailbox fifos
 		*/
-		//The pressure is at 100Hz - slightly slower than the PPG samples, so we dont always get a sample
-		if(chMBFetch(&Pressures_Reported, (msg_t*)&Pressure_Read_, TIME_IMMEDIATE) == RDY_OK)
-			Pressure_Read=Pressure_Read_;
-		chMBPost(&Pressures_Output, (msg_t)Pressure_Read, TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
+		//The pressure is at 100Hz - slightly slower than the PPG samples, so we dont always get a sample. Also account for PPG subsamples
+		if(++index==PPG_NO_SUBSAMPLES) {
+			index=0;
+			if(chMBFetch(&Pressures_Reported, (msg_t*)&Pressure_Read_, TIME_IMMEDIATE) == RDY_OK)
+				Pressure_Read=Pressure_Read_;
+			chMBPost(&Pressures_Output, (msg_t)Pressure_Read, TIME_IMMEDIATE);/* Non blocking write to the Reported Pressure mailbox FIFO */
+		}
 	}
 }

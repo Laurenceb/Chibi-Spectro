@@ -121,8 +121,12 @@ int main(void) {
   //} while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
-  for(uint16_t n=0;n<500;n++)
-	pressure_set_array[n]=3;
+  for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
+	if(n<500)
+		pressure_set_array[n]=3;
+	else
+		pressure_set_array[n]=0.1;
+  }
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
   /* Wait for front end to stabilise and get some data */
@@ -143,7 +147,7 @@ int main(void) {
 		}
 		else
 			break;		//Break once the mailbox fifo is filled
-		chThdSleepMilliseconds(4);
+		chThdSleepMilliseconds(1);
 	}
 	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)
@@ -153,7 +157,7 @@ int main(void) {
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)
 		chprintf(USBout, ",%lu", ppg[n]);
 	chprintf(USBout, "\r\n");
-	chThdSleepMilliseconds(5);
+	chThdSleepMilliseconds(2);
 	iterations++;	
   }
 }

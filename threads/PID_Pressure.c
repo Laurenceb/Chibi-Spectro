@@ -93,7 +93,7 @@ msg_t Pressure_Thread(void *Loop_Config) {
 	/* This thread is passed a pointer to a PID loop configuration */
 	Loop_Config=(PID_Config*)Loop_Config;
 	PID_State Pressure_PID=PID_BLANK;			/* Initialise as zeros */
-	adcsample_t Pressure_Sample;
+	adcsample_t Pressure_Samples[PRESSURE_SAMPLES],Pressure_Sample;/* Use multiple pressure samples to drive down the noise */
 	float PID_Out,Pressure,Setpoint;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
@@ -123,10 +123,11 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		/*
 		* Linear conversion.
 		*/
-		adcConvert(&ADCD2, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
+		adcConvert(&ADCD2, &adcgrpcfg1, Pressure_Samples, PRESSURE_SAMPLES);/* This function blocks until it has the samples via DMA*/
 		/*
-		/ Now we process the data and apply the PID controller
+		/ Now we process the data and apply the PID controller - we use a median filter to take out the non guassian noise
 		*/
+		Pressure_Sample=quick_select(Pressure_Samples, PRESSURE_SAMPLES);
 		Pressure=Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
 		/* Retrieve a new setpoint from the setpoint mailbox, only continue if we get it*/
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {

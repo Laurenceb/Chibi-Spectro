@@ -115,7 +115,7 @@ msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 		chSysLock();
 		tp = chThdSelf();
 		chSchGoSleepS(THD_STATE_SUSPENDED);
-		msg = chThdSelf()->p_u.rdymsg;  /* Retrieving the message, optional.*/
+		msg = chThdSelf()->p_u.rdymsg;  /* Retrieving the message, gives us the correct buffer index*/
 		chSysUnlock();
 		/* Perform processing, places results into mailbox fifo */
 		PPG_LO_Filter( msg?(volatile uint16_t*) PPG_Sample_Buffer:(volatile uint16_t*) &PPG_Sample_Buffer[ADC_BUFF_SIZE/2], PPG_Demod );

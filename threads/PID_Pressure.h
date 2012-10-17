@@ -5,6 +5,7 @@
 
 /* 100Hz pressure control loop */
 #define PRESSURE_TIME_INTERVAL 10
+#define PRESSURE_SAMPLES 200
 
 extern Mailbox Pressures_Setpoint;
 extern Mailbox Pressures_Reported;

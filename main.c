@@ -123,9 +123,9 @@ int main(void) {
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
   for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
 	if(n<500)
-		pressure_set_array[n]=3;
+		pressure_set_array[n]=2.5;
 	else
-		pressure_set_array[n]=0.1;
+		pressure_set_array[n]=-1;//0.05;
   }
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();

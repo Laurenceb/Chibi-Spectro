@@ -133,7 +133,10 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
 			//Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
 			Pressure=Pressure<0?0.0:Pressure;	/* A negative pressure is impossible with current hardware setup - disregard*/
-			PID_Out = Run_PID_Loop(Loop_Config, &Pressure_PID, Setpoint, Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run the PID Loop */
+			if( Setpoint>0 )
+				PID_Out = Run_PID_Loop(Loop_Config, &Pressure_PID, Setpoint, Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run PID */
+			else
+				PID_Out = 0;			/* Set solenoid off if -ive setpoint */
 		}
 		else
 			PID_Out=0;				/* So we can turn off the solenoid simply by failing to send Setpoints */

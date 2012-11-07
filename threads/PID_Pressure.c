@@ -89,12 +89,12 @@ static PWMConfig PWM_Config_Solenoid = {
   * @param  void* to a PID Loops configuration
   * @retval msg_t status
   */
-msg_t Pressure_Thread(void *Loop_Config) {
+msg_t Pressure_Thread(void *This_Config) {
 	/* This thread is passed a pointer to a PID loop configuration */
-	Loop_Config=(PID_Config*)Loop_Config;
-	PID_State Pressure_PID=PID_BLANK;			/* Initialise as zeros */
+	PID_State Pressure_PID_Controllers[((Pressure_Config_Type*)This_Config)->Number_Setpoints];//={};/* Initialise as zeros */
 	adcsample_t Pressure_Samples[PRESSURE_SAMPLES],Pressure_Sample;/* Use multiple pressure samples to drive down the noise */
-	float PID_Out,Pressure,Setpoint;
+	float PID_Out,Pressure;
+	uint32_t Setpoint=0;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
 	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));		/* Only set the pin as AF output here, so as to avoid solenoid getting driven earlier*/
@@ -133,10 +133,10 @@ msg_t Pressure_Thread(void *Loop_Config) {
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
 			//Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
 			Pressure=Pressure<0?0.0:Pressure;	/* A negative pressure is impossible with current hardware setup - disregard*/
-			if( Setpoint>0 )
-				PID_Out = Run_PID_Loop(Loop_Config, &Pressure_PID, Setpoint, Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run PID */
-			else
-				PID_Out = 0;			/* Set solenoid off if -ive setpoint */
+			Setpoint&=0x000000FF;
+			PID_Out = Run_PID_Loop( ((Pressure_Config_Type*)This_Config)->PID_Loop_Config, &Pressure_PID_Controllers[Setpoint],\
+						 (((Pressure_Config_Type*)This_Config)->Setpoints)[Setpoint], \
+						 Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run PID */
 		}
 		else
 			PID_Out=0;				/* So we can turn off the solenoid simply by failing to send Setpoints */

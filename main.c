@@ -100,14 +100,16 @@ int main(void) {
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
+  /* The pressure control structure */
+  Pressure_Config_Type Our_Config;
   /* The pressure control PID loop */
   PID_Config PID_Pressure={ .P_Const=0.054, .I_Const=5.0, .D_Const=-0.0009, .I_Limit=0.95 };//P I D Ilim
-  /* Create the Pressure thread */
-  Spawn_Pressure_Thread((void*)&PID_Pressure);
-  /* Create the PPG thread */
-  Spawn_PPG_Thread();
   /* Variables for dumping data */
-  float pressure,pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL]={};
+  //For pressure setting
+  float pressure_setpoints[NUMBER_SETPOINTS];
+  uint8_t pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL]={};
+  //end pressure
+  float pressure;
   uint32_t ppg[PPG_CHANNELS],iterations=0,loaded_setpoints=0,n=0;
   /* A bit of debug info here */
   chprintf(USBout, "Firmware compiled %s, running ChibiOS\r\n",__DATE__);
@@ -121,12 +123,22 @@ int main(void) {
   //} while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
-  for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
+  for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(uint8_t);n++) {
 	if(n<500)
-		pressure_set_array[n]=2.5;
+		pressure_set_array[n]=1;
 	else
-		pressure_set_array[n]=-1;//0.05;
+		pressure_set_array[n]=0;
   }
+  pressure_setpoints[0]=0.1;
+  pressure_setpoints[1]=2.5;
+  /* Populate our pressure control struct*/
+  Our_Config.Number_Setpoints=NUMBER_SETPOINTS;
+  Our_Config.Setpoints=pressure_setpoints;
+  Our_Config.PID_Loop_Config=&PID_Pressure;
+  /* Create the Pressure thread */
+  Spawn_Pressure_Thread((void*)&Our_Config);
+  /* Create the PPG thread */
+  Spawn_PPG_Thread();
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
   /* Wait for front end to stabilise and get some data */
@@ -142,7 +154,7 @@ int main(void) {
 	while(1) {
 		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;
-			if(n==sizeof(pressure_set_array)/sizeof(msg_t))
+			if(n==sizeof(pressure_set_array)/sizeof(uint8_t))
 				n=0;	//Loop around to start of buffer
 		}
 		else

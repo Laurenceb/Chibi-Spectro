@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "PID_Pressure.h"
 #include "Hardware_Conf.h"
 #include "Pressure_Filter.h"
@@ -92,9 +94,11 @@ static PWMConfig PWM_Config_Solenoid = {
 msg_t Pressure_Thread(void *This_Config) {
 	/* This thread is passed a pointer to a PID loop configuration */
 	PID_State Pressure_PID_Controllers[((Pressure_Config_Type*)This_Config)->Number_Setpoints];//={};/* Initialise as zeros */
+	float* Last_PID_Out=(float*)chHeapAlloc(NULL,sizeof(float)*((Pressure_Config_Type*)This_Config)->Number_Setpoints);/* PID output for interpol */
 	adcsample_t Pressure_Samples[PRESSURE_SAMPLES],Pressure_Sample;/* Use multiple pressure samples to drive down the noise */
 	float PID_Out,Pressure;
 	uint32_t Setpoint=0;
+	static uint8_t Old_Setpoint, Previous_Setpoint;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
 	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));		/* Only set the pin as AF output here, so as to avoid solenoid getting driven earlier*/
@@ -118,6 +122,7 @@ msg_t Pressure_Thread(void *This_Config) {
 		adcConvert(&ADCD2, &adcgrpcfg1, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
 	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));
 	systime_t time = chTimeNow();				/* T0 */
+	systime_t Interpolation_Timeout = time;			/* Set to T0 to show there is no current interpolation */
 	/* Loop for the pressure control thread */
 	while(TRUE) {
 		/*
@@ -127,16 +132,33 @@ msg_t Pressure_Thread(void *This_Config) {
 		/*
 		/ Now we process the data and apply the PID controller - we use a median filter to take out the non guassian noise
 		*/
-		Pressure_Sample=quick_select(Pressure_Samples, PRESSURE_SAMPLES);
-		Pressure=Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
+		Pressure_Sample = quick_select(Pressure_Samples, PRESSURE_SAMPLES);
+		Pressure = Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
 		/* Retrieve a new setpoint from the setpoint mailbox, only continue if we get it*/
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			//Pressure=Run_Pressure_Filter(Pressure);	/* Square root raised cosine filter for low pass with minimal lag */
-			Pressure=Pressure<0?0.0:Pressure;	/* A negative pressure is impossible with current hardware setup - disregard*/
-			Setpoint&=0x000000FF;
-			PID_Out = Run_PID_Loop( ((Pressure_Config_Type*)This_Config)->PID_Loop_Config, &Pressure_PID_Controllers[Setpoint],\
+			//Pressure=Run_Pressure_Filter(Pressure);/* Square root raised cosine filter for low pass with minimal lag */
+			Pressure = Pressure<0?0.0:Pressure;	/* A negative pressure is impossible with current hardware setup - disregard*/
+			Setpoint &= 0x000000FF;
+			/* The controller is built around an interpolated array of independant PID controllers with seperate setpoints */
+			if(Setpoint != Old_Setpoint) {		/* The setpoint has changed */
+				Previous_Setpoint = Old_Setpoint;/* This is for use by the interpolator */
+				Old_Setpoint = Setpoint;	/* Store the setpoint */
+				/* Store the time at which the interpolation to new setpoint completes*/
+				Interpolation_Timeout = time + MS2ST( 4.0 / ((Pressure_Config_Type*)This_Config)->Interpolation_Base );
+			}
+			if(Interpolation_Timeout > time) {	/* If we have an ongoing interpolation  - note, operates in tick units */
+				float interpol = erff( (float)(Interpolation_Timeout - time) *\
+						 ((Pressure_Config_Type*)This_Config)->Interpolation_Base - 2.0 );/* erf function interpolator */
+				interpol = ( (interpol + 1.0) / 2.0);/* Interpolation value goes from 0 to 1 */
+				PID_Out = ( Last_PID_Out[Previous_Setpoint] * (1.0 - interpol) ) + ( Last_PID_Out[Setpoint] * interpol );
+				Pressure_PID_Controllers[Setpoint].Last_Input = Pressure;/* Make sure the input to next PID controller is continuous */
+			}
+			else {
+				PID_Out = Run_PID_Loop( ((Pressure_Config_Type*)This_Config)->PID_Loop_Config, &Pressure_PID_Controllers[Setpoint],\
 						 (((Pressure_Config_Type*)This_Config)->Setpoints)[Setpoint], \
 						 Pressure, (float)PRESSURE_TIME_INTERVAL/1000.0);/* Run PID */
+				Last_PID_Out[Setpoint] = PID_Out;/* Store for use by the interpolator */
+			}
 		}
 		else
 			PID_Out=0;				/* So we can turn off the solenoid simply by failing to send Setpoints */

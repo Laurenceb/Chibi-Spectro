@@ -7,9 +7,12 @@
 #define PRESSURE_TIME_INTERVAL 10
 #define PRESSURE_SAMPLES 200
 
+#define TIME_2_BASE(time) MS2ST(4.0/time)
+
 typedef struct {
 	uint8_t Number_Setpoints;
 	float* Setpoints;
+	float Interpolation_Base;
 	PID_Config* PID_Loop_Config;
 } Pressure_Config_Type;
 

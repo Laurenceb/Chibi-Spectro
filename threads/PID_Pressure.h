@@ -7,7 +7,7 @@
 #define PRESSURE_TIME_INTERVAL 10
 #define PRESSURE_SAMPLES 200
 
-#define TIME_2_BASE(time) MS2ST(4.0/time)
+#define TIME_2_BASE(time) (4.0/(float)MS2ST(time))
 
 typedef struct {
 	uint8_t Number_Setpoints;

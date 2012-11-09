@@ -32,27 +32,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_info   0001ce5d  00000000  00000000  00017bc1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00019aa9  00000000  00000000  00034a1e  2**0
+  8 .debug_line   00019aaa  00000000  00000000  00034a1e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_macinfo 00ecca5c  00000000  00000000  0004e4c7  2**0
+  9 .debug_macinfo 00ecca77  00000000  00000000  0004e4c8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00007fc6  00000000  00000000  00f1af23  2**0
+ 10 .debug_loc    00007fc6  00000000  00000000  00f1af3f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubnames 0000185e  00000000  00000000  00f22ee9  2**0
+ 11 .debug_pubnames 0000185e  00000000  00000000  00f22f05  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00004161  00000000  00000000  00f24747  2**0
+ 12 .debug_pubtypes 00004161  00000000  00000000  00f24763  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000ec0  00000000  00000000  00f288a8  2**0
+ 13 .debug_aranges 00000ec0  00000000  00000000  00f288c4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000e58  00000000  00000000  00f29768  2**0
+ 14 .debug_ranges 00000e58  00000000  00000000  00f29784  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    00003dba  00000000  00000000  00f2a5c0  2**0
+ 15 .debug_str    00003dba  00000000  00000000  00f2a5dc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000002a  00000000  00000000  00f2e37a  2**0
+ 16 .comment      0000002a  00000000  00000000  00f2e396  2**0
                   CONTENTS, READONLY
- 17 .ARM.attributes 00000037  00000000  00000000  00f2e3a4  2**0
+ 17 .ARM.attributes 00000037  00000000  00000000  00f2e3c0  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00002830  00000000  00000000  00f2e3dc  2**2
+ 18 .debug_frame  0000282c  00000000  00000000  00f2e3f8  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -188,8 +188,8 @@ SYMBOL TABLE:
 2000a800 l     O .bss	00000258 SDU1
 08007b30 l     O .text	00000010 C.0.9773
 00000000 l    df *ABS*	00000000 usbcfg.c
-080068a0 l     F .text	00000034 get_descriptor
-080068e0 l     F .text	00000038 usb_event
+080068b0 l     F .text	00000034 get_descriptor
+080068f0 l     F .text	00000038 usb_event
 08007b40 l     O .text	00000024 ep1config
 2000aa58 l     O .bss	00000010 ep1instate
 2000aa78 l     O .bss	00000010 ep1outstate
@@ -205,7 +205,7 @@ SYMBOL TABLE:
 08007cc0 l     O .text	00000020 vcom_strings
 08007cf0 l     O .text	00000008 vcom_device_descriptor
 00000000 l    df *ABS*	00000000 PID_Pressure.c
-08006920 l     F .text	00000002 adcerrorcallback
+08006930 l     F .text	00000002 adcerrorcallback
 2000aab0 l     O .bss	00000200 Pressures_Reported_Buff
 2000acb0 l     O .bss	00000001 Old_Setpoint.7523
 2000a100 l     O .data	00000030 PWM_Config_Solenoid
@@ -505,9 +505,9 @@ SYMBOL TABLE:
 08003a50 g     F .text	00000024 chThdSleepUntil
 08003190 g     F .text	000000b4 memset
 08001730 g     F .text	000000ae __ieee754_sqrtf
-08006680 g     F .text	0000021c main
+08006680 g     F .text	00000224 main
 08004c30 g     F .text	00000028 Vector6C
-08006930 g     F .text	00000230 Pressure_Thread
+08006940 g     F .text	00000220 Pressure_Thread
 08004260 g     F .text	0000001c adcStart
 08002d20 g     F .text	0000007c __aeabi_l2f
 2000a2dc g     O .bss	0000001c rlist

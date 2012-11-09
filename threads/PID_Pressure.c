@@ -144,12 +144,13 @@ msg_t Pressure_Thread(void *This_Config) {
 				Previous_Setpoint = Old_Setpoint;/* This is for use by the interpolator */
 				Old_Setpoint = Setpoint;	/* Store the setpoint */
 				/* Store the time at which the interpolation to new setpoint completes*/
-				Interpolation_Timeout = time + MS2ST( 4.0 / ((Pressure_Config_Type*)This_Config)->Interpolation_Base );
+				Interpolation_Timeout = time + (systime_t)( 4.0 / ((Pressure_Config_Type*)This_Config)->Interpolation_Base );
 			}
 			if(Interpolation_Timeout > time) {	/* If we have an ongoing interpolation  - note, operates in tick units */
+				/* Value goes from 1 to -1 */
 				float interpol = erff( (float)(Interpolation_Timeout - time) *\
 						 ((Pressure_Config_Type*)This_Config)->Interpolation_Base - 2.0 );/* erf function interpolator */
-				interpol = ( (interpol + 1.0) / 2.0);/* Interpolation value goes from 0 to 1 */
+				interpol = ( (-interpol + 1.0) / 2.0);/* Interpolation value goes from 0 to 1 */
 				PID_Out = ( Last_PID_Out[Previous_Setpoint] * (1.0 - interpol) ) + ( Last_PID_Out[Setpoint] * interpol );
 				Pressure_PID_Controllers[Setpoint].Last_Input = Pressure;/* Make sure the input to next PID controller is continuous */
 			}

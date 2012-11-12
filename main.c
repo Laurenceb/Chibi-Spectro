@@ -123,8 +123,9 @@ int main(void) {
   //} while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
   //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
   //TODO: PID setpoints, pressure pulse sequences, autobrightness config
+  /* At present we just have a 5s pulse at end of each period */
   for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(uint8_t);n++) {
-	if(n<500)
+	if((sizeof(pressure_set_array)/sizeof(uint8_t)-n)<500)
 		pressure_set_array[n]=1;
 	else
 		pressure_set_array[n]=0;

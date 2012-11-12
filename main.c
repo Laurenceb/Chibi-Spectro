@@ -130,12 +130,12 @@ int main(void) {
 	else
 		pressure_set_array[n]=0;
   }
-  pressure_setpoints[0]=0.5;
+  pressure_setpoints[0]=0.3;
   pressure_setpoints[1]=2.5;
   /* Populate our pressure control struct*/
   Our_Config.Number_Setpoints=NUMBER_SETPOINTS;
   Our_Config.Setpoints=pressure_setpoints;
-  Our_Config.Interpolation_Base=TIME_2_BASE(200);
+  Our_Config.Interpolation_Base=TIME_2_BASE(1000);
   Our_Config.PID_Loop_Config=&PID_Pressure;
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&Our_Config);

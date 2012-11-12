@@ -9,7 +9,7 @@ Program Header:
     LOAD off    0x00008000 vaddr 0x08000000 paddr 0x08000000 align 2**15
          filesz 0x00007ea4 memsz 0x00007ea8 flags rwx
     LOAD off    0x00012000 vaddr 0x2000a000 paddr 0x08007ea8 align 2**15
-         filesz 0x00000130 memsz 0x0000324c flags rw-
+         filesz 0x00000130 memsz 0x00003244 flags rw-
     LOAD off    0x00018000 vaddr 0x20000000 paddr 0x20000000 align 2**15
          filesz 0x00000000 memsz 0x0000a000 flags rw-
 private flags = 5000002: [Version5 EABI] [has entry point]
@@ -26,33 +26,33 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   4 .data         00000130  2000a000  08007ea8  00012000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  5 .bss          0000311c  2000a130  08007fd8  00012130  2**3
+  5 .bss          00003114  2000a130  08007fd8  00012130  2**3
                   ALLOC
   6 .debug_abbrev 00005a91  00000000  00000000  00012130  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0001ce5d  00000000  00000000  00017bc1  2**0
+  7 .debug_info   0001ce59  00000000  00000000  00017bc1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00019aaa  00000000  00000000  00034a1e  2**0
+  8 .debug_line   00019aa5  00000000  00000000  00034a1a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_macinfo 00ecca77  00000000  00000000  0004e4c8  2**0
+  9 .debug_macinfo 00ecca77  00000000  00000000  0004e4bf  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00007fc6  00000000  00000000  00f1af3f  2**0
+ 10 .debug_loc    00008029  00000000  00000000  00f1af36  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubnames 0000185e  00000000  00000000  00f22f05  2**0
+ 11 .debug_pubnames 0000185e  00000000  00000000  00f22f5f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00004161  00000000  00000000  00f24763  2**0
+ 12 .debug_pubtypes 00004161  00000000  00000000  00f247bd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000ec0  00000000  00000000  00f288c4  2**0
+ 13 .debug_aranges 00000ec0  00000000  00000000  00f2891e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000e58  00000000  00000000  00f29784  2**0
+ 14 .debug_ranges 00000e58  00000000  00000000  00f297de  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    00003dba  00000000  00000000  00f2a5dc  2**0
+ 15 .debug_str    00003dba  00000000  00000000  00f2a636  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000002a  00000000  00000000  00f2e396  2**0
+ 16 .comment      0000002a  00000000  00000000  00f2e3f0  2**0
                   CONTENTS, READONLY
- 17 .ARM.attributes 00000037  00000000  00000000  00f2e3c0  2**0
+ 17 .ARM.attributes 00000037  00000000  00000000  00f2e41a  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  0000282c  00000000  00000000  00f2e3f8  2**2
+ 18 .debug_frame  00002830  00000000  00000000  00f2e454  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -207,30 +207,28 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 PID_Pressure.c
 08006930 l     F .text	00000002 adcerrorcallback
 2000aab0 l     O .bss	00000200 Pressures_Reported_Buff
-2000acb0 l     O .bss	00000001 Old_Setpoint.7523
 2000a100 l     O .data	00000030 PWM_Config_Solenoid
-2000acb8 l     O .bss	00000538 waThreadPressure
+2000acb0 l     O .bss	00000538 waThreadPressure
 08007d10 l     O .text	0000002c adcgrpcfg1
-2000b1f0 l     O .bss	00000001 Previous_Setpoint.7524
-2000b21c l     O .bss	00000200 Pressures_Setpoint_Buff
+2000b210 l     O .bss	00000200 Pressures_Setpoint_Buff
 00000000 l    df *ABS*	00000000 PPG_Demod.c
 08006bb0 l     F .text	00000002 adc1errorcallback
 08006c60 l     F .text	00000034 adc1callback
-2000b41c l     O .bss	00000a00 PPG_Demod_Buff
-2000be1c l     O .bss	00000004 tp
-2000bee8 l     O .bss	00000538 waThreadPPG
+2000b410 l     O .bss	00000a00 PPG_Demod_Buff
+2000be10 l     O .bss	00000004 tp
+2000bee0 l     O .bss	00000538 waThreadPPG
 08007d50 l     O .text	0000002c adcgrpcfg2
-2000c420 l     O .bss	00000bb8 PPG_Sample_Buffer
-2000d000 l     O .bss	00000200 Pressures_Output_Buff
+2000c418 l     O .bss	00000bb8 PPG_Sample_Buffer
+2000cff8 l     O .bss	00000200 Pressures_Output_Buff
 00000000 l    df *ABS*	00000000 PPG.c
-2000d200 l     O .bss	00000001 m.7261
+2000d1f8 l     O .bss	00000001 m.7261
 08007d80 l     O .text	00000078 cosinusoid.7260
 08007e00 l     O .text	00000078 sinusoid.7259
-2000d218 l     O .bss	00000001 bindex.7257
-2000d21c l     O .bss	00000028 Frequency_Bin.7258
+2000d210 l     O .bss	00000001 bindex.7257
+2000d214 l     O .bss	00000028 Frequency_Bin.7258
 00000000 l    df *ABS*	00000000 Pressure.c
-2000d244 l     O .bss	00000004 Pressure_Offset
-2000d248 l     O .bss	00000001 n.5367
+2000d23c l     O .bss	00000004 Pressure_Offset
+2000d240 l     O .bss	00000001 n.5367
 00000000 l    df *ABS*	00000000 PID_Control.c
 00000000 l    df *ABS*	00000000 Quickselect.c
 00000000 l    df *ABS*	00000000 Timer.c
@@ -314,7 +312,7 @@ SYMBOL TABLE:
 08003180 g     F .text	0000000c __errno
 080013d0 g     F .text	00000358 __ieee754_rem_pio2f
 08005570 g     F .text	00000150 pwm_lld_start
-2000d24c g       *ABS*	00000000 __heap_base__
+2000d244 g       *ABS*	00000000 __heap_base__
 08007ea8 g       *ABS*	00000000 _etext
 08004db0 g     F .text	00000028 Vector120
 080039c0 g     F .text	00000020 chThdCreateI
@@ -393,14 +391,14 @@ SYMBOL TABLE:
 08002574 g     F .text	0000001e __floatunsidf
 080062f0 g     F .text	00000010 usb_lld_stall_out
 080051d0 g     F .text	00000078 adc_lld_start
-2000b1f4 g     O .bss	00000028 Pressures_Reported
+2000b1e8 g     O .bss	00000028 Pressures_Reported
 080011a0 g     F .text	00000228 __ieee754_expf
 08003360  w    F .text	00000002 PendSVVector
 08003360  w    F .text	00000002 Vector118
 08002ae0 g     F .text	0000009e __aeabi_d2f
 08003680 g     F .text	00000034 chVTSetI
 08003360  w    F .text	00000002 Vector64
-2000d24c g       .bss	00000000 _bss_end
+2000d244 g       .bss	00000000 _bss_end
 08002b88 g     F .text	00000164 __aeabi_fsub
 2000a2c8 g     O .bss	00000004 dbg_panic_msg
 08003270  w    F .text	00000002 _default_exit
@@ -439,7 +437,7 @@ SYMBOL TABLE:
 08003e30 g     F .text	0000001c chIQInit
 08007860 g     O .text	000000c0 _stm32_dma_streams
 08004d50 g     F .text	0000002c Vector84
-2000cfd8 g     O .bss	00000028 Pressures_Output
+2000cfd0 g     O .bss	00000028 Pressures_Output
 08006270 g     F .text	00000032 usb_lld_prepare_transmit
 08003490 g     F .text	0000001a SysTickVector
 08004720 g     F .text	0000001c usbPrepareReceive
@@ -447,7 +445,7 @@ SYMBOL TABLE:
 080050b0 g     F .text	000000b4 stm32_clock_init
 08005720 g     F .text	000000a4 _pal_lld_init
 08003360  w    F .text	00000002 BusFaultVector
-2000be20 g     O .bss	000000c8 PPG_Demod
+2000be14 g     O .bss	000000c8 PPG_Demod
 080022f8 g     F .text	0000027a __aeabi_dsub
 08003360  w    F .text	00000002 VectorD0
 08006320 g     F .text	00000010 usb_lld_clear_in
@@ -505,9 +503,9 @@ SYMBOL TABLE:
 08003a50 g     F .text	00000024 chThdSleepUntil
 08003190 g     F .text	000000b4 memset
 08001730 g     F .text	000000ae __ieee754_sqrtf
-08006680 g     F .text	00000228 main
+08006680 g     F .text	0000022c main
 08004c30 g     F .text	00000028 Vector6C
-08006940 g     F .text	00000220 Pressure_Thread
+08006940 g     F .text	00000214 Pressure_Thread
 08004260 g     F .text	0000001c adcStart
 08002d20 g     F .text	0000007c __aeabi_l2f
 2000a2dc g     O .bss	0000001c rlist
@@ -586,9 +584,9 @@ SYMBOL TABLE:
 2001c000 g       *ABS*	00000000 __ram_end__
 2000a130 g       .data	00000000 _edata
 08006f30 g     F .text	000000d4 PPG_Automatic_Brightness_Control
-2000d24c g       *ABS*	00000000 _end
+2000d244 g       *ABS*	00000000 _end
 08004780 g     F .text	0000001e usbPrepareQueuedTransmit
-2000d204 g     O .bss	00000014 Last_PPG_Values
+2000d1fc g     O .bss	00000014 Last_PPG_Values
 080036c0 g     F .text	00000024 chVTResetI
 08003360 g     F .text	00000002 _unhandled_exception
 08003360  w    F .text	00000002 Vector170

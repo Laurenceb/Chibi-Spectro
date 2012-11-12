@@ -98,7 +98,7 @@ msg_t Pressure_Thread(void *This_Config) {
 	adcsample_t Pressure_Samples[PRESSURE_SAMPLES],Pressure_Sample;/* Use multiple pressure samples to drive down the noise */
 	float PID_Out,Pressure;
 	uint32_t Setpoint=0;
-	static uint8_t Old_Setpoint, Previous_Setpoint;
+	uint8_t Old_Setpoint, Previous_Setpoint;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
 	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));		/* Only set the pin as AF output here, so as to avoid solenoid getting driven earlier*/

@@ -115,14 +115,26 @@ int main(void) {
   chprintf(USBout, "Firmware compiled %s, running ChibiOS\r\n",__DATE__);
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
+  chprintf(USBout, "\r\n\r\nEnter config or press enter to use default (10s timeout)\r\n");
   /* Try and read input over usb */
-  uint8_t scanbuff[255];//Buffer for input data
-  uint8_t numchars=0;
-  //do {
-  //	numchars+=chnReadTimeout(USBin, scanbuff, sizeof(scanbuff), MS2ST(1000));//1 second timeout
-  //} while(numchars && scanbuff[numchars-1]!="\r");//Loop until newline or timeout with nothing
-  //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
-  //TODO: PID setpoints, pressure pulse sequences, autobrightness config
+  uint8_t scanbuff[255]={};//Buffer for input data
+  uint8_t numchars=0, timeout=0, valid_string=1;
+  do {
+	  do {
+	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff), MS2ST(100));//100ms second timeout
+		if(a) {
+			timeout=0;
+			chprintf(USBout, "%s", &scanbuff[numchars]);//Echo the typed characters
+		}
+		numchars+=a;
+		timeout++;
+	  } while(timeout<100 && scanbuff[numchars-1]!='\r' && scanbuff[numchars-1]!='\n');//Loop until newline or timeout with nothing
+	  //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
+	  chprintf(USBout, "%s\n",scanbuff);
+	  //TODO: PID setpoints, pressure pulse sequences, autobrightness config
+	  if(!valid_string)
+		chprintf(USBout,"Invalid config, format is: \r\n");//Massage to user
+  } while(valid_string==0);		//We loop here until string is valid
   /* At present we just have a 5s pulse at end of each period */
   for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(uint8_t);n++) {
 	if((sizeof(pressure_set_array)/sizeof(uint8_t)-n)<500)

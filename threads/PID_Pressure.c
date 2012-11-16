@@ -77,8 +77,22 @@ static PWMConfig PWM_Config_Solenoid = {
   250,                                  			/* Initial PWM period 4KHz. */
   NULL,								/* No cyclic callback */
   {
-   {PWM_OUTPUT_ACTIVE_HIGH, NULL},				/* Have to define the channel to enable here */
+   {PWM_OUTPUT_ACTIVE_HIGH, NULL},				/* Have to define the channel to enable here - channel 1=solenoid*/
    {PWM_OUTPUT_DISABLED, NULL},
+   {PWM_OUTPUT_DISABLED, NULL},
+   {PWM_OUTPUT_DISABLED, NULL}
+  },
+  0,
+};
+
+//The PWM configuration for the servo control
+static PWMConfig PWM_Config_Servo = {
+  1000000,                                  			/* 1MHz PWM clock frequency. */
+  10000,                                  			/* Initial PWM period 100Hz. */
+  NULL,								/* No cyclic callback */
+  {
+   {PWM_OUTPUT_DISABLED, NULL},
+   {PWM_OUTPUT_ACTIVE_HIGH, NULL},				/* Have to define the channel to enable here - channel 2=servo*/
    {PWM_OUTPUT_DISABLED, NULL},
    {PWM_OUTPUT_DISABLED, NULL}
   },
@@ -96,12 +110,14 @@ msg_t Pressure_Thread(void *This_Config) {
 	PID_State Pressure_PID_Controllers[((Pressure_Config_Type*)This_Config)->Number_Setpoints];//={};/* Initialise as zeros */
 	float* Last_PID_Out=(float*)chHeapAlloc(NULL,sizeof(float)*((Pressure_Config_Type*)This_Config)->Number_Setpoints);/* PID output for interpol */
 	adcsample_t Pressure_Samples[PRESSURE_SAMPLES],Pressure_Sample;/* Use multiple pressure samples to drive down the noise */
-	float PID_Out,Pressure;
+	float PID_Out,Pressure;//,step=0.01,sawtooth=0.7;
 	uint32_t Setpoint=0;
 	uint8_t Old_Setpoint, Previous_Setpoint;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
 	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));		/* Only set the pin as AF output here, so as to avoid solenoid getting driven earlier*/
+	palSetPadMode(GPIOE, 11, PAL_MODE_ALTERNATE(1));	/* Experimental servo output here */
+	#ifndef USE_SERVO
 	/*
 	* Activates the PWM driver
 	*/
@@ -110,6 +126,12 @@ msg_t Pressure_Thread(void *This_Config) {
 	* Set the solenoid PWM to off
 	*/
 	pwmEnableChannel(&PWM_Driver_Solenoid, (pwmchannel_t)PWM_CHANNEL_SOLENOID, (pwmcnt_t)0);
+	#else
+	/*
+	* Activates the experimental servo driver
+	*/
+	pwmStart(&PWM_Driver_Servo, &PWM_Config_Servo);	/* Have to define the timer to use for PWM_Driver in hardware config */
+	#endif
 	/*
 	* Activates the ADC2 driver *and the thermal sensor*.
 	*/
@@ -165,11 +187,20 @@ msg_t Pressure_Thread(void *This_Config) {
 			PID_Out=0;				/* So we can turn off the solenoid simply by failing to send Setpoints */
 		PID_Out=PID_Out>1.0?1.0:PID_Out;
 		PID_Out=PID_Out<0.0?0.0:PID_Out;		/* Enforce range limits on the PID output */
+		//sawtooth+=step;				/* Test code for debugging mechanics with a sawtooth */
+		//if(sawtooth>=1 || sawtooth<=0.65)
+		//	step=-step;
+		//PID_Out=sawtooth;
+		#ifndef USE_SERVO
 		/*
 		/ Now we apply the PID output to the PWM based solenoid controller, and feed data into the mailbox output - Note fractional input
 		*/
 		pwmEnableChannel(&PWM_Driver_Solenoid, (pwmchannel_t)PWM_CHANNEL_SOLENOID, (pwmcnt_t)PWM_FRACTION_TO_WIDTH(&PWM_Driver_Solenoid, 1000\
 														, (uint32_t)(1000.0*PID_Out)));	
+		#else
+		pwmEnableChannel(&PWM_Driver_Servo, (pwmchannel_t)PWM_CHANNEL_SERVO, (pwmcnt_t)PWM_FRACTION_TO_WIDTH(&PWM_Driver_Servo, 10000\
+														, (uint32_t)(1000.0*(PID_Out+1.0))));	
+		#endif
 		chMBPost(&Pressures_Reported, *((msg_t*)&Pressure), TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
 		/*
 		/ The Thread is syncronised to system time

@@ -1615,9 +1615,9 @@ destructors     0x08000188        0x0
                 0x080069a0        0x2 build/obj/PID_Pressure.o
  *fill*         0x080069a2        0xe 00
  .text.Pressure_Thread
-                0x080069b0      0x214 build/obj/PID_Pressure.o
+                0x080069b0      0x21c build/obj/PID_Pressure.o
                 0x080069b0                Pressure_Thread
- *fill*         0x08006bc4        0xc 00
+ *fill*         0x08006bcc        0x4 00
  .text.Spawn_Pressure_Thread
                 0x08006bd0       0x44 build/obj/PID_Pressure.o
                 0x08006bd0                Spawn_Pressure_Thread
@@ -1854,7 +1854,7 @@ destructors     0x08000188        0x0
  .data.linecoding
                 0x2000a0f8        0x7 build/obj/serial_usb.o
  *fill*         0x2000a0ff        0x1 00
- .data.PWM_Config_Solenoid
+ .data.PWM_Config_Servo
                 0x2000a100       0x30 build/obj/PID_Pressure.o
                 0x2000a130                . = ALIGN (0x4)
  *(.ramtext)
@@ -1961,7 +1961,7 @@ destructors     0x08000188        0x0
                 0x2001c000                __heap_end__ = __ram_end__
 OUTPUT(build/ch.elf elf32-littlearm)
 
-.debug_abbrev   0x00000000     0x5a8d
+.debug_abbrev   0x00000000     0x5a9a
  .debug_abbrev  0x00000000      0x163 build/obj/crt0.o
  .debug_abbrev  0x00000163       0x76 build/obj/vectors.o
  .debug_abbrev  0x000001d9       0x43 build/obj/chcore.o
@@ -2028,17 +2028,17 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x00004875      0x1ee build/obj/chprintf.o
  .debug_abbrev  0x00004a63      0x24e build/obj/main.o
  .debug_abbrev  0x00004cb1      0x216 build/obj/usbcfg.o
- .debug_abbrev  0x00004ec7      0x21e build/obj/PID_Pressure.o
- .debug_abbrev  0x000050e5      0x244 build/obj/PPG_Demod.o
- .debug_abbrev  0x00005329      0x20d build/obj/PPG.o
- .debug_abbrev  0x00005536       0x81 build/obj/Pressure.o
- .debug_abbrev  0x000055b7       0xc8 build/obj/PID_Control.o
- .debug_abbrev  0x0000567f       0xa9 build/obj/Pressure_Filter.o
- .debug_abbrev  0x00005728       0x9e build/obj/Quickselect.o
- .debug_abbrev  0x000057c6      0x200 build/obj/Scanf.o
- .debug_abbrev  0x000059c6       0xc7 build/obj/Timer.o
+ .debug_abbrev  0x00004ec7      0x22b build/obj/PID_Pressure.o
+ .debug_abbrev  0x000050f2      0x244 build/obj/PPG_Demod.o
+ .debug_abbrev  0x00005336      0x20d build/obj/PPG.o
+ .debug_abbrev  0x00005543       0x81 build/obj/Pressure.o
+ .debug_abbrev  0x000055c4       0xc8 build/obj/PID_Control.o
+ .debug_abbrev  0x0000568c       0xa9 build/obj/Pressure_Filter.o
+ .debug_abbrev  0x00005735       0x9e build/obj/Quickselect.o
+ .debug_abbrev  0x000057d3      0x200 build/obj/Scanf.o
+ .debug_abbrev  0x000059d3       0xc7 build/obj/Timer.o
 
-.debug_info     0x00000000    0x1ce8f
+.debug_info     0x00000000    0x1ce9a
  .debug_info    0x00000000      0x52f build/obj/crt0.o
  .debug_info    0x0000052f       0xb9 build/obj/vectors.o
  .debug_info    0x000005e8       0x8f build/obj/chcore.o
@@ -2105,17 +2105,17 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x00015f86      0x447 build/obj/chprintf.o
  .debug_info    0x000163cd     0x1baa build/obj/main.o
  .debug_info    0x00017f77     0x1466 build/obj/usbcfg.o
- .debug_info    0x000193dd     0x13a3 build/obj/PID_Pressure.o
- .debug_info    0x0001a780      0xda8 build/obj/PPG_Demod.o
- .debug_info    0x0001b528      0xaaf build/obj/PPG.o
- .debug_info    0x0001bfd7      0x125 build/obj/Pressure.o
- .debug_info    0x0001c0fc      0x138 build/obj/PID_Control.o
- .debug_info    0x0001c234      0x10b build/obj/Pressure_Filter.o
- .debug_info    0x0001c33f      0x1d7 build/obj/Quickselect.o
- .debug_info    0x0001c516      0x463 build/obj/Scanf.o
- .debug_info    0x0001c979      0x516 build/obj/Timer.o
+ .debug_info    0x000193dd     0x13ae build/obj/PID_Pressure.o
+ .debug_info    0x0001a78b      0xda8 build/obj/PPG_Demod.o
+ .debug_info    0x0001b533      0xaaf build/obj/PPG.o
+ .debug_info    0x0001bfe2      0x125 build/obj/Pressure.o
+ .debug_info    0x0001c107      0x138 build/obj/PID_Control.o
+ .debug_info    0x0001c23f      0x10b build/obj/Pressure_Filter.o
+ .debug_info    0x0001c34a      0x1d7 build/obj/Quickselect.o
+ .debug_info    0x0001c521      0x463 build/obj/Scanf.o
+ .debug_info    0x0001c984      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x19ab1
+.debug_line     0x00000000    0x19ab5
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2182,17 +2182,17 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x00015c73      0x453 build/obj/chprintf.o
  .debug_line    0x000160c6      0x927 build/obj/main.o
  .debug_line    0x000169ed      0x604 build/obj/usbcfg.o
- .debug_line    0x00016ff1      0x8cd build/obj/PID_Pressure.o
- .debug_line    0x000178be      0x6b0 build/obj/PPG_Demod.o
- .debug_line    0x00017f6e      0x6d0 build/obj/PPG.o
- .debug_line    0x0001863e      0x546 build/obj/Pressure.o
- .debug_line    0x00018b84       0x64 build/obj/PID_Control.o
- .debug_line    0x00018be8      0x353 build/obj/Pressure_Filter.o
- .debug_line    0x00018f3b      0x4fc build/obj/Quickselect.o
- .debug_line    0x00019437      0x427 build/obj/Scanf.o
- .debug_line    0x0001985e      0x253 build/obj/Timer.o
+ .debug_line    0x00016ff1      0x8d1 build/obj/PID_Pressure.o
+ .debug_line    0x000178c2      0x6b0 build/obj/PPG_Demod.o
+ .debug_line    0x00017f72      0x6d0 build/obj/PPG.o
+ .debug_line    0x00018642      0x546 build/obj/Pressure.o
+ .debug_line    0x00018b88       0x64 build/obj/PID_Control.o
+ .debug_line    0x00018bec      0x353 build/obj/Pressure_Filter.o
+ .debug_line    0x00018f3f      0x4fc build/obj/Quickselect.o
+ .debug_line    0x0001943b      0x427 build/obj/Scanf.o
+ .debug_line    0x00019862      0x253 build/obj/Timer.o
 
-.debug_macinfo  0x00000000   0xecca77
+.debug_macinfo  0x00000000   0xeccc93
  .debug_macinfo
                 0x00000000     0x76e5 build/obj/crt0.o
  .debug_macinfo
@@ -2322,27 +2322,27 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00ce88f5     0x776f build/obj/chprintf.o
  .debug_macinfo
-                0x00cf0064    0x5294d build/obj/main.o
+                0x00cf0064    0x52a01 build/obj/main.o
  .debug_macinfo
-                0x00d429b1    0x4e46a build/obj/usbcfg.o
+                0x00d42a65    0x4e46a build/obj/usbcfg.o
  .debug_macinfo
-                0x00d90e1b    0x50d10 build/obj/PID_Pressure.o
+                0x00d90ecf    0x50d4c build/obj/PID_Pressure.o
  .debug_macinfo
-                0x00de1b2b    0x4ee92 build/obj/PPG_Demod.o
+                0x00de1c1b    0x4ef0a build/obj/PPG_Demod.o
  .debug_macinfo
-                0x00e309bd    0x40b0a build/obj/PPG.o
+                0x00e30b25    0x40b46 build/obj/PPG.o
  .debug_macinfo
-                0x00e714c7     0xa0dc build/obj/Pressure.o
+                0x00e7166b     0xa118 build/obj/Pressure.o
  .debug_macinfo
-                0x00e7b5a3     0x224b build/obj/PID_Control.o
+                0x00e7b783     0x224b build/obj/PID_Control.o
  .debug_macinfo
-                0x00e7d7ee     0x7631 build/obj/Pressure_Filter.o
+                0x00e7d9ce     0x7631 build/obj/Pressure_Filter.o
  .debug_macinfo
-                0x00e84e1f     0x947c build/obj/Quickselect.o
+                0x00e84fff     0x947c build/obj/Quickselect.o
  .debug_macinfo
-                0x00e8e29b     0x54fc build/obj/Scanf.o
+                0x00e8e47b     0x54fc build/obj/Scanf.o
  .debug_macinfo
-                0x00e93797    0x392e0 build/obj/Timer.o
+                0x00e93977    0x3931c build/obj/Timer.o
 
 .debug_loc      0x00000000     0x813a
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o
@@ -2790,7 +2790,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_ranges  0x00000e10       0x40 build/obj/Scanf.o
  .debug_ranges  0x00000e50       0x20 build/obj/Timer.o
 
-.debug_str      0x00000000     0x3dc7
+.debug_str      0x00000000     0x3dd8
  .debug_str     0x00000000      0x251 build/obj/crt0.o
                                 0x296 (size before relaxing)
  .debug_str     0x00000251       0x4e build/obj/vectors.o
@@ -2923,23 +2923,23 @@ OUTPUT(build/ch.elf elf32-littlearm)
                                 0xcd9 (size before relaxing)
  .debug_str     0x0000377f      0x11f build/obj/usbcfg.o
                                 0xa61 (size before relaxing)
- .debug_str     0x0000389e      0x163 build/obj/PID_Pressure.o
-                                0x96a (size before relaxing)
- .debug_str     0x00003a01       0xaf build/obj/PPG_Demod.o
+ .debug_str     0x0000389e      0x174 build/obj/PID_Pressure.o
+                                0x97b (size before relaxing)
+ .debug_str     0x00003a12       0xaf build/obj/PPG_Demod.o
                                 0x62d (size before relaxing)
- .debug_str     0x00003ab0      0x167 build/obj/PPG.o
+ .debug_str     0x00003ac1      0x167 build/obj/PPG.o
                                 0x4da (size before relaxing)
- .debug_str     0x00003c17       0x50 build/obj/Pressure.o
+ .debug_str     0x00003c28       0x50 build/obj/Pressure.o
                                 0x13a (size before relaxing)
- .debug_str     0x00003c67       0x36 build/obj/PID_Control.o
+ .debug_str     0x00003c78       0x36 build/obj/PID_Control.o
                                  0xce (size before relaxing)
- .debug_str     0x00003c9d       0x35 build/obj/Pressure_Filter.o
+ .debug_str     0x00003cae       0x35 build/obj/Pressure_Filter.o
                                 0x103 (size before relaxing)
- .debug_str     0x00003cd2       0x38 build/obj/Quickselect.o
+ .debug_str     0x00003ce3       0x38 build/obj/Quickselect.o
                                 0x101 (size before relaxing)
- .debug_str     0x00003d0a       0x7e build/obj/Scanf.o
+ .debug_str     0x00003d1b       0x7e build/obj/Scanf.o
                                 0x17e (size before relaxing)
- .debug_str     0x00003d88       0x3f build/obj/Timer.o
+ .debug_str     0x00003d99       0x3f build/obj/Timer.o
                                 0x2b7 (size before relaxing)
 
 .comment        0x00000000       0x2a

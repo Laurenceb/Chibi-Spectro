@@ -21,6 +21,11 @@
 #define PWM_CHANNEL_SOLENOID	0
 #define PWM_Driver_Solenoid	PWMD1/* Solenoid uses Timer1 channel1 */
 
+/* Experimental Servo control related */
+#define PWM_Driver_Servo	PWMD1/* Servo uses Timer1 channel2 */
+#define PWM_CHANNEL_SERVO	1
+#define USE_SERVO		/* Comment out to disable this */
+
 /* PPG related */
 
 /* PPG ADC */

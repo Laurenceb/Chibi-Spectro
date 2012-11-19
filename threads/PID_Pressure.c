@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 
 #include "PID_Pressure.h"
 #include "Hardware_Conf.h"
@@ -107,12 +108,13 @@ static PWMConfig PWM_Config_Servo = {
   */
 msg_t Pressure_Thread(void *This_Config) {
 	/* This thread is passed a pointer to a PID loop configuration */
-	PID_State Pressure_PID_Controllers[((Pressure_Config_Type*)This_Config)->Number_Setpoints];//={};/* Initialise as zeros */
+	PID_State Pressure_PID_Controllers[((Pressure_Config_Type*)This_Config)->Number_Setpoints];
+	memset(Pressure_PID_Controllers,0,((Pressure_Config_Type*)This_Config)->Number_Setpoints*sizeof(PID_State));/* Initialise as zeros */
 	float* Last_PID_Out=(float*)chHeapAlloc(NULL,sizeof(float)*((Pressure_Config_Type*)This_Config)->Number_Setpoints);/* PID output for interpol */
 	adcsample_t Pressure_Samples[PRESSURE_SAMPLES],Pressure_Sample;/* Use multiple pressure samples to drive down the noise */
 	float PID_Out,Pressure;//,step=0.01,sawtooth=0.7;
 	uint32_t Setpoint=0;
-	uint8_t Old_Setpoint, Previous_Setpoint;
+	uint8_t Old_Setpoint=0, Previous_Setpoint;
 	chRegSetThreadName("PID_Pressure");
 	//palSetGroupMode(GPIOC, PAL_PORT_BIT(5) | PAL_PORT_BIT(4), 0, PAL_MODE_INPUT_ANALOG);
 	palSetPadMode(GPIOE, 9, PAL_MODE_ALTERNATE(1));		/* Only set the pin as AF output here, so as to avoid solenoid getting driven earlier*/
@@ -130,7 +132,7 @@ msg_t Pressure_Thread(void *This_Config) {
 	/*
 	* Activates the experimental servo driver
 	*/
-	pwmStart(&PWM_Driver_Servo, &PWM_Config_Servo);	/* Have to define the timer to use for PWM_Driver in hardware config */
+	pwmStart(&PWM_Driver_Servo, &PWM_Config_Servo);		/* Have to define the timer to use for PWM_Driver in hardware config */
 	#endif
 	/*
 	* Activates the ADC2 driver *and the thermal sensor*.

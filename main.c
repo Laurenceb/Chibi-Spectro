@@ -103,7 +103,7 @@ int main(void) {
   /* The pressure control structure */
   Pressure_Config_Type Our_Config;
   /* The pressure control PID loop */
-  PID_Config PID_Pressure={ .P_Const=0.002, .I_Const=0.005, .D_Const=-0.000001, .I_Limit=0.85 };//P I D Ilim
+  PID_Config PID_Pressure={ .P_Const=0.002, .I_Const=0.05, .D_Const=-0.0001, .I_Limit=0.85 };//P I D Ilim
   /* Variables for dumping data */
   //For pressure setting
   float pressure_setpoints[NUMBER_SETPOINTS];

@@ -1,3 +1,5 @@
+#include "EKF_Pressure.h"
+
 /*
  * Mailboxes and buffers for the setpoint pressure input into this thread
  */
@@ -11,9 +13,15 @@ Mailbox Pressures_Reported;
 static msg_t Pressures_Reported_Buff[MAILBOX_SIZE];
 
 /*
+ * Mailboxes and buffers for the actuator velocities passed to the GPT ISR
+ */
+static Mailbox Actuator_Velocities;
+static msg_t Actuator_Velocities_Buff[MAILBOX_SIZE];
+
+/*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPressure, 1024);
+static WORKING_AREA(waThreadPressure, 2048);
 
 /**
   * @brief  This function spawns the pressure control thread
@@ -26,6 +34,7 @@ Thread* Spawn_Pressure_Thread(Actuator_TypeDef* *arg) {
 	*/
 	chMBInit(&Pressures_Setpoint, Pressures_Setpoint_Buff, MAILBOX_SIZE);//In
 	chMBInit(&Pressures_Reported, Pressures_Reported_Buff, MAILBOX_SIZE);//Out
+	chMBInit(&Actuator_Velocities, Actuator_Velocities_Buff, MAILBOX_SIZE);//Internal
 	/*
 	* Creates the thread. Thread has priority slightly below normal and takes no argument
 	*/
@@ -64,6 +73,34 @@ static GPTConfig gpt8cfg =
     GPT_Stepper_Callback			/* Timer callback.*/
 };
 
+/*
+ * GPT8 callback.
+ *      Every time the timer fires setup a new pwm period for the Stepper driver
+ */
+static void GPT_Stepper_Callback(GPTDriver *gptp){
+	float Motor_Velocity;
+	if(chMBFetch(&Actuator_Velocities, (msg_t*)&Motor_Velocity, TIME_IMMEDIATE) == RDY_OK) {/* If we have some data */
+		Actuator_Position+=Motor_Velocity;/* This is the position at the end of the current time bin */
+		Actuator_Velocity=Motor_Velocity;
+		if(!Motor_Velocity)
+			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
+		else {
+			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
+			GPIO_Stepper_Dir(Motor_Velocity>0);/* Set the direction line to the motor */
+			uint32_t Timer_Period=(uint32_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity);
+			SET_STEPPER_PERIOD(Timer_Period);/* Set the timer ARR register to control pwm period */	
+		}
+	}
+	if( chMBGetUsedCountI(&Actuator_Velocities) <= 1) {/* There is only one more message : we are entering final time interval */
+		chSysLockFromIsr();		/* Wakeup the pressure controller thread */
+		if (tp != NULL) {
+			tp->p_u.rdymsg = /*(buffer==PPG_Sample_Buffer? (msg_t)1 : (msg_t)0 );*//* Sending the message, gives buffer index.*/
+			chSchReadyI(tp);
+			tp = NULL;
+		}
+		chSysUnlockFromIsr();
+	}
+}
 
 /**
   * @brief  This is the Pressure control thread
@@ -73,7 +110,9 @@ static GPTConfig gpt8cfg =
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t Setpoint,msg;			/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0;
-	float velocities[4],velocity,prior_velocity,position,delta;
+	float velocities[4],velocity,prior_velocity,position,delta,actuator_midway_position;
+	float State=INITIAL_STATE,Covar=INITIAL_COVAR;/* Initialisation for the EKF */
+	float Process_Noise=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
 	chRegSetThreadName("EKF Pressure");
 	/*
@@ -90,7 +129,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	* to call the callback function every 500 GPT clock cycles.  This
 	* means we call the callback function every 2500uS or 400 times per second
 	 */
-    	gptStartContinuous(&GPTD8, 500); // dT = 200,000 / 25 = 400Hz
+    	gptStartContinuous(&GPTD8, (200*PRESSURE_TIME_INTERVAL)/4 ); // dT = 200,000 / 500 = 400Hz
 	/* Loop for the Pressure thread */
 	while(TRUE) {
 		/* Sleep until we are awoken by the GPT ISR */
@@ -101,11 +140,25 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		msg = chThdSelf()->p_u.rdymsg;	  /* Retrieving the message, gives us the correct buffer index*/
 		chSysUnlock();
 		/* Run the hand properties estimator EKF and find optimal position for the Actuator */
-
+		/*
+		/ First we process the data - we use a median filter to take out the non guassian noise
+		*/
+		Pressure_Sample = quick_select(Pressure_Samples, PRESSURE_SAMPLES);/* Use the quick select algorythm - from numerical recepies*/
+		Pressure = Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
+		/* Run the EKF */
+		Predict_State(State, Covar, PRESSURE_TIME_INTERVAL/1000.0, Process_Noise);
+		if(Pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
+			Update_State(State, Covar, Pressure, actuator_midway_position, Measurement_Covar);/*Use the previously stored midway position */
+		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
+		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
+			Target = State[1] + (Setpoint / State[0]) ;
+		else
+			Target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
 		prior_velocity=velocity;	/* The initial velocity is stored for reference */
+		actuator_midway_position=position;/* Initialise this */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
 			delta=Target-position;	/* The travel distance to target - defined starting from next GPT callback */
@@ -141,12 +194,16 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					velocity+=signbit(delta)?Actuator->MaxAcc:-Actuator->MaxAcc;/* Try our best to head towards target*/
 				}
 			}
-			if(index<4)
+			if(index<4) {
 				velocities[index]=velocity;
+				if(index<2)
+					actuator_midway_position+=velocity;/* Store the midway position to eliminate lag from the EKF */
+			}
 			prior_velocity=velocity;/* Store this for reference */
 		}
 		for(index=0;index<4;index++)
 			chMBPost(&Actuator_Velocities, *((msg_t*)&velocities[index]), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
+		chMBPost(&Pressures_Reported, *((msg_t*)&Pressure), TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
 	}
 }
 

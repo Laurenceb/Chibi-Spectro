@@ -55,6 +55,9 @@ Thread* Spawn_Pressure_Thread(Actuator_TypeDef *arg) {
 	chMBInit(&Pressures_Setpoint, Pressures_Setpoint_Buff, MAILBOX_SIZE);//In
 	chMBInit(&Pressures_Reported, Pressures_Reported_Buff, MAILBOX_SIZE);//Out
 	chMBInit(&Actuator_Velocities, Actuator_Velocities_Buff, MAILBOX_SIZE);//Internal
+	/* Start the Allegro stepper driver pwm */
+	GPIO_Stepper_Enable(0);/* Ensure the driver is off first */
+	Setup_Stepper_PWM();
 	/*
 	* Creates the thread. Thread has priority slightly below normal and takes no argument
 	*/

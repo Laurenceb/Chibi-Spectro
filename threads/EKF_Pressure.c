@@ -41,23 +41,27 @@ Thread* Spawn_Pressure_Thread(Actuator_TypeDef* *arg) {
 	return chThdCreateStatic(waThreadPressure, sizeof(waThreadPressure), NORMALPRIO+1, Pressure_Thread, (void*)arg);
 }
 
-//ADC callback functions, no adccallback as adc Convert wakes up the thread
-static void adcerrorcallback(ADCDriver *adcp, adcerror_t err) {
-  (void)adcp;
-  (void)err;
+//ADC callback functions, no final adccallback as GPT wakes up the thread
+static void adc2errorcallback(ADCDriver *adcp, adcerror_t err) {
+	(void)adcp;
+	(void)err;
 }
 
-//The ADC2 configuration for the pressure monitoring
+//This is the callback from the pressure convertion completing, it triggers the pos convertion
+static void adc2callback_pressure(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
+	adcStartConversion(&ADCD2, &adcgrpcfg2_pot, Pot_sample, POT_SAMPLE_BUFF_SIZE);/* Fire off the ADC2 samples - very fast */
+}
+
 /*
- * ADC conversion group.
+ * ADC conversion group for the pressure monitoring
  * Mode:        Linear buffer, multiple sample of 1 channel, SW triggered.
- * Channels:    IN11.
+ * Channels:    ADC_PRESSURE_CHANNEL
  */
-static const ADCConversionGroup adcgrpcfg2 = {
+static const ADCConversionGroup adcgrpcfg2_pressure = {
   FALSE,
   PRESSURE_ADC_NUM_CHANNELS,
-  NULL,
-  adcerrorcallback,
+  adc2callback_pressure,
+  adc2errorcallback,
   0,                        /* CR1 */
   ADC_CR2_SWSTART,          /* CR2 */
   ADC_SMPR1_SMP_AN14(ADC_SAMPLE_480),
@@ -65,6 +69,25 @@ static const ADCConversionGroup adcgrpcfg2 = {
   ADC_SQR1_NUM_CH(PRESSURE_ADC_NUM_CHANNELS),
   0,                        /* SQR2 */
   ADC_SQR3_SQ1_N(ADC_PRESSURE_CHANNEL)
+};
+
+/*
+ * ADC conversion group for the pot monitoring
+ * Mode:        Linear buffer, multiple sample of 1 channel, SW triggered.
+ * Channels:    ADC_POT_CHANNEL
+ */
+static const ADCConversionGroup adcgrpcfg2_pot = {
+  FALSE,
+  POT_ADC_NUM_CHANNELS,
+  NULL,
+  adc2errorcallback,
+  0,                        /* CR1 */
+  ADC_CR2_SWSTART,          /* CR2 */
+  ADC_SMPR1_SMP_AN14(ADC_SAMPLE_480),
+  0,                        /* SMPR2 */
+  ADC_SQR1_NUM_CH(PRESSURE_ADC_NUM_CHANNELS),
+  0,                        /* SQR2 */
+  ADC_SQR3_SQ1_N(ADC_POT_CHANNEL)
 };
 
 static GPTConfig gpt8cfg =
@@ -100,6 +123,8 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		}
 		chSysUnlockFromIsr();
 	}
+	else if( chMBGetUsedCountI(&Actuator_Velocities) >= 4)/* The control thread just ran, so we are entering the first time interval */
+		adcStartConversion(&ADCD2, &adcgrpcfg2, Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE);/* Fire off the ADC2 samples - takes just < 3 GPT */
 }
 
 /**
@@ -110,7 +135,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t Setpoint,msg;			/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0;
-	float velocities[4],velocity,prior_velocity,position,delta,actuator_midway_position;
+	float velocities[4],velocity,prior_velocity,position,delta,actuator_midway_position,pot_position,end_position;
 	float State=INITIAL_STATE,Covar=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
@@ -145,6 +170,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		*/
 		Pressure_Sample = quick_select(Pressure_Samples, PRESSURE_SAMPLES);/* Use the quick select algorythm - from numerical recepies*/
 		Pressure = Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
+		pot_position = Convert_Pot(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_INTERVAL/1000.0, Process_Noise);
 		if(Pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
@@ -159,6 +185,13 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
 		prior_velocity=velocity;	/* The initial velocity is stored for reference */
 		actuator_midway_position=position;/* Initialise this */
+		/* Apply software end stops */
+		/* Note that the EKF position is not in real space - it can drift, so we use pot */
+		end_position = ( pot_position + Target - position + velocities[3] );/* We add on the final velocity as pot is measured at end of 3rd GPT */
+		if( end_position > ACTUATOR_LIMIT_PLUS )/* To extropolate the end position after moving to position Target */
+			Target -= end_position - ACTUATOR_LIMIT_PLUS;/* Adjust the Target - this may mean we never reach correct pressure */
+		else if( end_position < ACTUATOR_LIMIT_MINUS )
+			Target += ACTUATOR_LIMIT_MINUS - end_position;/* But at least we dont hit the end stop */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
 			delta=Target-position;	/* The travel distance to target - defined starting from next GPT callback */
@@ -196,8 +229,10 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			}
 			if(index<4) {
 				velocities[index]=velocity;
-				if(index<2)
+				if(!index)
 					actuator_midway_position+=velocity;/* Store the midway position to eliminate lag from the EKF */
+				else if(index==1)
+					actuator_midway_position+=velocity/2;/* The ADC sampling interval lasts just under three GPT intervals (3/2=1.5)*/
 			}
 			prior_velocity=velocity;/* Store this for reference */
 		}

@@ -1,4 +1,7 @@
 #include "EKF_Pressure.h"
+#include "Stepper.h"
+#include "EKF_Pressure.h"
+#include "Hardware_Conf.h"
 
 /*
  * Mailboxes and buffers for the setpoint pressure input into this thread
@@ -83,9 +86,9 @@ static const ADCConversionGroup adcgrpcfg2_pot = {
   adc2errorcallback,
   0,                        /* CR1 */
   ADC_CR2_SWSTART,          /* CR2 */
-  ADC_SMPR1_SMP_AN14(ADC_SAMPLE_480),
+  ADC_SMPR1_SMP_AN11(ADC_SAMPLE_480),
   0,                        /* SMPR2 */
-  ADC_SQR1_NUM_CH(PRESSURE_ADC_NUM_CHANNELS),
+  ADC_SQR1_NUM_CH(POT_ADC_NUM_CHANNELS),
   0,                        /* SQR2 */
   ADC_SQR3_SQ1_N(ADC_POT_CHANNEL)
 };

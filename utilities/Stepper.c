@@ -1,4 +1,5 @@
-
+#include "ch.h"
+#include "Stepper.h"
 
 void Setup_Stepper_PWM(void) {/* Note that this is hardcoded to timer8 chan2 - used to drive the stepper on the F4Discovery*/
 	/* Clk and Reset tim8 */
@@ -15,7 +16,7 @@ void Setup_Stepper_PWM(void) {/* Note that this is hardcoded to timer8 chan2 - u
 }
 
 void GPIO_Stepper_Enable(uint8_t En) {
-	palWritePad(PORTE, 13, En?PAL_HIGH:PAL_LOW);	
+	palWritePad(PORTE, 10, En?PAL_HIGH:PAL_LOW);	
 }
 
 void GPIO_Stepper_Dir(uint8_t Dir) {

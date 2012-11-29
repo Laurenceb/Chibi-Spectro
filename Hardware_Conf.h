@@ -16,15 +16,27 @@
 #define PRESSURE_ADC_NUM_CHANNELS 1
 #define ADC_PRESSURE_CHANNEL ADC_CHANNEL_IN14
 
+/* ADC2 - pot readout from linear actuator related*/
+
+#define POT_ADC_NUM_CHANNELS 1
+#define ADC_POT_CHANNEL ADC_CHANNEL_IN11
+
 /* Solenoid PWM control related */
 
 #define PWM_CHANNEL_SOLENOID	0
 #define PWM_Driver_Solenoid	PWMD1/* Solenoid uses Timer1 channel1 */
 
 /* Experimental Servo control related */
+
 #define PWM_Driver_Servo	PWMD1/* Servo uses Timer1 channel2 */
 #define PWM_CHANNEL_SERVO	1
 #define USE_SERVO		/* Comment out to disable this */
+
+/* Stepper motor + leadscrew based linear actuator related */
+
+#define LEADSCREW_PITCH		4.0/* Units of mm in all the linear actuator code */
+#define STEPS_PER_ROTATION	(360.0/1.8)
+#define TIMER8_CLK		168000000.0/* Tim8 is clocked at f_cpu */
 
 /* PPG related */
 

@@ -9,7 +9,7 @@
 #include "Pressure.h"
 
 #include "hal.h"
-
+#ifdef PID_PRESSURE
 //The mailboxes for inter thread communication, and their associated buffers
 
 /*
@@ -211,3 +211,4 @@ msg_t Pressure_Thread(void *This_Config) {
 		chThdSleepUntil(time);				/* Gives us a thread with regular timing */
 	}
 }
+#endif

@@ -1,4 +1,5 @@
 #pragma once
+#include "stm32f4xx.h"
 
 void Setup_Stepper_PWM(void);
 void GPIO_Stepper_Enable(uint8_t En);

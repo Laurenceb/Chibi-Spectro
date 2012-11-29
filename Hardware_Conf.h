@@ -11,6 +11,9 @@
 #define SENSOR_AREA (SENSOR_DIAMETER_*SENSOR_DIAMETER_*M_PI/4.0)/* Area in square meters */
 #define DIFF_GAIN_PASCALS (SENSOR_GAIN/SENSOR_AREA)/* Sensor area needs to be taken into account when calculating pressure */
 #define DIFF_GAIN (PASCALS_2_PSI*DIFF_GAIN_PASCALS)/* Need to multiply be this constant to convert to PSI from ADC delta value */
+
+#define PRESSURE_MARGIN 0.075	/* An estimate of 3 sigma noise, ie rms noise * 3 */
+
 /* ADC2 - pressure sensor related */
 
 #define PRESSURE_ADC_NUM_CHANNELS 1
@@ -36,6 +39,8 @@
 
 #define LEADSCREW_PITCH		4.0/* Units of mm in all the linear actuator code */
 #define STEPS_PER_ROTATION	(360.0/1.8)
+#define ACTUATOR_LENGTH		30.0/* A haxored firgelli L12 actuator */
+
 #define TIMER8_CLK		168000000.0/* Tim8 is clocked at f_cpu */
 
 /* PPG related */

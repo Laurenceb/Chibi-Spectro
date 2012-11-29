@@ -2219,7 +2219,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x0001dd17      0x62f build/obj/Stepper.o
  .debug_info    0x0001e346      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x1b15c
+.debug_line     0x00000000    0x1b16f
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2296,10 +2296,10 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x00019c71      0x353 build/obj/Pressure_Filter.o
  .debug_line    0x00019fc4      0x4fc build/obj/Quickselect.o
  .debug_line    0x0001a4c0      0x427 build/obj/Scanf.o
- .debug_line    0x0001a8e7      0x622 build/obj/Stepper.o
- .debug_line    0x0001af09      0x253 build/obj/Timer.o
+ .debug_line    0x0001a8e7      0x635 build/obj/Stepper.o
+ .debug_line    0x0001af1c      0x253 build/obj/Timer.o
 
-.debug_macinfo  0x00000000   0xf7115d
+.debug_macinfo  0x00000000   0xf718e0
  .debug_macinfo
                 0x00000000     0x76e5 build/obj/crt0.o
  .debug_macinfo
@@ -2429,33 +2429,33 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00ce8b9d     0x776f build/obj/chprintf.o
  .debug_macinfo
-                0x00cf030c    0x52c43 build/obj/main.o
+                0x00cf030c    0x52cfd build/obj/main.o
  .debug_macinfo
-                0x00d42f4f    0x4e47b build/obj/usbcfg.o
+                0x00d43009    0x4e47b build/obj/usbcfg.o
  .debug_macinfo
-                0x00d913ca    0x51003 build/obj/EKF_Pressure.o
+                0x00d91484    0x51041 build/obj/EKF_Pressure.o
  .debug_macinfo
-                0x00de23cd    0x50ec8 build/obj/PID_Pressure.o
+                0x00de24c5    0x50f06 build/obj/PID_Pressure.o
  .debug_macinfo
-                0x00e33295    0x4f091 build/obj/PPG_Demod.o
+                0x00e333cb    0x4f10d build/obj/PPG_Demod.o
  .debug_macinfo
-                0x00e82326    0x40c01 build/obj/PPG.o
+                0x00e824d8    0x40c3f build/obj/PPG.o
  .debug_macinfo
-                0x00ec2f27     0xa1d3 build/obj/Pressure.o
+                0x00ec3117     0xa211 build/obj/Pressure.o
  .debug_macinfo
-                0x00ecd0fa     0x48f4 build/obj/EKF_Estimator.o
+                0x00ecd328     0x48f4 build/obj/EKF_Estimator.o
  .debug_macinfo
-                0x00ed19ee     0x224b build/obj/PID_Control.o
+                0x00ed1c1c     0x224b build/obj/PID_Control.o
  .debug_macinfo
-                0x00ed3c39     0x7631 build/obj/Pressure_Filter.o
+                0x00ed3e67     0x7631 build/obj/Pressure_Filter.o
  .debug_macinfo
-                0x00edb26a     0x947c build/obj/Quickselect.o
+                0x00edb498     0x947c build/obj/Quickselect.o
  .debug_macinfo
-                0x00ee46e6     0x54fc build/obj/Scanf.o
+                0x00ee4914     0x54fc build/obj/Scanf.o
  .debug_macinfo
-                0x00ee9be2    0x4e1a4 build/obj/Stepper.o
+                0x00ee9e10    0x4e6bb build/obj/Stepper.o
  .debug_macinfo
-                0x00f37d86    0x393d7 build/obj/Timer.o
+                0x00f384cb    0x39415 build/obj/Timer.o
 
 .debug_loc      0x00000000     0x873d
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o

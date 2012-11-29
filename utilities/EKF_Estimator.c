@@ -2,8 +2,6 @@
 
 #include "EKF_Estimator.h"
 
-
-
 /**
   * @brief  This function runs an update on the EKF
   * @param  EKF state and coveriance, measured force (PSI), position (mm), measurement mean squared error (PSI^2)

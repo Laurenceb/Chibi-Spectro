@@ -43,6 +43,10 @@
 
 #define TIMER8_CLK		168000000.0/* Tim8 is clocked at f_cpu */
 
+#define STEPPER_PORT		GPIOE
+#define STEPPER_DIR_PIN		13
+#define STEPPER_EN_PIN		10
+
 /* PPG related */
 
 /* PPG ADC */

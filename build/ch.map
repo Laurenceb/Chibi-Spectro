@@ -1732,8 +1732,9 @@ destructors     0x08000188        0x0
                 0x080065e0       0x50 build/obj/Stepper.o
                 0x080065e0                Setup_Stepper_PWM
  .text.GPIO_Stepper_Enable
-                0x08006630       0x20 build/obj/Stepper.o
+                0x08006630       0x1c build/obj/Stepper.o
                 0x08006630                GPIO_Stepper_Enable
+ *fill*         0x0800664c        0x4 00
  .text.GPIO_Stepper_Dir
                 0x08006650       0x20 build/obj/Stepper.o
                 0x08006650                GPIO_Stepper_Dir

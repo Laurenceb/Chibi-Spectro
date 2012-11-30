@@ -18,9 +18,12 @@ void Setup_Stepper_PWM(void) {/* Note that this is hardcoded to timer8 chan2 - u
 }
 
 void GPIO_Stepper_Enable(uint8_t En) {
-	palWritePad( STEPPER_PORT, STEPPER_EN_PIN, En?PAL_HIGH:PAL_LOW);	
+	palWritePad( STEPPER_PORT, STEPPER_EN_PIN, En?PAL_LOW:PAL_HIGH);/* Note that Allegro uses inverted logic levels */	
 }
 
 void GPIO_Stepper_Dir(uint8_t Dir) {
+	#ifdef STEPPER_INVERTED_DIR
+		Dir=!Dir;
+	#endif
 	palWritePad( STEPPER_PORT, STEPPER_DIR_PIN, Dir?PAL_HIGH:PAL_LOW);
 }

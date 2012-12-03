@@ -1671,8 +1671,8 @@ destructors     0x08000188        0x0
                 0x08005a90      0x350 build/obj/EKF_Pressure.o
                 0x08005a90                Pressure_Thread
  .text.GPT_Stepper_Callback
-                0x08005de0       0xc4 build/obj/EKF_Pressure.o
- *fill*         0x08005ea4        0xc 00
+                0x08005de0       0xc8 build/obj/EKF_Pressure.o
+ *fill*         0x08005ea8        0x8 00
  .text.adc2callback_pressure
                 0x08005eb0       0x18 build/obj/EKF_Pressure.o
  *fill*         0x08005ec8        0x8 00
@@ -1936,7 +1936,7 @@ destructors     0x08000188        0x0
                 0x2000a108                . = ALIGN (0x4)
                 0x2000a108                PROVIDE (_edata, .)
 
-.bss            0x2000a108     0x3928 load address 0x080074a0
+.bss            0x2000a108     0x3ae0 load address 0x080074a0
                 0x2000a108                . = ALIGN (0x4)
                 0x2000a108                PROVIDE (_bss_start, .)
  *(.bss)
@@ -2022,41 +2022,41 @@ destructors     0x08000188        0x0
                 0x2000ba4c       0x28 build/obj/EKF_Pressure.o
                 0x2000ba4c                Pressures_Reported
  .bss.Pressure_Samples
-                0x2000ba74      0x190 build/obj/EKF_Pressure.o
+                0x2000ba74      0x348 build/obj/EKF_Pressure.o
  .bss.PPG_Demod_Buff
-                0x2000bc04      0xa00 build/obj/PPG_Demod.o
- .bss.tp        0x2000c604        0x4 build/obj/PPG_Demod.o
+                0x2000bdbc      0xa00 build/obj/PPG_Demod.o
+ .bss.tp        0x2000c7bc        0x4 build/obj/PPG_Demod.o
  .bss.PPG_Demod
-                0x2000c608       0xc8 build/obj/PPG_Demod.o
-                0x2000c608                PPG_Demod
+                0x2000c7c0       0xc8 build/obj/PPG_Demod.o
+                0x2000c7c0                PPG_Demod
  .bss.waThreadPPG
-                0x2000c6d0      0x538 build/obj/PPG_Demod.o
+                0x2000c888      0x538 build/obj/PPG_Demod.o
  .bss.PPG_Sample_Buffer
-                0x2000cc08      0xbb8 build/obj/PPG_Demod.o
+                0x2000cdc0      0xbb8 build/obj/PPG_Demod.o
  .bss.Pressures_Output
-                0x2000d7c0       0x28 build/obj/PPG_Demod.o
-                0x2000d7c0                Pressures_Output
+                0x2000d978       0x28 build/obj/PPG_Demod.o
+                0x2000d978                Pressures_Output
  .bss.Pressures_Output_Buff
-                0x2000d7e8      0x200 build/obj/PPG_Demod.o
- .bss.m.7261    0x2000d9e8        0x1 build/obj/PPG.o
- *fill*         0x2000d9e9        0x3 00
+                0x2000d9a0      0x200 build/obj/PPG_Demod.o
+ .bss.m.7261    0x2000dba0        0x1 build/obj/PPG.o
+ *fill*         0x2000dba1        0x3 00
  .bss.Last_PPG_Values
-                0x2000d9ec       0x14 build/obj/PPG.o
-                0x2000d9ec                Last_PPG_Values
+                0x2000dba4       0x14 build/obj/PPG.o
+                0x2000dba4                Last_PPG_Values
  .bss.bindex.7257
-                0x2000da00        0x1 build/obj/PPG.o
- *fill*         0x2000da01        0x3 00
+                0x2000dbb8        0x1 build/obj/PPG.o
+ *fill*         0x2000dbb9        0x3 00
  .bss.Frequency_Bin.7258
-                0x2000da04       0x28 build/obj/PPG.o
+                0x2000dbbc       0x28 build/obj/PPG.o
  .bss.Pressure_Offset
-                0x2000da2c        0x4 build/obj/Pressure.o
-                0x2000da30                . = ALIGN (0x4)
+                0x2000dbe4        0x4 build/obj/Pressure.o
+                0x2000dbe8                . = ALIGN (0x4)
  *(COMMON)
-                0x2000da30                . = ALIGN (0x4)
-                0x2000da30                PROVIDE (_bss_end, .)
-                0x2000da30                PROVIDE (end, .)
-                0x2000da30                _end = .
-                0x2000da30                __heap_base__ = _end
+                0x2000dbe8                . = ALIGN (0x4)
+                0x2000dbe8                PROVIDE (_bss_end, .)
+                0x2000dbe8                PROVIDE (end, .)
+                0x2000dbe8                _end = .
+                0x2000dbe8                __heap_base__ = _end
                 0x2001c000                __heap_end__ = __ram_end__
 OUTPUT(build/ch.elf elf32-littlearm)
 
@@ -2140,7 +2140,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x00005da7      0x11d build/obj/Stepper.o
  .debug_abbrev  0x00005ec4       0xc7 build/obj/Timer.o
 
-.debug_info     0x00000000    0x1e85c
+.debug_info     0x00000000    0x1e85d
  .debug_info    0x00000000      0x52f build/obj/crt0.o
  .debug_info    0x0000052f       0xb9 build/obj/vectors.o
  .debug_info    0x000005e8       0x8f build/obj/chcore.o
@@ -2207,18 +2207,18 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x00016f21      0x447 build/obj/chprintf.o
  .debug_info    0x00017368     0x1baa build/obj/main.o
  .debug_info    0x00018f12     0x1466 build/obj/usbcfg.o
- .debug_info    0x0001a378     0x155f build/obj/EKF_Pressure.o
- .debug_info    0x0001b8d7       0xb8 build/obj/PID_Pressure.o
- .debug_info    0x0001b98f      0xda8 build/obj/PPG_Demod.o
- .debug_info    0x0001c737      0xaaf build/obj/PPG.o
- .debug_info    0x0001d1e6      0x125 build/obj/Pressure.o
- .debug_info    0x0001d30b      0x18f build/obj/EKF_Estimator.o
- .debug_info    0x0001d49a      0x138 build/obj/PID_Control.o
- .debug_info    0x0001d5d2      0x10b build/obj/Pressure_Filter.o
- .debug_info    0x0001d6dd      0x1d7 build/obj/Quickselect.o
- .debug_info    0x0001d8b4      0x463 build/obj/Scanf.o
- .debug_info    0x0001dd17      0x62f build/obj/Stepper.o
- .debug_info    0x0001e346      0x516 build/obj/Timer.o
+ .debug_info    0x0001a378     0x1560 build/obj/EKF_Pressure.o
+ .debug_info    0x0001b8d8       0xb8 build/obj/PID_Pressure.o
+ .debug_info    0x0001b990      0xda8 build/obj/PPG_Demod.o
+ .debug_info    0x0001c738      0xaaf build/obj/PPG.o
+ .debug_info    0x0001d1e7      0x125 build/obj/Pressure.o
+ .debug_info    0x0001d30c      0x18f build/obj/EKF_Estimator.o
+ .debug_info    0x0001d49b      0x138 build/obj/PID_Control.o
+ .debug_info    0x0001d5d3      0x10b build/obj/Pressure_Filter.o
+ .debug_info    0x0001d6de      0x1d7 build/obj/Quickselect.o
+ .debug_info    0x0001d8b5      0x463 build/obj/Scanf.o
+ .debug_info    0x0001dd18      0x62f build/obj/Stepper.o
+ .debug_info    0x0001e347      0x516 build/obj/Timer.o
 
 .debug_line     0x00000000    0x1b172
  .debug_line    0x00000000      0x395 build/obj/crt0.o
@@ -2300,7 +2300,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x0001a8ea      0x635 build/obj/Stepper.o
  .debug_line    0x0001af1f      0x253 build/obj/Timer.o
 
-.debug_macinfo  0x00000000   0xf718e0
+.debug_macinfo  0x00000000   0xf718f8
  .debug_macinfo
                 0x00000000     0x76e5 build/obj/crt0.o
  .debug_macinfo
@@ -2434,29 +2434,29 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00d43009    0x4e47b build/obj/usbcfg.o
  .debug_macinfo
-                0x00d91484    0x51041 build/obj/EKF_Pressure.o
+                0x00d91484    0x51059 build/obj/EKF_Pressure.o
  .debug_macinfo
-                0x00de24c5    0x50f06 build/obj/PID_Pressure.o
+                0x00de24dd    0x50f06 build/obj/PID_Pressure.o
  .debug_macinfo
-                0x00e333cb    0x4f10d build/obj/PPG_Demod.o
+                0x00e333e3    0x4f10d build/obj/PPG_Demod.o
  .debug_macinfo
-                0x00e824d8    0x40c3f build/obj/PPG.o
+                0x00e824f0    0x40c3f build/obj/PPG.o
  .debug_macinfo
-                0x00ec3117     0xa211 build/obj/Pressure.o
+                0x00ec312f     0xa211 build/obj/Pressure.o
  .debug_macinfo
-                0x00ecd328     0x48f4 build/obj/EKF_Estimator.o
+                0x00ecd340     0x48f4 build/obj/EKF_Estimator.o
  .debug_macinfo
-                0x00ed1c1c     0x224b build/obj/PID_Control.o
+                0x00ed1c34     0x224b build/obj/PID_Control.o
  .debug_macinfo
-                0x00ed3e67     0x7631 build/obj/Pressure_Filter.o
+                0x00ed3e7f     0x7631 build/obj/Pressure_Filter.o
  .debug_macinfo
-                0x00edb498     0x947c build/obj/Quickselect.o
+                0x00edb4b0     0x947c build/obj/Quickselect.o
  .debug_macinfo
-                0x00ee4914     0x54fc build/obj/Scanf.o
+                0x00ee492c     0x54fc build/obj/Scanf.o
  .debug_macinfo
-                0x00ee9e10    0x4e6bb build/obj/Stepper.o
+                0x00ee9e28    0x4e6bb build/obj/Stepper.o
  .debug_macinfo
-                0x00f384cb    0x39415 build/obj/Timer.o
+                0x00f384e3    0x39415 build/obj/Timer.o
 
 .debug_loc      0x00000000     0x873d
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o

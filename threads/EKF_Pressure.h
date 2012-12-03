@@ -27,7 +27,8 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 	#define PRESSURE_TIME_INTERVAL 10
 #endif
 
-#define PRESSURE_SAMPLE_BUFF_SIZE 200
+/* gives a sample period of 3.94 GPT intervals - enough for the potentiometer read to have time to run afterwards */
+#define PRESSURE_SAMPLE_BUFF_SIZE (42*PRESSURE_TIME_INTERVAL)
 #define POT_SAMPLE_BUFF_SIZE 1
 
 #define ACTUATOR_LIMIT_MINUS	(0.1*ACTUATOR_LENGTH)

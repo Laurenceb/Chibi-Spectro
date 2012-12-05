@@ -176,7 +176,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	*/
 	gptStart(&GPTD8, &gpt8cfg);
 	/* 
-	* Start the GPT in continuous mode.  dT is the time between triggers
+	* Start the GPT in continuous mode, use TIM8.  dT is the time between triggers
 	* Here, we have set the timer clock to 200,000Hz, and we want
 	* to call the callback function every 500 GPT clock cycles.  This
 	* means we call the callback function every 2500uS or 400 times per second

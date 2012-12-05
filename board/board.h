@@ -233,12 +233,15 @@
  * Port C setup.
  * All input with pull-up except:
  * PC0  - GPIOC_OTG_FS_POWER_ON (output push-pull).
+ * PC1  - GPIOC_ADC123		(analogue for the pot linear actuator feedback)
+ * PC4  - GPIOC_ADC123		(analogue for force sensor input)
+ * PC5  - GPIOC_ADC123		(analogue for the photodiode input)
  * PC7  - GPIOC_MCLK            (alternate 6).
  * PC10 - GPIOC_SCLK            (alternate 6).
  * PC12 - GPIOC_SDIN            (alternate 6).
  */
 #define VAL_GPIOC_MODER             (PIN_MODE_OUTPUT(GPIOC_OTG_FS_POWER_ON) |\
-                                     PIN_MODE_INPUT(1) |                    \
+                                     PIN_MODE_ANALOG(1) |                   \
                                      PIN_MODE_INPUT(2) |                    \
                                      PIN_MODE_INPUT(3) |                    \
                                      PIN_MODE_ANALOG(4) |                   \
@@ -256,7 +259,7 @@
 #define VAL_GPIOC_OTYPER            0x00000000
 #define VAL_GPIOC_OSPEEDR           0xFFFFFFFF
 #define VAL_GPIOC_PUPDR             (PIN_PUDR_FLOATING(GPIOC_OTG_FS_POWER_ON) |\
-                                     PIN_PUDR_PULLUP(1) |                   \
+                                     PIN_PUDR_FLOATING(1) |                 \
                                      PIN_PUDR_PULLUP(2) |                   \
                                      PIN_PUDR_PULLUP(3) |                   \
                                      PIN_PUDR_FLOATING(4) |                 \
@@ -330,7 +333,10 @@
  * PE0  - GPIOE_INT1                (input floating).
  * PE1  - GPIOE_INT2                (input floating).
  * PE3  - GPIOE_CS_SPI              (output push-pull).
- * PE9  - GPIOE_TIM1                (alternate push-pull).
+ * PE9  - GPIOE_TIM1                (alternate push-pull) - for driving solenoids
+ * PE10 - GPIOE_STEPPER_EN	    (output) - inverted levels to stepper driver enable, so ODR initialised high is ok
+ * PE11 - GPIOE_TIM1		    (alternate push-pull) - for the stepper drive step input
+ * PE13 - GPIOE_STEPPER_DIR	    (output) - stepper direction push-pull
  */
 #define VAL_GPIOE_MODER             (PIN_MODE_INPUT(GPIOE_INT1) |           \
                                      PIN_MODE_INPUT(GPIOE_INT2) |           \
@@ -342,10 +348,10 @@
                                      PIN_MODE_INPUT(7) |                    \
                                      PIN_MODE_INPUT(8) |                    \
                                      PIN_MODE_INPUT(9)/*ALTERNATE(9)*/ |                \
-                                     PIN_MODE_INPUT(10) |                   \
-                                     PIN_MODE_INPUT(11) |                   \
+                                     PIN_MODE_OUTPUT(10) |                  \
+                                     PIN_MODE_ALTERNATE(11) |               \
                                      PIN_MODE_INPUT(12) |                   \
-                                     PIN_MODE_INPUT(13) |                   \
+                                     PIN_MODE_OUTPUT(13) |                  \
                                      PIN_MODE_INPUT(14) |                   \
                                      PIN_MODE_INPUT(15))
 #define VAL_GPIOE_OTYPER            0x00000000
@@ -368,7 +374,7 @@
                                      PIN_PUDR_PULLUP(15))
 #define VAL_GPIOE_ODR               0xFFFFFFFF
 #define VAL_GPIOE_AFRL              0x00000000
-#define VAL_GPIOE_AFRH              (PIN_AFIO_AF(9, 1))
+#define VAL_GPIOE_AFRH              (PIN_AFIO_AF(9, 1)|PIN_AFIO_AF(11, 1))
 
 /*
  * Port F setup.

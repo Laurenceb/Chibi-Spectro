@@ -34,9 +34,13 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 #define ACTUATOR_LIMIT_MINUS	(0.1*ACTUATOR_LENGTH)
 #define ACTUATOR_LIMIT_PLUS	(0.9*ACTUATOR_LENGTH)
 
-#define ACTUATOR_STEP_CONSTANT	((LEADSCREW_PITCH/STEPS_PER_ROTATION)*TIMER8_CLK*PRESSURE_TIME_INTERVAL/(2.0*1000.0))/* Note 2.0 due to toggle mode */
+#define ACTUATOR_STEP_CONSTANT	((LEADSCREW_PITCH/STEPS_PER_ROTATION)*TIMER1_CLK*PRESSURE_TIME_INTERVAL/(2.0*1000.0))/* Note 2.0 due to toggle mode */
 
-#define CONVERT_POT(adc)	(30.0*adc[0]/4096.0)
+#ifdef INVERSE_POT
+	#define CONVERT_POT(adc)	(ACTUATOR_LENGTH*(float)(4096-adc[0])/4096.0)
+#else
+	#define CONVERT_POT(adc)	(ACTUATOR_LENGTH*(float)adc[0]/4096.0)
+#endif
 
 /* Hand position and properties estimator EKF related macros */
 

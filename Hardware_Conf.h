@@ -40,8 +40,9 @@
 #define LEADSCREW_PITCH		4.0/* Units of mm in all the linear actuator code */
 #define STEPS_PER_ROTATION	(360.0/1.8)
 #define ACTUATOR_LENGTH		30.0/* A haxored firgelli L12 actuator */
+#define INVERSE_POT		/* Define this if high voltage means retracted */
 
-#define TIMER8_CLK		168000000.0/* Tim8 is clocked at f_cpu */
+#define TIMER1_CLK		168000000.0/* Tim1 is clocked at f_cpu */
 
 #define STEPPER_PORT		GPIOE
 #define STEPPER_DIR_PIN		13

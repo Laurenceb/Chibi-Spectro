@@ -42,7 +42,6 @@ static Thread *tp = NULL;
 static adcsample_t Pot_sample[POT_SAMPLE_BUFF_SIZE];
 static adcsample_t Pressure_Samples[PRESSURE_SAMPLE_BUFF_SIZE];
 
-
 /**
   * @brief  This function spawns the pressure control thread
   * @param  void* to a PID Loop configuration
@@ -93,6 +92,27 @@ static const ADCConversionGroup adcgrpcfg2_pressure = {
   0,                        /* SQR2 */
   ADC_SQR3_SQ1_N(ADC_PRESSURE_CHANNEL)
 };
+
+/*
+ * ADC conversion group for the pressure calibration
+ * Mode:        Linear buffer, 1 sample of 1 channel, SW triggered.
+ * Channels:    ADC_PRESSURE_CHANNEL
+ */
+static const ADCConversionGroup adcgrpcfg2_pressure_calibrate = {
+  FALSE,
+  PRESSURE_ADC_NUM_CHANNELS,
+  NULL,
+  adc2errorcallback,
+  0,                        /* CR1 */
+  ADC_CR2_SWSTART,          /* CR2 */
+  ADC_SMPR1_SMP_AN14(ADC_SAMPLE_480),
+  0,                        /* SMPR2 */
+  ADC_SQR1_NUM_CH(1),
+  0,                        /* SQR2 */
+  ADC_SQR3_SQ1_N(ADC_PRESSURE_CHANNEL)
+};
+
+
 
 /*
  * ADC conversion group for the pot monitoring
@@ -174,6 +194,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	/*
 	* ADC2 runs single DMA transactions of multiple conversions.
 	*/
+	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADc group convertions and calibrate until ready*/
+	do {
+		adcConvert(&ADCD2, &adcgrpcfg2_pressure_calibrate, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
+	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));	
+	/* Enable the GPT8 timer (TIM8) */	
 	gptStart(&GPTD8, &gpt8cfg);
 	/* 
 	* Start the GPT in continuous mode, use TIM8.  dT is the time between triggers

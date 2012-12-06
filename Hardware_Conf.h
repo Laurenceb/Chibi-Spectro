@@ -48,7 +48,7 @@
 #define STEPPER_DIR_PIN		13
 #define STEPPER_EN_PIN		10
 
-//#define STEPPER_INVERTED_DIR	/* Use this to reverse stepper direction */
+#define STEPPER_INVERTED_DIR	/* Use this to reverse stepper direction */
 
 /* PPG related */
 

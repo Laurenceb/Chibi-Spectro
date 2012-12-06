@@ -7,8 +7,8 @@ start address 0x08000190
 
 Program Header:
     LOAD off    0x00008000 vaddr 0x08000000 paddr 0x08000000 align 2**15
-         filesz 0x00003f48 memsz 0x00003f48 flags rwx
-    LOAD off    0x00012000 vaddr 0x2000a000 paddr 0x08003f48 align 2**15
+         filesz 0x00003f58 memsz 0x00003f58 flags rwx
+    LOAD off    0x00012000 vaddr 0x2000a000 paddr 0x08003f58 align 2**15
          filesz 0x00000008 memsz 0x00000970 flags rw-
     LOAD off    0x00018000 vaddr 0x20000000 paddr 0x20000000 align 2**15
          filesz 0x00000000 memsz 0x0000a000 flags rw-
@@ -18,39 +18,39 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 startup       00000188  08000000  08000000  00008000  2**4
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00003db8  08000190  08000190  00008190  2**4
+  1 .text         00003dc8  08000190  08000190  00008190  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .stacks       0000a000  20000000  20000000  00018000  2**0
                   ALLOC
-  3 .data         00000008  2000a000  08003f48  00012000  2**0
+  3 .data         00000008  2000a000  08003f58  00012000  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  4 .bss          00000968  2000a008  08003f50  00012008  2**3
+  4 .bss          00000968  2000a008  08003f60  00012008  2**3
                   ALLOC
-  5 .debug_abbrev 00005f9e  00000000  00000000  00012008  2**0
+  5 .debug_abbrev 00005fad  00000000  00000000  00012008  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0001e732  00000000  00000000  00017fa6  2**0
+  6 .debug_info   0001e734  00000000  00000000  00017fb5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0001b0c9  00000000  00000000  000366d8  2**0
+  7 .debug_line   0001b0cb  00000000  00000000  000366e9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_macinfo 00f71fb4  00000000  00000000  000517a1  2**0
+  8 .debug_macinfo 00f72118  00000000  00000000  000517b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    00008435  00000000  00000000  00fc3755  2**0
+  9 .debug_loc    0000844e  00000000  00000000  00fc38cc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_pubnames 00001a90  00000000  00000000  00fcbb8a  2**0
+ 10 .debug_pubnames 00001a90  00000000  00000000  00fcbd1a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubtypes 000042ab  00000000  00000000  00fcd61a  2**0
+ 11 .debug_pubtypes 000042ab  00000000  00000000  00fcd7aa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_aranges 00000fe8  00000000  00000000  00fd18c5  2**0
+ 12 .debug_aranges 00000fe8  00000000  00000000  00fd1a55  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000f70  00000000  00000000  00fd28ad  2**0
+ 13 .debug_ranges 00000f70  00000000  00000000  00fd2a3d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    0000415e  00000000  00000000  00fd381d  2**0
+ 14 .debug_str    0000415e  00000000  00000000  00fd39ad  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .comment      0000002a  00000000  00000000  00fd797b  2**0
+ 15 .comment      0000002a  00000000  00000000  00fd7b0b  2**0
                   CONTENTS, READONLY
- 16 .ARM.attributes 00000037  00000000  00000000  00fd79a5  2**0
+ 16 .ARM.attributes 00000037  00000000  00000000  00fd7b35  2**0
                   CONTENTS, READONLY
- 17 .debug_frame  00002a34  00000000  00000000  00fd79dc  2**2
+ 17 .debug_frame  00002a34  00000000  00000000  00fd7b6c  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -112,12 +112,12 @@ SYMBOL TABLE:
 080018d0 l     F .text	0000000a get
 080018e0 l     F .text	00000006 putt
 080018f0 l     F .text	0000000a put
-08003a40 l     O .text	00000020 vmt
+08003a50 l     O .text	00000020 vmt
 2000a000 l     O .data	00000007 linecoding
 00000000 l    df *ABS*	00000000 usb.c
-08003a60 l     O .text	00000002 zero_status
-08003a70 l     O .text	00000002 active_status
-08003a80 l     O .text	00000002 halted_status
+08003a70 l     O .text	00000002 zero_status
+08003a80 l     O .text	00000002 active_status
+08003a90 l     O .text	00000002 halted_status
 00000000 l    df *ABS*	00000000 stm32_dma.c
 2000a1f8 l     O .bss	00000080 dma_isr_redir
 2000a278 l     O .bss	00000004 dma_streams_mask
@@ -139,8 +139,8 @@ SYMBOL TABLE:
 080029e0 l     F .text	000002d4 usb_lld_pump
 08002cc0 l     F .text	00000080 otg_epin_handler.clone.7
 08002d40 l     F .text	00000068 otg_epout_handler.clone.8
-08003b50 l     O .text	0000000c fsparams
-08003b70 l     O .text	00000024 ep0config
+08003b60 l     O .text	0000000c fsparams
+08003b80 l     O .text	00000024 ep0config
 2000a518 l     O .bss	00000010 ep0_state
 2000a528 l     O .bss	00000008 ep0setup_buffer
 00000000 l    df *ABS*	00000000 board.c
@@ -154,20 +154,20 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 usbcfg.c
 08003760 l     F .text	00000034 get_descriptor
 080037a0 l     F .text	00000038 usb_event
-08003d90 l     O .text	00000024 ep1config
+08003da0 l     O .text	00000024 ep1config
 2000a940 l     O .bss	00000010 ep1instate
 2000a960 l     O .bss	00000010 ep1outstate
-08003dc0 l     O .text	00000043 vcom_configuration_descriptor_data
-08003e10 l     O .text	00000008 vcom_configuration_descriptor
-08003e20 l     O .text	00000024 ep2config
+08003dd0 l     O .text	00000043 vcom_configuration_descriptor_data
+08003e20 l     O .text	00000008 vcom_configuration_descriptor
+08003e30 l     O .text	00000024 ep2config
 2000a950 l     O .bss	00000010 ep2instate
-08003e60 l     O .text	00000012 vcom_device_descriptor_data
-08003e80 l     O .text	00000004 vcom_string0
-08003e90 l     O .text	00000026 vcom_string1
-08003ec0 l     O .text	00000038 vcom_string2
-08003f00 l     O .text	00000008 vcom_string3
-08003f10 l     O .text	00000020 vcom_strings
-08003f40 l     O .text	00000008 vcom_device_descriptor
+08003e70 l     O .text	00000012 vcom_device_descriptor_data
+08003e90 l     O .text	00000004 vcom_string0
+08003ea0 l     O .text	00000026 vcom_string1
+08003ed0 l     O .text	00000038 vcom_string2
+08003f10 l     O .text	00000008 vcom_string3
+08003f20 l     O .text	00000020 vcom_strings
+08003f50 l     O .text	00000008 vcom_device_descriptor
 00000000 l    df *ABS*	00000000 Stepper.c
 00000000 l    df *ABS*	00000000 Timer.c
 00000000 l    df *ABS*	00000000 chlists.c
@@ -235,7 +235,7 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 strcasecmp.c
 00000000 l    df *ABS*	00000000 strchr.c
 00000000 l    df *ABS*	00000000 strspn.c
-08003ba0 g     O .text	000000fc pal_default_config
+08003bb0 g     O .text	000000fc pal_default_config
 08000bf0  w    F .text	00000002 Vector58
 08000bf0  w    F .text	00000002 VectorE8
 08000bf0  w    F .text	00000002 Vector9C
@@ -266,7 +266,7 @@ SYMBOL TABLE:
 08000bf0  w    F .text	00000002 Vector110
 08001a10 g     F .text	00000076 sduDataTransmitted
 2000a970 g       *ABS*	00000000 __heap_base__
-08003f48 g       *ABS*	00000000 _etext
+08003f58 g       *ABS*	00000000 _etext
 08002220 g     F .text	00000028 Vector120
 08001250 g     F .text	00000020 chThdCreateI
 08003300 g     F .text	00000010 usb_lld_clear_out
@@ -282,7 +282,7 @@ SYMBOL TABLE:
 08001ca0 g     F .text	000002dc _usb_ep0setup
 08000bf0  w    F .text	00000002 VectorB4
 08000434 g     F .text	00000022 __floatsidf
-08003880 g     F .text	000001a0 Setup_PPG_PWM
+08003890 g     F .text	000001a0 Setup_PPG_PWM
 08000fb0 g     F .text	00000024 chSchReadyI
 08000188 g       startup	00000000 __fini_array_end
 08000c00  w    F .text	00000004 port_halt
@@ -355,13 +355,13 @@ SYMBOL TABLE:
 08001b50 g     F .text	00000032 usbInitEndpointI
 080012c0 g     F .text	00000018 chThdSleep
 080013d0 g     F .text	0000001c chIQInit
-08003a90 g     O .text	000000c0 _stm32_dma_streams
+08003aa0 g     O .text	000000c0 _stm32_dma_streams
 080021c0 g     F .text	0000002c Vector84
 2000a2e4 g     O .bss	00000010 GPTD8
 08003260 g     F .text	00000032 usb_lld_prepare_transmit
 08000d20 g     F .text	0000001a SysTickVector
 08001b90 g     F .text	0000001c usbPrepareReceive
-080037e0 g     F .text	00000054 Setup_Stepper_PWM
+080037e0 g     F .text	0000006c Setup_Stepper_PWM
 080031f0 g     F .text	0000001c usb_lld_get_status_in
 08002490 g     F .text	000000b4 stm32_clock_init
 080027f0 g     F .text	000000a4 _pal_lld_init
@@ -401,7 +401,7 @@ SYMBOL TABLE:
 08001c70 g     F .text	00000026 _usb_reset
 08000bf0  w    F .text	00000002 Vector100
 08000500 g     F .text	00000254 __muldf3
-08003f48 g       *ABS*	00000000 _textdata
+08003f58 g       *ABS*	00000000 _textdata
 08000bf0  w    F .text	00000002 VectorE0
 00000000 g       *ABS*	00000000 _text
 08000bf0  w    F .text	00000002 VectorF4
@@ -443,13 +443,13 @@ SYMBOL TABLE:
 08000bf0  w    F .text	00000002 Vector48
 080032f0 g     F .text	00000010 usb_lld_stall_in
 20002000 g       .stacks	00000000 __process_stack_base__
-08003f30 g     O .text	00000004 serusbcfg
+08003f40 g     O .text	00000004 serusbcfg
 08000bf0  w    F .text	00000002 Vector16C
 080020d0 g     F .text	0000002c Vector70
 08000bf0  w    F .text	00000002 VectorD4
 08001980 g     F .text	0000003a sduConfigureHookI
 08000dc0 g     F .text	0000002c nvicSetSystemHandlerPriority
-08003840 g     F .text	0000001c GPIO_Stepper_Enable
+08003850 g     F .text	0000001c GPIO_Stepper_Enable
 2000a058 g     O .bss	00000148 _idle_thread_wa
 080014e0 g     F .text	00000018 chOQInit
 08001420 g     F .text	0000004c chIQGetTimeout
@@ -480,7 +480,7 @@ SYMBOL TABLE:
 08001910 g     F .text	00000048 sduObjectInit
 00000000  w      *UND*	00000000 __sf_fake_stdout
 08000bf0  w    F .text	00000002 Vector10C
-08003860 g     F .text	00000020 GPIO_Stepper_Dir
+08003870 g     F .text	0000001c GPIO_Stepper_Dir
 08000188 g       startup	00000000 __init_array_start
 080032b0 g     F .text	00000022 usb_lld_start_in
 080031d0 g     F .text	0000001c usb_lld_get_status_out
@@ -505,7 +505,7 @@ SYMBOL TABLE:
 080013f0 g     F .text	00000028 chIQResetI
 08003320 g     F .text	00000004 __early_init
 08002280 g     F .text	0000002c Vector128
-08003e50 g     O .text	00000010 usbcfg
+08003e60 g     O .text	00000010 usbcfg
 08002720 g     F .text	00000024 VectorA4
 00008000 g       *ABS*	00000000 __process_stack_size__
 08003090 g     F .text	00000138 usb_lld_init_endpoint

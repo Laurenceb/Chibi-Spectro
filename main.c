@@ -32,6 +32,7 @@
 #include "PPG_Demod.h"
 #include "Timer.h"
 #include "Scanf.h"
+#include "Stepper.h"
 
 #define ORANGE_LED 6
 
@@ -116,6 +117,15 @@ int main(void) {
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   chprintf(USBout, "\r\n\r\nEnter config or press enter to use default (10s timeout)\r\n");
+//debug code
+Setup_Stepper_PWM();
+GPIO_Stepper_Enable(1);
+while(1){
+	GPIO_Stepper_Dir(1);
+	chThdSleepMilliseconds(3000);
+	GPIO_Stepper_Dir(0);
+	chThdSleepMilliseconds(3000);
+}
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
   uint8_t numchars=0, timeout=0, valid_string=1;

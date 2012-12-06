@@ -11,7 +11,8 @@ void Setup_Stepper_PWM(void) {/* Note that this is hardcoded to timer1 chan2 - u
 	/* Configure the timers */
 	//Channel 2
 	TIM1->CR1|=TIM_CR1_ARPE;	//Preload enable
-	TIM1->ARR=1000;			//Reload value sets the pwm period
+	TIM1->PSC=84;			//Gives 1MHz timer clock - gives a range from 0.15mm/s to 10m/s (~25x faster than motor)
+	TIM1->ARR=5000;			//Reload value sets the pwm period - gives 100steps/second initialised
 	TIM1->CCMR1|=0x0030|TIM_CCMR1_OC2PE;//Use OC2 in Toggle mode with preload as the stepper signal
 	TIM1->CCR2=1;			//OC2 Toggle - lowest possible value to still get toggling
 	TIM1->CR1|=TIM_CR1_CEN;		//Start the timer - note it needs to have been clocked first, edit the chibios config file to ensure clocking

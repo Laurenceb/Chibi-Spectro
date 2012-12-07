@@ -154,21 +154,21 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
 			GPIO_Stepper_Dir(Motor_Velocity>0);/* Set the direction line to the motor */
-			uint32_t Timer_Period=(uint32_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity);
+			uint16_t Timer_Period=(uint16_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity);
 			SET_STEPPER_PERIOD(Timer_Period);/* Set the timer ARR register to control pwm period */	
 		}
 	}
-	if( !chMBGetUsedCountI(&Actuator_Velocities) ) {/* There are more messages : we are entering final time interval */
-		chSysLockFromIsr();		/* Wakeup the pressure controller thread */
+	chSysLockFromIsr();			/* Wakeup the pressure controller thread, enter lock mode to allow read of slots in mailbox */
+	if( !chMBGetUsedCountI(&Actuator_Velocities) ) {/* There are no more messages : we are entering final time interval */
 		if (tp != NULL) {
 			tp->p_u.rdymsg = (msg_t)NULL;/*(buffer==PPG_Sample_Buffer? (msg_t)1 : (msg_t)0 );*//* Sending the message, gives buffer index.*/
 			chSchReadyI(tp);
 			tp = NULL;
 		}
-		chSysUnlockFromIsr();
 	}
-	else if( chMBGetUsedCountI(&Actuator_Velocities) >= 4)/* The control thread just ran, so we are entering the first time interval */
+	else if( chMBGetUsedCountI(&Actuator_Velocities) >= 3)/* The control thread just ran, so we are entering the first time interval */
 		adcStartConversion(&ADCD2, &adcgrpcfg2_pressure, Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE);/* Start ADC2 samples - takes just < 3 GPT */
+	chSysUnlockFromIsr();
 }
 
 /**

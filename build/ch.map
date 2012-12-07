@@ -2448,7 +2448,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00f39461    0x3943a build/obj/Timer.o
 
-.debug_loc      0x00000000     0x86bd
+.debug_loc      0x00000000     0x86a7
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o
  .debug_loc     0x000000b2      0x11e build/obj/chcore_v7m.o
  .debug_loc     0x000001d0      0x102 build/obj/nvic.o
@@ -2486,17 +2486,17 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_loc     0x00006c02      0x792 build/obj/chprintf.o
  .debug_loc     0x00007394      0x290 build/obj/main.o
  .debug_loc     0x00007624       0xab build/obj/usbcfg.o
- .debug_loc     0x000076cf      0x3ad build/obj/EKF_Pressure.o
- .debug_loc     0x00007a7c      0x18b build/obj/PPG_Demod.o
- .debug_loc     0x00007c07      0x210 build/obj/PPG.o
- .debug_loc     0x00007e17       0x31 build/obj/Pressure.o
- .debug_loc     0x00007e48      0x103 build/obj/EKF_Estimator.o
- .debug_loc     0x00007f4b       0x3b build/obj/PID_Control.o
- .debug_loc     0x00007f86       0x63 build/obj/Pressure_Filter.o
- .debug_loc     0x00007fe9      0x1dd build/obj/Quickselect.o
- .debug_loc     0x000081c6      0x4be build/obj/Scanf.o
- .debug_loc     0x00008684       0x19 build/obj/Stepper.o
- .debug_loc     0x0000869d       0x20 build/obj/Timer.o
+ .debug_loc     0x000076cf      0x397 build/obj/EKF_Pressure.o
+ .debug_loc     0x00007a66      0x18b build/obj/PPG_Demod.o
+ .debug_loc     0x00007bf1      0x210 build/obj/PPG.o
+ .debug_loc     0x00007e01       0x31 build/obj/Pressure.o
+ .debug_loc     0x00007e32      0x103 build/obj/EKF_Estimator.o
+ .debug_loc     0x00007f35       0x3b build/obj/PID_Control.o
+ .debug_loc     0x00007f70       0x63 build/obj/Pressure_Filter.o
+ .debug_loc     0x00007fd3      0x1dd build/obj/Quickselect.o
+ .debug_loc     0x000081b0      0x4be build/obj/Scanf.o
+ .debug_loc     0x0000866e       0x19 build/obj/Stepper.o
+ .debug_loc     0x00008687       0x20 build/obj/Timer.o
 
 .debug_pubnames
                 0x00000000     0x1a90

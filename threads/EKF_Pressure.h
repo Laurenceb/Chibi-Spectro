@@ -27,6 +27,8 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 	#define PRESSURE_TIME_INTERVAL 10
 #endif
 
+#define PRESSURE_TIME_SECONDS ((float)PRESSURE_TIME_INTERVAL/1000.0)
+
 /* gives a sample period of 3.94 GPT intervals - enough for the potentiometer read to have time to run afterwards */
 #define PRESSURE_SAMPLE_BUFF_SIZE (42*PRESSURE_TIME_INTERVAL)
 #define POT_SAMPLE_BUFF_SIZE 1
@@ -34,7 +36,7 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 #define ACTUATOR_LIMIT_MINUS	(0.1*ACTUATOR_LENGTH)
 #define ACTUATOR_LIMIT_PLUS	(0.9*ACTUATOR_LENGTH)
 
-#define ACTUATOR_STEP_CONSTANT	((LEADSCREW_PITCH/STEPS_PER_ROTATION)*TIMER1_CLK*PRESSURE_TIME_INTERVAL/(2.0*1000.0))/* Note 2.0 due to toggle mode */
+#define ACTUATOR_STEP_CONSTANT	((LEADSCREW_PITCH/STEPS_PER_ROTATION)*TIMER1_CLK/2.0)/* Note 2.0 due to toggle mode */
 
 #ifdef INVERSE_POT
 	#define CONVERT_POT(adc)	(ACTUATOR_LENGTH*(float)(4096-adc[0])/4096.0)

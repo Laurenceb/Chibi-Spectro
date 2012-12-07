@@ -42,7 +42,7 @@
 #define ACTUATOR_LENGTH		30.0/* A haxored firgelli L12 actuator */
 #define INVERSE_POT		/* Define this if high voltage means retracted */
 
-#define TIMER1_CLK		168000000.0/* Tim1 is clocked at f_cpu */
+#define TIMER1_CLK		1000000.0/* Tim1 is clocked at f_cpu/2/84 */
 
 #define STEPPER_PORT		GPIOE
 #define STEPPER_DIR_PIN		13

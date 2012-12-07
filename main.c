@@ -122,9 +122,17 @@ Setup_Stepper_PWM();
 GPIO_Stepper_Enable(1);
 while(1){
 	GPIO_Stepper_Dir(1);
-	chThdSleepMilliseconds(3000);
+	chThdSleepMilliseconds(500);
+	SET_STEPPER_PERIOD(1667);
+	chThdSleepMilliseconds(500);
+	SET_STEPPER_PERIOD(4999);
+	chThdSleepMilliseconds(500);
 	GPIO_Stepper_Dir(0);
-	chThdSleepMilliseconds(3000);
+	chThdSleepMilliseconds(500);
+	SET_STEPPER_PERIOD(1667);
+	chThdSleepMilliseconds(500);
+	SET_STEPPER_PERIOD(4999);
+	chThdSleepMilliseconds(500);
 }
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data

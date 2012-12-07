@@ -28,7 +28,7 @@
 
 #include "usbcfg.h"
 #include "Hardware_Conf.h"
-#include "PID_Pressure.h"
+#include "EKF_Pressure.h"
 #include "PPG_Demod.h"
 #include "Timer.h"
 #include "Scanf.h"
@@ -101,10 +101,8 @@ int main(void) {
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
-  /* The pressure control structure */
-  Pressure_Config_Type Our_Config;
-  /* The pressure control PID loop */
-  PID_Config PID_Pressure={ .P_Const=0.002, .I_Const=0.05, .D_Const=-0.0001, .I_Limit=0.85 };//P I D Ilim
+  /* The pressure control structure with default actuator setup - approx Hardware limits*/
+  Actuator_TypeDef Our_Config = { .MaxAcc=10610, .MaxVel=200, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.1, .DeadVel=10 };
   /* Variables for dumping data */
   //For pressure setting
   float pressure_setpoints[NUMBER_SETPOINTS];
@@ -118,7 +116,7 @@ int main(void) {
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   chprintf(USBout, "\r\n\r\nEnter config or press enter to use default (10s timeout)\r\n");
 //debug code
-Setup_Stepper_PWM();
+/*Setup_Stepper_PWM();
 GPIO_Stepper_Enable(1);
 while(1){
 	GPIO_Stepper_Dir(1);
@@ -133,7 +131,7 @@ while(1){
 	chThdSleepMilliseconds(500);
 	SET_STEPPER_PERIOD(4999);
 	chThdSleepMilliseconds(500);
-}
+}*/
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
   uint8_t numchars=0, timeout=0, valid_string=1;
@@ -163,10 +161,7 @@ while(1){
   pressure_setpoints[0]=0.3;
   pressure_setpoints[1]=2.5;
   /* Populate our pressure control struct*/
-  Our_Config.Number_Setpoints=NUMBER_SETPOINTS;
-  Our_Config.Setpoints=pressure_setpoints;
-  Our_Config.Interpolation_Base=TIME_2_BASE(1000);
-  Our_Config.PID_Loop_Config=&PID_Pressure;
+	//Done in declaration atm
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&Our_Config);
   /* Create the PPG thread */

@@ -74,6 +74,12 @@ static void adc2callback_pressure(ADCDriver *adcp, adcsample_t *buffer, size_t n
 	adcStartConversion(&ADCD2, &adcgrpcfg2_pot, Pot_sample, POT_SAMPLE_BUFF_SIZE);/* Fire off the ADC2 samples - very fast */
 }
 
+
+static void adc2callback_pot(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
+	//volatile int a=1;
+	Pot_sample[0]=buffer[0];
+}
+
 /*
  * ADC conversion group for the pressure monitoring
  * Mode:        Linear buffer, multiple sample of 1 channel, SW triggered.
@@ -101,7 +107,7 @@ static const ADCConversionGroup adcgrpcfg2_pressure = {
 static const ADCConversionGroup adcgrpcfg2_pressure_calibrate = {
   FALSE,
   PRESSURE_ADC_NUM_CHANNELS,
-  NULL,
+  adc2callback_pot,
   adc2errorcallback,
   0,                        /* CR1 */
   ADC_CR2_SWSTART,          /* CR2 */
@@ -154,21 +160,26 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
 			GPIO_Stepper_Dir(Motor_Velocity>0);/* Set the direction line to the motor */
+			Motor_Velocity=fabs(Motor_Velocity);/* Make sure this is positive */
 			uint16_t Timer_Period=(uint16_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity);
 			SET_STEPPER_PERIOD(Timer_Period);/* Set the timer ARR register to control pwm period */	
 		}
 	}
+	uint8_t freeslots;
 	chSysLockFromIsr();			/* Wakeup the pressure controller thread, enter lock mode to allow read of slots in mailbox */
-	if( !chMBGetUsedCountI(&Actuator_Velocities) ) {/* There are no more messages : we are entering final time interval */
+	freeslots=chMBGetUsedCountI(&Actuator_Velocities);
+	chSysUnlockFromIsr();
+	if( !freeslots ) {			/* There are no more messages : we are entering final time interval */
+		chSysLockFromIsr();
 		if (tp != NULL) {
 			tp->p_u.rdymsg = (msg_t)NULL;/*(buffer==PPG_Sample_Buffer? (msg_t)1 : (msg_t)0 );*//* Sending the message, gives buffer index.*/
 			chSchReadyI(tp);
 			tp = NULL;
 		}
+		chSysUnlockFromIsr();
 	}
-	else if( chMBGetUsedCountI(&Actuator_Velocities) >= 3)/* The control thread just ran, so we are entering the first time interval */
+	else if( freeslots >= 3)		/* The control thread just ran, so we are entering the first time interval */
 		adcStartConversion(&ADCD2, &adcgrpcfg2_pressure, Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE);/* Start ADC2 samples - takes just < 3 GPT */
-	chSysUnlockFromIsr();
 }
 
 /**

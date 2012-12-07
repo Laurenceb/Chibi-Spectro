@@ -71,14 +71,15 @@ static void adc2errorcallback(ADCDriver *adcp, adcerror_t err) {
 
 //This is the callback from the pressure convertion completing, it triggers the pos convertion
 static void adc2callback_pressure(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
-	adcStartConversion(&ADCD2, &adcgrpcfg2_pot, Pot_sample, POT_SAMPLE_BUFF_SIZE);/* Fire off the ADC2 samples - very fast */
+	if(buffer!=Pressure_Samples)
+		adcStartConversion(&ADCD2, &adcgrpcfg2_pot, Pot_sample, POT_SAMPLE_BUFF_SIZE);/* Fire off the ADC2 samples - very fast */
 }
 
 
-static void adc2callback_pot(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
+//static void adc2callback_pot(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
 	//volatile int a=1;
-	Pot_sample[0]=buffer[0];
-}
+//	Pot_sample[0]=buffer[0];
+//}
 
 /*
  * ADC conversion group for the pressure monitoring
@@ -107,7 +108,7 @@ static const ADCConversionGroup adcgrpcfg2_pressure = {
 static const ADCConversionGroup adcgrpcfg2_pressure_calibrate = {
   FALSE,
   PRESSURE_ADC_NUM_CHANNELS,
-  adc2callback_pot,
+  NULL,
   adc2errorcallback,
   0,                        /* CR1 */
   ADC_CR2_SWSTART,          /* CR2 */
@@ -178,7 +179,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		}
 		chSysUnlockFromIsr();
 	}
-	else if( freeslots >= 3)		/* The control thread just ran, so we are entering the first time interval */
+	else if( freeslots == 3)		/* The control thread just ran, so we are entering the first time interval */
 		adcStartConversion(&ADCD2, &adcgrpcfg2_pressure, Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE);/* Start ADC2 samples - takes just < 3 GPT */
 }
 

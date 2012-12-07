@@ -30,29 +30,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   6 .debug_abbrev 00005ff5  00000000  00000000  00012108  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0001ecf3  00000000  00000000  000180fd  2**0
+  7 .debug_info   0001ecb4  00000000  00000000  000180fd  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0001b11e  00000000  00000000  00036df0  2**0
+  8 .debug_line   0001b10d  00000000  00000000  00036db1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_macinfo 00f7289b  00000000  00000000  00051f0e  2**0
+  9 .debug_macinfo 00f7289b  00000000  00000000  00051ebe  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00008738  00000000  00000000  00fc47a9  2**0
+ 10 .debug_loc    00008746  00000000  00000000  00fc4759  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubnames 00001a90  00000000  00000000  00fccee1  2**0
+ 11 .debug_pubnames 00001a90  00000000  00000000  00fcce9f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 00004385  00000000  00000000  00fce971  2**0
+ 12 .debug_pubtypes 00004385  00000000  00000000  00fce92f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000ff0  00000000  00000000  00fd2cf6  2**0
+ 13 .debug_aranges 00000fe8  00000000  00000000  00fd2cb4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000f90  00000000  00000000  00fd3ce6  2**0
+ 14 .debug_ranges 00000f88  00000000  00000000  00fd3c9c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    0000412f  00000000  00000000  00fd4c76  2**0
+ 15 .debug_str    0000411e  00000000  00000000  00fd4c24  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000002a  00000000  00000000  00fd8da5  2**0
+ 16 .comment      0000002a  00000000  00000000  00fd8d42  2**0
                   CONTENTS, READONLY
- 17 .ARM.attributes 00000037  00000000  00000000  00fd8dcf  2**0
+ 17 .ARM.attributes 00000037  00000000  00000000  00fd8d6c  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  00002a54  00000000  00000000  00fd8e08  2**2
+ 18 .debug_frame  00002a44  00000000  00000000  00fd8da4  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -201,23 +201,22 @@ SYMBOL TABLE:
 08007160 l     O .text	00000008 vcom_device_descriptor
 00000000 l    df *ABS*	00000000 EKF_Pressure.c
 08005900 l     F .text	00000002 adc2errorcallback
-08005910 l     F .text	0000000c adc2callback_pot
-08005d20 l     F .text	000000f0 GPT_Stepper_Callback
-08005e10 l     F .text	00000018 adc2callback_pressure
+08005d10 l     F .text	000000f0 GPT_Stepper_Callback
+08005e00 l     F .text	00000024 adc2callback_pressure
 08007170 l     O .text	0000002c adcgrpcfg2_pot
-080071a0 l     O .text	00000008 C.2.8875
-080071b0 l     O .text	0000002c adcgrpcfg2_pressure_calibrate
-2000aa98 l     O .bss	00000028 Actuator_Velocities
-080071e0 l     O .text	00000010 C.1.8874
-2000aac0 l     O .bss	00000938 waThreadPressure
-2000b3f8 l     O .bss	00000200 Pressures_Reported_Buff
-2000b5f8 l     O .bss	00000200 Actuator_Velocities_Buff
-2000b7f8 l     O .bss	00000004 tp
-08007200 l     O .text	00000008 C.0.8873
+2000aa98 l     O .bss	00000200 Pressures_Setpoint_Buff
+080071a0 l     O .text	0000002c adcgrpcfg2_pressure_calibrate
+2000ac98 l     O .bss	00000028 Actuator_Velocities
+080071d0 l     O .text	00000010 C.1.8869
+2000acc0 l     O .bss	00000938 waThreadPressure
+2000b5f8 l     O .bss	00000200 Pressures_Reported_Buff
+2000b7f8 l     O .bss	00000200 Actuator_Velocities_Buff
+2000b9f8 l     O .bss	00000004 tp
+080071f0 l     O .text	00000008 C.0.8868
 2000a100 l     O .data	00000008 gpt8cfg
-2000b804 l     O .bss	00000200 Pressures_Setpoint_Buff
 2000ba04 l     O .bss	00000002 Pot_sample
-08007210 l     O .text	0000002c adcgrpcfg2_pressure
+08007200 l     O .text	0000002c adcgrpcfg2_pressure
+08007230 l     O .text	00000008 C.2.8870
 2000ba30 l     O .bss	00000348 Pressure_Samples
 00000000 l    df *ABS*	00000000 PPG_Demod.c
 08005e90 l     F .text	00000002 adc1errorcallback
@@ -463,7 +462,7 @@ SYMBOL TABLE:
 080031e0 g     F .text	00000028 _core_init
 08004750 g     F .text	00000018 pwm_lld_init
 080018d4 g     F .text	0000006a __floatundidf
-2000b7fc g     O .bss	00000004 Actuator_Velocity
+2000b9fc g     O .bss	00000004 Actuator_Velocity
 08001fd4 g     F .text	0000001c __floatsisf
 08002640  w    F .text	00000002 Vector140
 08002640  w    F .text	00000002 VectorE4
@@ -516,7 +515,7 @@ SYMBOL TABLE:
 08005610 g     F .text	00000268 main
 08003d50 g     F .text	00000028 Vector6C
 08003400 g     F .text	0000001c gptStart
-08005920 g     F .text	000003fc Pressure_Thread
+08005910 g     F .text	000003fc Pressure_Thread
 08003350 g     F .text	0000001c adcStart
 08002000 g     F .text	0000007c __aeabi_l2f
 2000a2b4 g     O .bss	0000001c rlist
@@ -573,7 +572,7 @@ SYMBOL TABLE:
 08003630 g     F .text	0000003a sduConfigureHookI
 08002810 g     F .text	0000002c nvicSetSystemHandlerPriority
 08002080 g     F .text	00000168 __aeabi_fmul
-2000b800 g     O .bss	00000004 Actuator_Position
+2000ba00 g     O .bss	00000004 Actuator_Position
 08002390 g     F .text	00000018 __aeabi_cfrcmple
 08006600 g     F .text	0000001c GPIO_Stepper_Enable
 2000a158 g     O .bss	00000148 _idle_thread_wa

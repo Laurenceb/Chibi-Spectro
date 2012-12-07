@@ -28,7 +28,6 @@ void Update_State(float State[2], float Covar[2][2], float Measurement, float Po
   * @retval None, EKF updated in place
   */
 void Predict_State(float State[2], float Covar[2][2], float Delta_time, float Process_Noise[2]) {
-	Delta_time = sqrtf(Delta_time);
 	Covar[0][0] += Delta_time*Process_Noise[0];
 	Covar[1][1] += Delta_time*Process_Noise[1];
 }

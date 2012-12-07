@@ -75,12 +75,6 @@ static void adc2callback_pressure(ADCDriver *adcp, adcsample_t *buffer, size_t n
 		adcStartConversion(&ADCD2, &adcgrpcfg2_pot, Pot_sample, POT_SAMPLE_BUFF_SIZE);/* Fire off the ADC2 samples - very fast */
 }
 
-
-//static void adc2callback_pot(ADCDriver *adcp, adcsample_t *buffer, size_t n) {
-	//volatile int a=1;
-//	Pot_sample[0]=buffer[0];
-//}
-
 /*
  * ADC conversion group for the pressure monitoring
  * Mode:        Linear buffer, multiple sample of 1 channel, SW triggered.
@@ -191,7 +185,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t Setpoint,msg;			/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0;
-	float velocities[4],velocity,prior_velocity,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target;
+	float velocities[4]={},velocity,prior_velocity,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;
@@ -233,6 +227,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		for(index=0;index<4;index++)	/* Post 4 velocities to the stepper GPT */
 			chMBPost(&Actuator_Velocities, *((msg_t*)&v), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
 	}while(CONVERT_POT(Pot_sample)>ACTUATOR_LENGTH/6);/* Wait for the pot feedback to indicate that we are at end of travel */
+	/* Reset this after the actuator is positioned */
+	Actuator_Position=0;
 	/* Loop for the Pressure thread */
 	while(TRUE) {
 		/* Sleep until we are awoken by the GPT ISR */
@@ -265,7 +261,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		actuator_midway_position=position;/* Initialise this */
 		/* Apply software end stops */
 		/* Note that the EKF position is not in real space - it can drift, so we use pot */
-		end_position = ( pot_position + target - position + velocities[3] );/* We add on the final velocity as pot is measured at end of 3rd GPT */
+		end_position = ( pot_position + target - position + (velocities[3]*PRESSURE_TIME_SECONDS/4.0) );/* Pot is measured at end of 3rd GPT */
 		if( end_position > Actuator->LimitPlus )/* To extropolate the end position after moving to position Target */
 			target -= end_position - Actuator->LimitPlus;/* Adjust the Target - this may mean we never reach correct pressure */
 		else if( end_position < Actuator->LimitMinus )

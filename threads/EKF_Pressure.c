@@ -217,18 +217,19 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	*/
 	do {
 		float v=-4.0;//a slow retraction speed means that motor can be turned on/off freely
-		/* Sleep until we are awoken by the GPT ISR */
+		for(index=0;index<4;index++)	/* Post 4 velocities to the stepper GPT */
+			chMBPost(&Actuator_Velocities, *((msg_t*)&v), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
+		/* Sleep until we are awoken by the GPT ISR - meaning the 4 GPT intervals have been read */
 		/* Waiting for the IRQ to happen.*/
 		chSysLock();
 		tp = chThdSelf();
 		chSchGoSleepS(THD_STATE_SUSPENDED);
 		msg = chThdSelf()->p_u.rdymsg;	/* Retrieving the message, gives us the correct buffer index*/
 		chSysUnlock();
-		for(index=0;index<4;index++)	/* Post 4 velocities to the stepper GPT */
-			chMBPost(&Actuator_Velocities, *((msg_t*)&v), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
 	}while(CONVERT_POT(Pot_sample)>ACTUATOR_LENGTH/6);/* Wait for the pot feedback to indicate that we are at end of travel */
-	/* Reset this after the actuator is positioned */
+	/* Reset these after the actuator is positioned */
 	Actuator_Position=0;
+	Actuator_Velocity=0;
 	/* Loop for the Pressure thread */
 	while(TRUE) {
 		/* Sleep until we are awoken by the GPT ISR */
@@ -257,7 +258,6 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
-		prior_velocity=velocity;	/* The initial velocity is stored for reference */
 		actuator_midway_position=position;/* Initialise this */
 		/* Apply software end stops */
 		/* Note that the EKF position is not in real space - it can drift, so we use pot */
@@ -270,16 +270,18 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
 			delta=target-position;	/* The travel distance to target - defined starting from next GPT callback */
 			if( fabs(delta)<Actuator->DeadPos && fabs(velocity)<Actuator->DeadVel ) {/* Position,Veloctiy deadband for our hardware */
+				prior_velocity=velocity;/* The initial velocity is stored for reference */
 				velocity=0;	/* If the GPT callback reads zero velocity it knows to de-energize the motor */
 			}
 			else {			/* We cannot enter the deadband */
 				if(signbit(velocity)==signbit(delta)) {/* If we are moving towards the target */
 					float stop_distance=(velocity*velocity)/(2*Actuator->MaxAcc);/* The minimum stopping distance for the hardware */
 					if( fabs(delta) > (stop_distance+Actuator->DeadPos) ) {/* We have chance to stop with some margin */
+						prior_velocity=velocity;/* The initial velocity is stored for reference */
 						if(!signbit(delta))/* Apply maximum acceleration in the correct direction */
-							velocity+=Actuator->MaxAcc*PRESSURE_TIME_SECONDS;
+							velocity+=Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
 						else/* This is the velocity for the next GPT bin */
-							velocity-=Actuator->MaxAcc*PRESSURE_TIME_SECONDS;
+							velocity-=Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
 						if( fabs(velocity)>Actuator->MaxVel )/* We are above the max speed - enforce limits on speed */
 							velocity=signbit(delta)?-Actuator->MaxVel:Actuator->MaxVel;
 					}
@@ -287,28 +289,31 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 						if(index) {/* If the current bin is not the first, we may be able to backcorrect*/
 							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(fabs(delta)-stop_distance ) );/* Excess Vel*/
 							float first_acc = velocity-prior_velocity;/* The acceleration over previous GPT timestep */
-							first_acc -= signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
+							first_acc += signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
 							if( fabs(first_acc)>Actuator->MaxAcc ) {/* Our adjusted acceleration exceeds limited */
-								first_acc = signbit(delta)?Actuator->MaxAcc:-Actuator->MaxAcc;
+								first_acc = signbit(first_acc)?Actuator->MaxAcc:-Actuator->MaxAcc;/* Apply range limit */
+								first_acc*= PRESSURE_TIME_SECONDS/4.0;/* Scale for delta time, ready to add to velocity */
 							}
 							velocity = prior_velocity + first_acc;/* Backapply the acceleration */
 							velocities[index-1] = velocity;/* Backapply velocity */
-						}
-						velocity-=signbit(delta)?Actuator->MaxAcc:-Actuator->MaxAcc;/* Try our best to slow down*/
+						}/* Try our best to slow down in this interval */
+						prior_velocity=velocity;/* The initial velocity is stored for reference */
+						velocity+=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:-Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
 					}
 				}
 				else {		/* If we are moving away from the target */
-					velocity+=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS:-Actuator->MaxAcc*PRESSURE_TIME_SECONDS;
+					prior_velocity=velocity;/* The initial velocity is stored for reference */
+					velocity-=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:-Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
 				}		/* Try our best to head towards target*/
 			}
 			if(index<4) {
 				velocities[index]=velocity;
 				if(!index)	/* Store the midway position to eliminate lag from the EKF */
-					actuator_midway_position+=velocity*(float)PRESSURE_TIME_SECONDS;
+					actuator_midway_position+=velocity*PRESSURE_TIME_SECONDS/4.0;
 				else if(index==1)/* The ADC sampling interval lasts just under three GPT intervals (3/2=1.5)*/
-					actuator_midway_position+=velocity*(float)PRESSURE_TIME_SECONDS/2.0;
+					actuator_midway_position+=velocity*PRESSURE_TIME_SECONDS/8.0;
 			}
-			prior_velocity=velocity;/* Store this for reference */
+			position+=velocity*PRESSURE_TIME_SECONDS/4.0;/* The new reference position for the next loop */
 		}
 		for(index=0;index<4;index++)
 			chMBPost(&Actuator_Velocities, *((msg_t*)&velocities[index]), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */

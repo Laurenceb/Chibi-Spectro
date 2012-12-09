@@ -291,7 +291,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 							float first_acc = velocity-prior_velocity;/* The acceleration over previous GPT timestep */
 							first_acc += signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
 							if( fabs(first_acc)>Actuator->MaxAcc ) {/* Our adjusted acceleration exceeds limited */
-								first_acc = signbit(first_acc)?Actuator->MaxAcc:-Actuator->MaxAcc;/* Apply range limit */
+								first_acc = signbit(first_acc)?-Actuator->MaxAcc:Actuator->MaxAcc;/* Apply range limit */
 								first_acc*= PRESSURE_TIME_SECONDS/4.0;/* Scale for delta time, ready to add to velocity */
 							}
 							velocity = prior_velocity + first_acc;/* Backapply the acceleration */

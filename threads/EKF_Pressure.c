@@ -216,9 +216,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	* park the linear actuator near to the top of the run
 	*/
 	do {
-		float v=-4.0;//a slow retraction speed means that motor can be turned on/off freely
+		velocity=-4.0;//a slow retraction speed means that motor can be turned on/off freely
 		for(index=0;index<4;index++)	/* Post 4 velocities to the stepper GPT */
-			chMBPost(&Actuator_Velocities, *((msg_t*)&v), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
+			chMBPost(&Actuator_Velocities, *((msg_t*)&velocity), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
 		/* Sleep until we are awoken by the GPT ISR - meaning the 4 GPT intervals have been read */
 		/* Waiting for the IRQ to happen.*/
 		chSysLock();
@@ -230,6 +230,12 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	/* Reset these after the actuator is positioned */
 	Actuator_Position=0;
 	Actuator_Velocity=0;
+	/* Set the actuator in sleep mode (stator with no current ) */
+	velocity=0;
+	chMBPost(&Actuator_Velocities, *((msg_t*)&velocity), TIME_IMMEDIATE);/* This will force the stepper driver to off state */
+	do {
+		chThdSleepMilliseconds(20);
+	} while(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) != RDY_OK);/* Loop until we get some Setpoints send to the thread */
 	/* Loop for the Pressure thread */
 	while(TRUE) {
 		/* Sleep until we are awoken by the GPT ISR */

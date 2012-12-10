@@ -13,8 +13,8 @@ void Update_State(float State[2], float Covar[2][2], float Measurement, float Po
 	float y = Measurement - State[0] * p_;
 	float s = p_ * ( Covar[0][0]*p_ + s_*Covar[0][1] ) + s_ * ( Covar[1][0]*p_ + s_*Covar[1][1] ) + Measurement_Covar;//S=HPH'+R
 	y/=s;							//For the state update
-	State[0] += (Covar[0][0]*p_ + Covar[0][1]*s_)*y;	//x+=PH'y/S
-	State[1] += (Covar[1][0]*p_ + Covar[1][1]*s_)*y;
+	State[0] += p_*(Covar[0][0]*p_ + Covar[0][1]*s_)*y;	//x+=PH'y/S
+	State[1] += s_*(Covar[1][0]*p_ + Covar[1][1]*s_)*y;
 	y = (p_*p_ + s_*s_) / s;
 	Covar[0][0] -= (Covar[0][0]*Covar[0][0] + Covar[0][1]*Covar[1][0]) * y;//P-=P(H'/S)HP
 	Covar[0][1] -= (Covar[0][0]*Covar[0][1] + Covar[0][1]*Covar[1][1]) * y;

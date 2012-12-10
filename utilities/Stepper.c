@@ -4,10 +4,12 @@
 #include "Hardware_Conf.h"
 
 void Setup_Stepper_PWM(void) {/* Note that this is hardcoded to timer1 chan2 - used to drive the stepper on the F4Discovery*/
-	/* Clk and Reset tim8 */
+	/* Clk and Reset tim1 */
 	RCC->APB2ENR|=RCC_APB2ENR_TIM1EN;
 	RCC->APB2RSTR|=RCC_APB2RSTR_TIM1RST;
 	RCC->APB2RSTR&=~(RCC_APB2RSTR_TIM1RST);
+	/* Setup debug mode to disable timer in halt */
+	DBGMCU->APB2FZ|=DBGMCU_APB1_FZ_DBG_TIM1_STOP;
 	/* Configure the timers */
 	//Channel 2
 	TIM1->CR1|=TIM_CR1_ARPE;	//Preload enable

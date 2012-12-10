@@ -102,7 +102,7 @@ int main(void) {
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
-  Actuator_TypeDef Our_Config = { .MaxAcc=10610, .MaxVel=200, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.1, .DeadVel=10 };
+  Actuator_TypeDef Our_Config = { .MaxAcc=2652, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.1, .DeadVel=10 };
   /* Variables for dumping data */
   //For pressure setting
   float pressure_setpoints[NUMBER_SETPOINTS];

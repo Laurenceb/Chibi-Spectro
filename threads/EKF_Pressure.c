@@ -255,7 +255,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
-		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
+		//if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
 			Update_State(State, Covar, pressure, actuator_midway_position, Measurement_Covar);/*Use the previously stored midway position */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
@@ -283,7 +283,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			else {			/* We cannot enter the deadband */
 				if(signbit(velocity)==signbit(delta)) {/* If we are moving towards the target */
 					float stop_distance=(velocity*velocity)/(2*Actuator->MaxAcc);/* The minimum stopping distance for the hardware */
-					if( fabs(delta) > (stop_distance+Actuator->DeadPos) ) {/* We have chance to stop with some margin */
+					if( fabs(delta) > (stop_distance-Actuator->DeadPos) ) {/* We have chance to stop with some margin */
 						prior_velocity=velocity;/* The initial velocity is stored for reference */
 						if(!signbit(delta))/* Apply maximum acceleration in the correct direction */
 							velocity+=Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
@@ -294,7 +294,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					}
 					else {	/* We are unable to stop without overshooting the target - try to backcorrect if scheduling allows */
 						if(index) {/* If the current bin is not the first, we may be able to backcorrect*/
-							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(fabs(delta)-stop_distance ) );/* Excess Vel*/
+							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(stop_distance-fabs(delta) ) );/* Excess Vel*/
 							float first_acc = velocity-prior_velocity;/* The acceleration over previous GPT timestep */
 							first_acc += signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
 							if( fabs(first_acc)>Actuator->MaxAcc ) {/* Our adjusted acceleration exceeds limited */

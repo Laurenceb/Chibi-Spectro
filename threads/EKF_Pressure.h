@@ -53,6 +53,6 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 
 #define PROCESS_NOISE {3*3,MODULUS*MODULUS/100.0}/* EV of 3mm hand drift per second, 10% shift in modulus */
 
-#define INITIAL_COVAR {{MODULUS*MODULUS/9.0,0},{ACTUATOR_LENGTH*ACTUATOR_LENGTH/20.0,0}}/* EKF covar intialisation */
+#define INITIAL_COVAR {{MODULUS*MODULUS/9.0,0},{0,ACTUATOR_LENGTH*ACTUATOR_LENGTH/20.0}}/* EKF covar intialisation */
 
 #define INITIAL_STATE {MODULUS,ACTUATOR_LENGTH*0.8}/* Initial position towards end of travel, to maximise probability of a hand hit at initialisation */

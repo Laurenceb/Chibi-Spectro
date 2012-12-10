@@ -29,7 +29,7 @@ static msg_t Actuator_Velocities_Buff[MAILBOX_SIZE];
 /*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPressure, 2048);
+static WORKING_AREA(waThreadPressure, 3072);
 
 /*
  * Thread pointer used for thread wakeup processing
@@ -147,7 +147,9 @@ volatile float Actuator_Position,Actuator_Velocity;
  */
 static void GPT_Stepper_Callback(GPTDriver *gptp){
 	float Motor_Velocity;
-	if(chMBFetch(&Actuator_Velocities, (msg_t*)&Motor_Velocity, TIME_IMMEDIATE) == RDY_OK) {/* If we have some data */
+	chSysLockFromIsr();			/* Use lock to access the mailbox fifo */
+	if(chMBFetchI(&Actuator_Velocities, (msg_t*)&Motor_Velocity) == RDY_OK) {/* If we have some data */
+		chSysUnlockFromIsr();
 		Actuator_Position+=Motor_Velocity*PRESSURE_TIME_SECONDS/4.0;/* This is the position at the end of the current time bin - 4 due to 400hz */
 		Actuator_Velocity=Motor_Velocity;
 		if(!Motor_Velocity)
@@ -159,11 +161,10 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 			uint16_t Timer_Period=(uint16_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity);
 			SET_STEPPER_PERIOD(Timer_Period);/* Set the timer ARR register to control pwm period */	
 		}
+		chSysLockFromIsr();
 	}
-	uint8_t freeslots;
-	chSysLockFromIsr();			/* Wakeup the pressure controller thread, enter lock mode to allow read of slots in mailbox */
-	freeslots=chMBGetUsedCountI(&Actuator_Velocities);
-	chSysUnlockFromIsr();
+	uint8_t freeslots = chMBGetUsedCountI( &Actuator_Velocities );
+	chSysUnlockFromIsr();			/* Wakeup the pressure controller thread, enter lock mode to allow read of slots in mailbox */
 	if( !freeslots ) {			/* There are no more messages : we are entering final time interval */
 		chSysLockFromIsr();
 		if (tp != NULL) {
@@ -185,7 +186,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t Setpoint,msg;			/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0;
-	float velocities[4]={},velocity,prior_velocity,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target;
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;

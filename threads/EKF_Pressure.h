@@ -49,9 +49,13 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 
 #define MODULUS	1.5		/* Estimated from existing tests, Units are PSI/mm */
 
-#define MEASUREMENT_COVAR ((PRESSURE_MARGIN/3)*(PRESSURE_MARGIN/3))/* 3 sigma margin */
+#define	MODULUS_LIMIT	(MODULUS*MODULUS/4.0)
 
-#define PROCESS_NOISE {3*3,MODULUS*MODULUS/100.0}/* EV of 3mm hand drift per second, 10% shift in modulus */
+#define POS_LIMIT	(ACTUATOR_LENGTH*ACTUATOR_LENGTH/11.0)/* Limit on the size of the position error covar */
+
+#define MEASUREMENT_COVAR 1/*((PRESSURE_MARGIN/3)*(PRESSURE_MARGIN/3))/* 3 sigma margin */
+
+#define PROCESS_NOISE {0.001,(0.1*0.1)}/* EV of 0.1% shift in modulus, 0.1mm hand drift per second,  */
 
 #define INITIAL_COVAR {{MODULUS*MODULUS/9.0,0},{0,ACTUATOR_LENGTH*ACTUATOR_LENGTH/20.0}}/* EKF covar intialisation */
 

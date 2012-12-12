@@ -297,7 +297,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(stop_distance-fabs(delta) ) );/* Excess Vel*/
 							float first_acc = velocity-prior_velocity;/* The acceleration over previous GPT timestep */
 							first_acc += signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
-							if( fabs(first_acc)>Actuator->MaxAcc ) {/* Our adjusted acceleration exceeds limited */
+							if( fabs(first_acc)>Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0 ) {/* Adjusted acc exceeds limit */
 								first_acc = signbit(first_acc)?-Actuator->MaxAcc:Actuator->MaxAcc;/* Apply range limit */
 								first_acc*= PRESSURE_TIME_SECONDS/4.0;/* Scale for delta time, ready to add to velocity */
 							}
@@ -305,7 +305,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 							velocities[index-1] = velocity;/* Backapply velocity */
 						}/* Try our best to slow down in this interval */
 						prior_velocity=velocity;/* The initial velocity is stored for reference */
-						velocity+=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:-Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
+						velocity+=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:\
+									-Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
 					}
 				}
 				else {		/* If we are moving away from the target */

@@ -47,7 +47,7 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 
 /* Hand position and properties estimator EKF related macros */
 
-#define MODULUS	1.5		/* Estimated from existing tests, Units are PSI/mm */
+#define MODULUS	1.0		/* Estimated from existing tests, Units are PSI/mm */
 
 #define	MODULUS_LIMIT	(MODULUS*MODULUS/4.0)
 

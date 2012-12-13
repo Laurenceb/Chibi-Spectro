@@ -102,11 +102,11 @@ int main(void) {
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
-  Actuator_TypeDef Our_Config = { .MaxAcc=2652, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.2, .DeadVel=10 };
+  Actuator_TypeDef Our_Config = { .MaxAcc=250, .MaxVel=40, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.1, .DeadVel=8 };
   /* Variables for dumping data */
   //For pressure setting
-  float pressure_setpoints[NUMBER_SETPOINTS];
-  uint8_t pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL]={};
+  //float pressure_setpoints[NUMBER_SETPOINTS];
+  float pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL]={};
   //end pressure
   float pressure;
   uint32_t ppg[PPG_CHANNELS],iterations=0,loaded_setpoints=0,n=0;
@@ -149,17 +149,17 @@ while(1){
 	  chprintf(USBout, "%s\n",scanbuff);
 	  //TODO: PID setpoints, pressure pulse sequences, autobrightness config
 	  if(!valid_string)
-		chprintf(USBout,"Invalid config, format is: \r\n");//Massage to user
+		chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
   } while(valid_string==0);		//We loop here until string is valid
   /* At present we just have a 5s pulse at end of each period */
-  for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(uint8_t);n++) {
-	if((sizeof(pressure_set_array)/sizeof(uint8_t)-n)<500)
-		pressure_set_array[n]=1;
+  for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
+	if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
+		pressure_set_array[n]=2.5;
 	else
-		pressure_set_array[n]=0;
+		pressure_set_array[n]=0.0;
   }
-  pressure_setpoints[0]=0.3;
-  pressure_setpoints[1]=2.5;
+  //pressure_setpoints[0]=0.3;
+  //pressure_setpoints[1]=2.5;
   /* Populate our pressure control struct*/
 	//Done in declaration atm
   /* Create the Pressure thread */
@@ -181,7 +181,7 @@ while(1){
 	while(1) {
 		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;
-			if(n==sizeof(pressure_set_array)/sizeof(uint8_t))
+			if(n==sizeof(pressure_set_array)/sizeof(float))
 				n=0;	//Loop around to start of buffer
 		}
 		else

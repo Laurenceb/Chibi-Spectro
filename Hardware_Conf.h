@@ -12,7 +12,7 @@
 #define DIFF_GAIN_PASCALS (SENSOR_GAIN/SENSOR_AREA)/* Sensor area needs to be taken into account when calculating pressure */
 #define DIFF_GAIN (PASCALS_2_PSI*DIFF_GAIN_PASCALS)/* Need to multiply be this constant to convert to PSI from ADC delta value */
 
-#define PRESSURE_MARGIN 0.075	/* An estimate of 3 sigma noise, ie rms noise * 3 */
+#define PRESSURE_MARGIN 0.1/*0.075*/	/* An estimate of 3 sigma noise, ie rms noise * 3 */
 
 /* ADC2 - pressure sensor related */
 

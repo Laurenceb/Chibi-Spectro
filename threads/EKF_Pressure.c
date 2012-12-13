@@ -152,8 +152,10 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		chSysUnlockFromIsr();
 		Actuator_Position+=Motor_Velocity*PRESSURE_TIME_SECONDS/4.0;/* This is the position at the end of the current time bin - 4 due to 400hz */
 		Actuator_Velocity=Motor_Velocity;
-		if(!Motor_Velocity)
+		if(!Motor_Velocity) {
 			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
+			//SET_STEPPER_PERIOD(0xFFFF);
+		}
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
 			GPIO_Stepper_Dir(Motor_Velocity>0);/* Set the direction line to the motor */
@@ -171,8 +173,12 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 			tp->p_u.rdymsg = (msg_t)NULL;/*(buffer==PPG_Sample_Buffer? (msg_t)1 : (msg_t)0 );*//* Sending the message, gives buffer index.*/
 			chSchReadyI(tp);
 			tp = NULL;
+			chSysUnlockFromIsr();
 		}
-		chSysUnlockFromIsr();
+		else {
+			chSysUnlockFromIsr();
+			GPIO_Stepper_Enable(0);	/* Disable the stepper driver driver if there is no data and we cannot awake the thread */
+		}
 	}
 	else if( freeslots == 3)		/* The control thread just ran, so we are entering the first time interval */
 		adcStartConversion(&ADCD2, &adcgrpcfg2_pressure, Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE);/* Start ADC2 samples - takes just < 3 GPT */
@@ -184,9 +190,9 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
   * @retval msg_t status
   */
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
-	msg_t Setpoint,msg;			/* Used to read the setpoint buffer and messages from GPT */
+	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target;
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target,Setpoint=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;
@@ -228,12 +234,12 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		msg = chThdSelf()->p_u.rdymsg;	/* Retrieving the message, gives us the correct buffer index*/
 		chSysUnlock();
 	}while(CONVERT_POT(Pot_sample)>ACTUATOR_LENGTH/6);/* Wait for the pot feedback to indicate that we are at end of travel */
-	/* Reset these after the actuator is positioned */
-	Actuator_Position=0;
-	Actuator_Velocity=0;
 	/* Set the actuator in sleep mode (stator with no current ) */
 	velocity=0;
 	chMBPost(&Actuator_Velocities, *((msg_t*)&velocity), TIME_IMMEDIATE);/* This will force the stepper driver to off state */
+	/* Reset these after the actuator is positioned */
+	Actuator_Position=0;
+	Actuator_Velocity=0;
 	do {
 		chThdSleepMilliseconds(20);
 	} while(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) != RDY_OK);/* Loop until we get some Setpoints send to the thread */
@@ -255,7 +261,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
-		//if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
+		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
 			Update_State(State, Covar, pressure, actuator_midway_position, Measurement_Covar);/*Use the previously stored midway position */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
@@ -283,7 +289,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			else {			/* We cannot enter the deadband */
 				if(signbit(velocity)==signbit(delta)) {/* If we are moving towards the target */
 					float stop_distance=(velocity*velocity)/(2*Actuator->MaxAcc);/* The minimum stopping distance for the hardware */
-					if( fabs(delta) > (stop_distance-Actuator->DeadPos) ) {/* We have chance to stop with some margin */
+					if( fabs(delta) > (stop_distance/*-Actuator->DeadPos*/) ) {/* We have chance to stop with some margin */
 						prior_velocity=velocity;/* The initial velocity is stored for reference */
 						if(!signbit(delta))/* Apply maximum acceleration in the correct direction */
 							velocity+=Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
@@ -294,7 +300,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					}
 					else {	/* We are unable to stop without overshooting the target - try to backcorrect if scheduling allows */
 						if(index) {/* If the current bin is not the first, we may be able to backcorrect*/
-							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(stop_distance-fabs(delta) ) );/* Excess Vel*/
+							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(stop_distance-fabs(delta)+0.001 ) );/* Excess Vel*/
 							float first_acc = velocity-prior_velocity;/* The acceleration over previous GPT timestep */
 							first_acc += signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
 							if( fabs(first_acc)>Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0 ) {/* Adjusted acc exceeds limit */

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 
 #include "EKF_Pressure.h"
 #include "Stepper.h"
@@ -192,8 +193,9 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0;
+	uint16_t holdoff=0;
 	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target,Setpoint=0;
-	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
+	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR,Old_State[2]=INITIAL_STATE,Old_Setpoint=0;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
@@ -205,10 +207,6 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	/*
 	* ADC2 runs single DMA transactions of multiple conversions.
 	*/
-	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADc group convertions and calibrate until ready*/
-	do {
-		adcConvert(&ADCD2, &adcgrpcfg2_pressure_calibrate, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
-	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));	
 	/* Enable the GPT8 timer (TIM8) */	
 	gptStart(&GPTD8, &gpt8cfg);
 	/* 
@@ -240,6 +238,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	/* Reset these after the actuator is positioned */
 	Actuator_Position=0;
 	Actuator_Velocity=0;
+	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADc group convertions and calibrate until ready*/
+	do {
+		adcConvert(&ADCD2, &adcgrpcfg2_pressure_calibrate, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
+	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));
+	/* Wait for data */	
 	do {
 		chThdSleepMilliseconds(20);
 	} while(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) != RDY_OK);/* Loop until we get some Setpoints send to the thread */
@@ -262,15 +265,24 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
-			Update_State(State, Covar, pressure, actuator_midway_position, fabs(velocity)+1.0); 
+			Update_State(State, Covar, pressure, actuator_midway_position, fabs(velocity)*fabs(velocity)+4.0); 
 			//Measurement_Covar);/*Use the previously stored midway position */
-		else if(actuator_midway_position>State[1])
+		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
-		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
-			target = State[1] + (Setpoint / State[0]) ;
+		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
+			if(Setpoint!=Old_Setpoint) {
+				Old_Setpoint=Setpoint;
+				memcpy(Old_State,State,sizeof(Old_State));/* Use this until next state change */
+				holdoff=0;	/* Use stored state after a setpoint change */
+			}
+			if(holdoff++<300)
+				target = Old_State[1] + (Setpoint / Old_State[0]) ;
+			else
+				target = State[1] + (Setpoint / State[0]) ;
+		}
 		else
-			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
+			target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */

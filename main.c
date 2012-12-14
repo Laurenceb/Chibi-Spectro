@@ -156,7 +156,7 @@ while(1){
 	if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
 		pressure_set_array[n]=2.5;
 	else
-		pressure_set_array[n]=0.0;
+		pressure_set_array[n]=0.5;
   }
   //pressure_setpoints[0]=0.3;
   //pressure_setpoints[1]=2.5;

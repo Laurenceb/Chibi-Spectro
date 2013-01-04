@@ -95,6 +95,11 @@
 #define CH_NO_IDLE_THREAD               FALSE
 #endif
 
+
+//Added 4/1/13
+//enabled sleep in idle mode
+#define CORTEX_ENABLE_WFI_IDLE TRUE
+
 /** @} */
 
 /*===========================================================================*/

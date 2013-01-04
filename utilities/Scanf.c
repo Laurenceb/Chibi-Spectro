@@ -128,10 +128,11 @@ static int scan_int(char **in, int base, int widht) {
                 dst = -dst;
         return dst;
 }
-#if 0
+
+
 static double scan_double(char **in, int base, int width) {
-        int neg = 0;
-        double dst = 0;
+        int neg = 0, found_decimal = 0;
+        double dst = 0, part = 0, upart=0;
         int ch;
         int i;
 
@@ -144,21 +145,41 @@ static double scan_double(char **in, int base, int width) {
                 }
 
                 if (!isdigit(ch)) {
-                        ungetchar(ch);
-                        break;
+			if(ch!='.') {
+                        	unscanchar(in,ch);
+                        	break;
+			}
+			else {
+				upart = dst;
+				dst=1;
+				found_decimal=1;
+				continue;
+			}
                 }
-                /*for different bases*/
-                if (base >10)
-                dst = dst * base + (ch - '0' - 7);
-                else
-                dst = dst * base + (ch - '0');
+		if(found_decimal) {
+			dst /= base;
+                	/*for different bases*/
+                	if (base >10)
+                		part += (ch - '0' - 7)*dst;
+                	else
+                		part += (ch - '0')*dst;
+		}
+		else {
+			dst *= base;
+                	/*for different bases*/
+                	if (base >10)
+                		dst += (ch - '0' - 7);
+                	else
+                		dst += (ch - '0');
+		}
         }
-
+	if(found_decimal)
+		dst=part+upart;
         if (neg)
-        dst = -dst;
+       		dst = -dst;
         return dst;
 }
-#endif
+
 
 static int scan(char **in, const char *fmt, va_list args) {
         int widht;
@@ -216,15 +237,15 @@ static int scan(char **in, const char *fmt, va_list args) {
                                 ++converted;
                         }
                                 continue;
-#if 0
+
                         case 'D': {
                                         double dst;
                                         dst = scan_double(in,10,widht);
-                                        *va_arg(args, int*) = dst;
+                                        *va_arg(args, double*) = dst;
                                         ++converted;
                                 }
                                 continue;
-#endif
+
                         case 'o': {
                                 int dst;
                                 dst = scan_int(in, 8, widht);

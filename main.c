@@ -115,10 +115,10 @@ int main(void) {
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   chprintf(USBout, "\r\n\r\nEnter config or press enter to use default (10s timeout)\r\n");
-//debug code
-/*Setup_Stepper_PWM();
-GPIO_Stepper_Enable(1);
-while(1){
+  //debug code
+  /*Setup_Stepper_PWM();
+  GPIO_Stepper_Enable(1);
+  while(1){
 	GPIO_Stepper_Dir(1);
 	chThdSleepMilliseconds(500);
 	SET_STEPPER_PERIOD(1667);
@@ -131,10 +131,11 @@ while(1){
 	chThdSleepMilliseconds(500);
 	SET_STEPPER_PERIOD(4999);
 	chThdSleepMilliseconds(500);
-}*/
+  }*/
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
   uint8_t numchars=0, timeout=0, valid_string=1;
+  double test;
   do {
 	  do {
 	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff), MS2ST(100));//100ms second timeout
@@ -145,8 +146,8 @@ while(1){
 		numchars+=a;
 		timeout++;
 	  } while(timeout<100 && scanbuff[numchars-1]!='\r' && scanbuff[numchars-1]!='\n');//Loop until newline or timeout with nothing
-	  //sscanf(scanbuff,"%d",&numchars);//scanf will exentually allow setpoints input - TODO
-	  chprintf(USBout, "%s\n",scanbuff);
+	  sscanf(scanbuff, "%D", &test );//scanf will exentually allow setpoints input - TODO
+	  chprintf(USBout, "\r\n Read:%f\r\n", (float)test );
 	  //TODO: PID setpoints, pressure pulse sequences, autobrightness config
 	  if(!valid_string)
 		chprintf(USBout,"Invalid config, format is: \r\n");//Message to user

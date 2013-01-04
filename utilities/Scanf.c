@@ -98,7 +98,7 @@ static int trim_leading(char **str) {
         return ch;
 }
 
-static int scan_int(char **in, int base, int widht) {
+static int scan_int(char **in, int base, int width) {
         int neg = 0;
         int dst = 0;
         int ch;
@@ -114,7 +114,7 @@ static int scan_int(char **in, int base, int widht) {
         }
 
         for (i = 0; (ch = (int) toupper(scanchar(in))) != EOF; i++) {
-                if (!(base == 10 ? isdigit(ch) : isxdigit(ch)) || (0 == widht)) {
+                if (!(base == 10 ? isdigit(ch) : isxdigit(ch)) || (0 == width)) {
                         unscanchar(in, ch);
                         /*end conversion*/
                         break;
@@ -136,15 +136,17 @@ static double scan_double(char **in, int base, int width) {
         int ch;
         int i;
 
-        trim_leading(in);
+        if (EOF == (ch = trim_leading(in)))
+                return 0;/*error*/
+
+        if ((ch == '-') || (ch == '+')) {
+                neg = (ch == '-');
+        } else {
+                dst = ch_to_digit(ch, base);
+        }
 
         for (i = 0; (ch = scanchar(in)) != EOF; i++) {
-                if (i == 0 && (ch == '-' || ch == '+')) {
-                        neg = (ch == '-');
-                        continue;
-                }
-
-                if (!isdigit(ch)) {
+                if (!(base == 10 ? isdigit(ch) : isxdigit(ch)) || (0 == width)) {
 			if(ch!='.') {
                         	unscanchar(in,ch);
                         	break;
@@ -182,23 +184,23 @@ static double scan_double(char **in, int base, int width) {
 
 
 static int scan(char **in, const char *fmt, va_list args) {
-        int widht;
+        int width;
         int converted = 0;
 
         while (*fmt != '\0') {
                 if (*fmt == '%') {
                         fmt++;
-                        widht = 80;
+                        width = 80;
 
                         if (*fmt == '\0')
                                 break;
 
                         if (isdigit((int) *fmt))
-                                widht = 0;
+                                width = 0;
 
                         while (isdigit((int) *fmt)) {
 
-                                widht = widht * 10 + (*fmt++ - '0');
+                                width = width * 10 + (*fmt++ - '0');
                         }
 
                         switch (*fmt) {
@@ -208,7 +210,7 @@ static int scan(char **in, const char *fmt, va_list args) {
 #if 0
                                 trim_leading(in);
 #endif
-                                while (EOF != (ch = scanchar(in)) && widht--)
+                                while (EOF != (ch = scanchar(in)) && width--)
                                         *dst++ = (char) ch;
                                 *dst = '\0';
 
@@ -230,7 +232,7 @@ static int scan(char **in, const char *fmt, va_list args) {
                         case 'u':
                         case 'd': {
                                 int dst;
-                                dst = scan_int(in, 10, widht);
+                                dst = scan_int(in, 10, width);
 
                                 *va_arg(args, int*) = dst;
 
@@ -240,7 +242,7 @@ static int scan(char **in, const char *fmt, va_list args) {
 
                         case 'D': {
                                         double dst;
-                                        dst = scan_double(in,10,widht);
+                                        dst = scan_double(in,10,width);
                                         *va_arg(args, double*) = dst;
                                         ++converted;
                                 }
@@ -248,7 +250,7 @@ static int scan(char **in, const char *fmt, va_list args) {
 
                         case 'o': {
                                 int dst;
-                                dst = scan_int(in, 8, widht);
+                                dst = scan_int(in, 8, width);
 
                                 *va_arg(args, int*) = dst;
 
@@ -266,7 +268,7 @@ static int scan(char **in, const char *fmt, va_list args) {
 #endif
                         case 'x': {
                                 int dst;
-                                dst = scan_int(in, 16, widht);
+                                dst = scan_int(in, 16, width);
                                 *va_arg(args, int*) = dst;
 
                                 ++converted;

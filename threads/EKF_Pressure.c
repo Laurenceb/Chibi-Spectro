@@ -216,6 +216,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	* means we call the callback function every 2500uS or 400 times per second
 	 */
     	gptStartContinuous(&GPTD8, (200*PRESSURE_TIME_INTERVAL)/4 ); // dT = 200,000 / 500 = 400Hz
+	//This is a bit goofy and needs to be improved - wait 100ms so that the main thread has chance to calibrate the PPG
+	 chThdSleepMilliseconds(100);
 	/*
 	* Linear Actuator parking loop
 	* park the linear actuator near to the top of the run
@@ -279,7 +281,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			//if(holdoff++<300)
 			//	target = Old_State[1] + (Setpoint / Old_State[0]) ;
 			//else
-				target = /*State[1]*/Actuator_Position + ( (Setpoint-pressure) / (5.0*State[0]) ) ;
+				target = /*State[1]*/Actuator_Position + ( (Setpoint-pressure) / (4.0*State[0]) ) ;
 		}
 		else
 			target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */

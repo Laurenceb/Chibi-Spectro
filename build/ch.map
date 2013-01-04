@@ -1642,9 +1642,8 @@ destructors     0x08000188        0x0
                 0x08005970        0x2 build/obj/EKF_Pressure.o
  *fill*         0x08005972        0xe 00
  .text.Pressure_Thread
-                0x08005980      0x508 build/obj/EKF_Pressure.o
+                0x08005980      0x510 build/obj/EKF_Pressure.o
                 0x08005980                Pressure_Thread
- *fill*         0x08005e88        0x8 00
  .text.GPT_Stepper_Callback
                 0x08005e90      0x108 build/obj/EKF_Pressure.o
  *fill*         0x08005f98        0x8 00
@@ -2227,7 +2226,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x0001ecb5      0x682 build/obj/Stepper.o
  .debug_info    0x0001f337      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x1b6de
+.debug_line     0x00000000    0x1b6df
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2294,18 +2293,18 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x0001601a      0x453 build/obj/chprintf.o
  .debug_line    0x0001646d      0x942 build/obj/main.o
  .debug_line    0x00016daf      0x611 build/obj/usbcfg.o
- .debug_line    0x000173c0      0x9e6 build/obj/EKF_Pressure.o
- .debug_line    0x00017da6      0x85a build/obj/PID_Pressure.o
- .debug_line    0x00018600      0x6bd build/obj/PPG_Demod.o
- .debug_line    0x00018cbd      0x6d0 build/obj/PPG.o
- .debug_line    0x0001938d      0x546 build/obj/Pressure.o
- .debug_line    0x000198d3      0x858 build/obj/EKF_Estimator.o
- .debug_line    0x0001a12b       0x64 build/obj/PID_Control.o
- .debug_line    0x0001a18f      0x353 build/obj/Pressure_Filter.o
- .debug_line    0x0001a4e2      0x4fc build/obj/Quickselect.o
- .debug_line    0x0001a9de      0x474 build/obj/Scanf.o
- .debug_line    0x0001ae52      0x639 build/obj/Stepper.o
- .debug_line    0x0001b48b      0x253 build/obj/Timer.o
+ .debug_line    0x000173c0      0x9e7 build/obj/EKF_Pressure.o
+ .debug_line    0x00017da7      0x85a build/obj/PID_Pressure.o
+ .debug_line    0x00018601      0x6bd build/obj/PPG_Demod.o
+ .debug_line    0x00018cbe      0x6d0 build/obj/PPG.o
+ .debug_line    0x0001938e      0x546 build/obj/Pressure.o
+ .debug_line    0x000198d4      0x858 build/obj/EKF_Estimator.o
+ .debug_line    0x0001a12c       0x64 build/obj/PID_Control.o
+ .debug_line    0x0001a190      0x353 build/obj/Pressure_Filter.o
+ .debug_line    0x0001a4e3      0x4fc build/obj/Quickselect.o
+ .debug_line    0x0001a9df      0x474 build/obj/Scanf.o
+ .debug_line    0x0001ae53      0x639 build/obj/Stepper.o
+ .debug_line    0x0001b48c      0x253 build/obj/Timer.o
 
 .debug_macinfo  0x00000000   0xfbfc57
  .debug_macinfo

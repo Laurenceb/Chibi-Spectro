@@ -102,7 +102,7 @@ int main(void) {
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
-  Actuator_TypeDef Our_Config = { .MaxAcc=250, .MaxVel=40, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.1, .DeadVel=8 };
+  Actuator_TypeDef Our_Config = { .MaxAcc=250, .MaxVel=40, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.15, .DeadVel=8 };
   /* Variables for dumping data */
   //For pressure setting
   //float pressure_setpoints[NUMBER_SETPOINTS];
@@ -155,9 +155,9 @@ int main(void) {
   /* At present we just have a 5s pulse at end of each period */
   for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
 	if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
-		pressure_set_array[n]=2.5;
+		pressure_set_array[n]=3.0;
 	else
-		pressure_set_array[n]=0.5;
+		pressure_set_array[n]=0.2;
   }
   //pressure_setpoints[0]=0.3;
   //pressure_setpoints[1]=2.5;

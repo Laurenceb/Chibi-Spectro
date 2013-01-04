@@ -34,25 +34,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_info   0001f84d  00000000  00000000  00018289  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0001b6de  00000000  00000000  00037ad6  2**0
+  8 .debug_line   0001b6df  00000000  00000000  00037ad6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_macinfo 00fbfc57  00000000  00000000  000531b4  2**0
+  9 .debug_macinfo 00fbfc57  00000000  00000000  000531b5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00008ba3  00000000  00000000  01012e0b  2**0
+ 10 .debug_loc    00008ba3  00000000  00000000  01012e0c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_pubnames 00001a90  00000000  00000000  0101b9ae  2**0
+ 11 .debug_pubnames 00001a90  00000000  00000000  0101b9af  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_pubtypes 000045bf  00000000  00000000  0101d43e  2**0
+ 12 .debug_pubtypes 000045bf  00000000  00000000  0101d43f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_aranges 00000ff8  00000000  00000000  010219fd  2**0
+ 13 .debug_aranges 00000ff8  00000000  00000000  010219fe  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_ranges 00000fa0  00000000  00000000  010229f5  2**0
+ 14 .debug_ranges 00000fa0  00000000  00000000  010229f6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    0000418f  00000000  00000000  01023995  2**0
+ 15 .debug_str    0000418f  00000000  00000000  01023996  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000002a  00000000  00000000  01027b24  2**0
+ 16 .comment      0000002a  00000000  00000000  01027b25  2**0
                   CONTENTS, READONLY
- 17 .ARM.attributes 00000037  00000000  00000000  01027b4e  2**0
+ 17 .ARM.attributes 00000037  00000000  00000000  01027b4f  2**0
                   CONTENTS, READONLY
  18 .debug_frame  00002a94  00000000  00000000  01027b88  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -527,7 +527,7 @@ SYMBOL TABLE:
 08005640 g     F .text	000002a4 main
 08003d80 g     F .text	00000028 Vector6C
 08003430 g     F .text	0000001c gptStart
-08005980 g     F .text	00000504 Pressure_Thread
+08005980 g     F .text	0000050c Pressure_Thread
 08003380 g     F .text	0000001c adcStart
 08002000 g     F .text	0000007c __aeabi_l2f
 2000a2bc g     O .bss	0000001c rlist

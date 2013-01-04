@@ -271,15 +271,15 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			if(Setpoint!=Old_Setpoint) {
-				Old_Setpoint=Setpoint;
-				memcpy(Old_State,State,sizeof(Old_State));/* Use this until next state change */
-				holdoff=0;	/* Use stored state after a setpoint change */
-			}
-			if(holdoff++<300)
-				target = Old_State[1] + (Setpoint / Old_State[0]) ;
-			else
-				target = State[1] + (Setpoint / State[0]) ;
+			//if(Setpoint!=Old_Setpoint) {
+			//	Old_Setpoint=Setpoint;
+			//	memcpy(Old_State,State,sizeof(Old_State));/* Use this until next state change */
+			//	holdoff=0;	/* Use stored state after a setpoint change */
+			//}
+			//if(holdoff++<300)
+			//	target = Old_State[1] + (Setpoint / Old_State[0]) ;
+			//else
+				target = /*State[1]*/Actuator_Position + ( (Setpoint-pressure) / (5.0*State[0]) ) ;
 		}
 		else
 			target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */

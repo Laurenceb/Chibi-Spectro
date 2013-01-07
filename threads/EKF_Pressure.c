@@ -267,7 +267,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
-			Update_State(State, Covar, pressure, actuator_midway_position, fabs(velocity)*fabs(velocity)+4.0); 
+			Update_State(State, Covar, pressure, actuator_midway_position, (velocity*velocity)+4.0); 
 			//Measurement_Covar);/*Use the previously stored midway position */
 		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
@@ -281,7 +281,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			//if(holdoff++<300)
 			//	target = Old_State[1] + (Setpoint / Old_State[0]) ;
 			//else
-				target = /*State[1]*/Actuator_Position + ( (Setpoint-pressure) / (4.0*State[0]) ) ;
+				target = /*State[1]*/actuator_midway_position + ( (Setpoint-pressure) / 4.0/*(4.0*State[0])*/ ) ;
+				//target = 2.0*Setpoint+10.0;
 		}
 		else
 			target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */

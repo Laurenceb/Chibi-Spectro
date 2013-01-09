@@ -155,7 +155,6 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		Actuator_Velocity=Motor_Velocity;
 		if(!Motor_Velocity) {
 			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
-			//SET_STEPPER_PERIOD(0xFFFF);
 		}
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */

@@ -38,7 +38,7 @@
 /* Stepper motor + leadscrew based linear actuator related */
 
 #define LEADSCREW_PITCH		4.0/* Units of mm in all the linear actuator code */
-#define STEPS_PER_ROTATION	(360.0/1.8)
+#define STEPS_PER_ROTATION	(360.0*16.0/1.8)/* We are using a 1.8degreee stepper with 1/16 stepping */
 #define ACTUATOR_LENGTH		30.0/* A haxored firgelli L12 actuator */
 #define INVERSE_POT		/* Define this if high voltage means retracted */
 

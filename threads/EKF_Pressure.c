@@ -241,8 +241,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	Actuator_Position=0;
 	Actuator_Velocity=0;
 	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADc group convertions and calibrate until ready*/
+	holdoff=0;
 	do {
 		adcConvert(&ADCD2, &adcgrpcfg2_pressure_calibrate, &Pressure_Sample, 1);/* This function blocks until it has one sample*/
+		if(holdoff++ & 0x0010)	
+			chThdSleepMilliseconds(10);
 	} while(Calibrate_Sensor((uint16_t)Pressure_Sample));
 	/* Wait for data */	
 	do {
@@ -267,7 +270,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
-			Update_State(State, Covar, pressure, actuator_midway_position, (velocity*velocity)+4.0); 
+			Update_State(State, Covar, pressure, actuator_midway_position, 0.01*(velocity*velocity*State[0]*State[0])+1); 
 			//Measurement_Covar);/*Use the previously stored midway position */
 		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
@@ -281,8 +284,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			//if(holdoff++<300)
 			//	target = Old_State[1] + (Setpoint / Old_State[0]) ;
 			//else
-				target = /*State[1]*/actuator_midway_position + ( (Setpoint-pressure) / 4.0/*(4.0*State[0])*/ ) ;
-				//target = 2.0*Setpoint+10.0;
+				target = /*(State[1]*/actuator_midway_position + ( (Setpoint-pressure) / (2.0*State[0]) ) ;
 		}
 		else
 			target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
@@ -318,7 +320,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					}
 					else {	/* We are unable to stop without overshooting the target - try to backcorrect if scheduling allows */
 						if(index) {/* If the current bin is not the first, we may be able to backcorrect*/
-							float overshoot_velocity = sqrtf( 2*Actuator->MaxAcc*(stop_distance-fabs(delta)+0.001 ) );/* Excess Vel*/
+							float overshoot_velocity =sqrtf( 2*Actuator->MaxAcc*(stop_distance-fabs(delta)) );/*Exs Vel*/
 							float first_acc = velocity-prior_velocity;/* The acceleration over previous GPT timestep */
 							first_acc += signbit(delta)?overshoot_velocity:-overshoot_velocity;/* Correct this accel */
 							if( fabs(first_acc)>Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0 ) {/* Adjusted acc exceeds limit */
@@ -328,9 +330,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 							velocity = prior_velocity + first_acc;/* Backapply the acceleration */
 							velocities[index-1] = velocity;/* Backapply velocity */
 						}/* Try our best to slow down in this interval */
-						prior_velocity=velocity;/* The initial velocity is stored for reference */
-						velocity+=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:\
-									-Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
+						prior_velocity = velocity;/* The initial velocity is stored for reference */
+						velocity += signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:\
+									  -Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
 					}
 				}
 				else {		/* If we are moving away from the target */

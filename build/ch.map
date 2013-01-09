@@ -762,7 +762,7 @@ destructors     0x08000188        0x0
  *(SORT(.fini_array.*))
                 0x08000188                PROVIDE (__fini_array_end, .)
 
-.text           0x08000190     0x7964
+.text           0x08000190     0x7974
  *(.text.startup.*)
  *(.text)
  .text          0x08000190       0x10 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-s_signbit.o)
@@ -1642,262 +1642,262 @@ destructors     0x08000188        0x0
                 0x08005970        0x2 build/obj/EKF_Pressure.o
  *fill*         0x08005972        0xe 00
  .text.Pressure_Thread
-                0x08005980      0x4e8 build/obj/EKF_Pressure.o
+                0x08005980      0x4fc build/obj/EKF_Pressure.o
                 0x08005980                Pressure_Thread
- *fill*         0x08005e68        0x8 00
+ *fill*         0x08005e7c        0x4 00
  .text.GPT_Stepper_Callback
-                0x08005e70      0x108 build/obj/EKF_Pressure.o
- *fill*         0x08005f78        0x8 00
+                0x08005e80      0x108 build/obj/EKF_Pressure.o
+ *fill*         0x08005f88        0x8 00
  .text.adc2callback_pressure
-                0x08005f80       0x24 build/obj/EKF_Pressure.o
- *fill*         0x08005fa4        0xc 00
+                0x08005f90       0x24 build/obj/EKF_Pressure.o
+ *fill*         0x08005fb4        0xc 00
  .text.Spawn_Pressure_Thread
-                0x08005fb0       0x60 build/obj/EKF_Pressure.o
-                0x08005fb0                Spawn_Pressure_Thread
+                0x08005fc0       0x60 build/obj/EKF_Pressure.o
+                0x08005fc0                Spawn_Pressure_Thread
  .text.adc1errorcallback
-                0x08006010        0x2 build/obj/PPG_Demod.o
- *fill*         0x08006012        0xe 00
+                0x08006020        0x2 build/obj/PPG_Demod.o
+ *fill*         0x08006022        0xe 00
  .text.PPG_Thread
-                0x08006020       0xa0 build/obj/PPG_Demod.o
-                0x08006020                PPG_Thread
+                0x08006030       0xa0 build/obj/PPG_Demod.o
+                0x08006030                PPG_Thread
  .text.adc1callback
-                0x080060c0       0x34 build/obj/PPG_Demod.o
- *fill*         0x080060f4        0xc 00
+                0x080060d0       0x34 build/obj/PPG_Demod.o
+ *fill*         0x08006104        0xc 00
  .text.Spawn_PPG_Thread
-                0x08006100       0x58 build/obj/PPG_Demod.o
-                0x08006100                Spawn_PPG_Thread
- *fill*         0x08006158        0x8 00
+                0x08006110       0x58 build/obj/PPG_Demod.o
+                0x08006110                Spawn_PPG_Thread
+ *fill*         0x08006168        0x8 00
  .text.PPG_Frequency_Bin_Rotate
-                0x08006160       0x46 build/obj/PPG.o
-                0x08006160                PPG_Frequency_Bin_Rotate
- *fill*         0x080061a6        0xa 00
+                0x08006170       0x46 build/obj/PPG.o
+                0x08006170                PPG_Frequency_Bin_Rotate
+ *fill*         0x080061b6        0xa 00
  .text.PPG_LO_Filter
-                0x080061b0      0x13c build/obj/PPG.o
-                0x080061b0                PPG_LO_Filter
- *fill*         0x080062ec        0x4 00
+                0x080061c0      0x13c build/obj/PPG.o
+                0x080061c0                PPG_LO_Filter
+ *fill*         0x080062fc        0x4 00
  .text.PWM_Linear
-                0x080062f0       0x28 build/obj/PPG.o
-                0x080062f0                PWM_Linear
- *fill*         0x08006318        0x8 00
+                0x08006300       0x28 build/obj/PPG.o
+                0x08006300                PWM_Linear
+ *fill*         0x08006328        0x8 00
  .text.PPG_correct_brightness
-                0x08006320       0x68 build/obj/PPG.o
-                0x08006320                PPG_correct_brightness
- *fill*         0x08006388        0x8 00
+                0x08006330       0x68 build/obj/PPG.o
+                0x08006330                PPG_correct_brightness
+ *fill*         0x08006398        0x8 00
  .text.PPG_Automatic_Brightness_Control
-                0x08006390       0xd4 build/obj/PPG.o
-                0x08006390                PPG_Automatic_Brightness_Control
- *fill*         0x08006464        0xc 00
+                0x080063a0       0xd4 build/obj/PPG.o
+                0x080063a0                PPG_Automatic_Brightness_Control
+ *fill*         0x08006474        0xc 00
  .text.Calibrate_Sensor
-                0x08006470       0x48 build/obj/Pressure.o
-                0x08006470                Calibrate_Sensor
- *fill*         0x080064b8        0x8 00
+                0x08006480       0x48 build/obj/Pressure.o
+                0x08006480                Calibrate_Sensor
+ *fill*         0x080064c8        0x8 00
  .text.Convert_Pressure
-                0x080064c0       0x28 build/obj/Pressure.o
-                0x080064c0                Convert_Pressure
- *fill*         0x080064e8        0x8 00
+                0x080064d0       0x28 build/obj/Pressure.o
+                0x080064d0                Convert_Pressure
+ *fill*         0x080064f8        0x8 00
  .text.by2multiply
-                0x080064f0       0x74 build/obj/EKF_Estimator.o
- *fill*         0x08006564        0xc 00
+                0x08006500       0x74 build/obj/EKF_Estimator.o
+ *fill*         0x08006574        0xc 00
  .text.Update_State
-                0x08006570       0xf4 build/obj/EKF_Estimator.o
-                0x08006570                Update_State
- *fill*         0x08006664        0xc 00
+                0x08006580       0xf4 build/obj/EKF_Estimator.o
+                0x08006580                Update_State
+ *fill*         0x08006674        0xc 00
  .text.Predict_State
-                0x08006670       0x60 build/obj/EKF_Estimator.o
-                0x08006670                Predict_State
+                0x08006680       0x60 build/obj/EKF_Estimator.o
+                0x08006680                Predict_State
  .text.quick_select
-                0x080066d0       0xe6 build/obj/Quickselect.o
-                0x080066d0                quick_select
- *fill*         0x080067b6        0xa 00
+                0x080066e0       0xe6 build/obj/Quickselect.o
+                0x080066e0                quick_select
+ *fill*         0x080067c6        0xa 00
  .text.unscanchar
-                0x080067c0        0xa build/obj/Scanf.o
- *fill*         0x080067ca        0x6 00
+                0x080067d0        0xa build/obj/Scanf.o
+ *fill*         0x080067da        0x6 00
  .text.scanchar
-                0x080067d0       0x14 build/obj/Scanf.o
- *fill*         0x080067e4        0xc 00
+                0x080067e0       0x14 build/obj/Scanf.o
+ *fill*         0x080067f4        0xc 00
  .text.trim_leading
-                0x080067f0       0x2a build/obj/Scanf.o
- *fill*         0x0800681a        0x6 00
+                0x08006800       0x2a build/obj/Scanf.o
+ *fill*         0x0800682a        0x6 00
  .text.ch_to_digit
-                0x08006820       0x6c build/obj/Scanf.o
-                0x08006820                ch_to_digit
- *fill*         0x0800688c        0x4 00
+                0x08006830       0x6c build/obj/Scanf.o
+                0x08006830                ch_to_digit
+ *fill*         0x0800689c        0x4 00
  .text.scan_int
-                0x08006890       0xb0 build/obj/Scanf.o
- .text.scan     0x08006940      0x24c build/obj/Scanf.o
- *fill*         0x08006b8c        0x4 00
- .text.sscanf   0x08006b90       0x1e build/obj/Scanf.o
-                0x08006b90                sscanf
- *fill*         0x08006bae        0x2 00
+                0x080068a0       0xb0 build/obj/Scanf.o
+ .text.scan     0x08006950      0x24c build/obj/Scanf.o
+ *fill*         0x08006b9c        0x4 00
+ .text.sscanf   0x08006ba0       0x1e build/obj/Scanf.o
+                0x08006ba0                sscanf
+ *fill*         0x08006bbe        0x2 00
  .text.Setup_Stepper_PWM
-                0x08006bb0       0x7c build/obj/Stepper.o
-                0x08006bb0                Setup_Stepper_PWM
- *fill*         0x08006c2c        0x4 00
+                0x08006bc0       0x7c build/obj/Stepper.o
+                0x08006bc0                Setup_Stepper_PWM
+ *fill*         0x08006c3c        0x4 00
  .text.GPIO_Stepper_Enable
-                0x08006c30       0x1c build/obj/Stepper.o
-                0x08006c30                GPIO_Stepper_Enable
- *fill*         0x08006c4c        0x4 00
+                0x08006c40       0x1c build/obj/Stepper.o
+                0x08006c40                GPIO_Stepper_Enable
+ *fill*         0x08006c5c        0x4 00
  .text.GPIO_Stepper_Dir
-                0x08006c50       0x1c build/obj/Stepper.o
-                0x08006c50                GPIO_Stepper_Dir
- *fill*         0x08006c6c        0x4 00
+                0x08006c60       0x1c build/obj/Stepper.o
+                0x08006c60                GPIO_Stepper_Dir
+ *fill*         0x08006c7c        0x4 00
  .text.Setup_PPG_PWM
-                0x08006c70      0x1a0 build/obj/Timer.o
-                0x08006c70                Setup_PPG_PWM
+                0x08006c80      0x1a0 build/obj/Timer.o
+                0x08006c80                Setup_PPG_PWM
  .text.Enable_PPG_PWM
-                0x08006e10       0x50 build/obj/Timer.o
-                0x08006e10                Enable_PPG_PWM
+                0x08006e20       0x50 build/obj/Timer.o
+                0x08006e20                Enable_PPG_PWM
  *(.rodata)
- .rodata        0x08006e60      0x398 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_rem_pio2.o)
- *fill*         0x080071f8        0x8 00
- .rodata        0x08007200       0x38 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_rem_pio2.o)
- *fill*         0x08007238        0x8 00
- .rodata        0x08007240      0x104 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-ctype_.o)
-                0x08007240                _ctype_
+ .rodata        0x08006e70      0x398 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-ef_rem_pio2.o)
+ *fill*         0x08007208        0x8 00
+ .rodata        0x08007210       0x38 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-kf_rem_pio2.o)
+ *fill*         0x08007248        0x8 00
+ .rodata        0x08007250      0x104 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-ctype_.o)
+                0x08007250                _ctype_
  *(.rodata.*)
- *fill*         0x08007344        0xc 00
+ *fill*         0x08007354        0xc 00
  .rodata.str1.1
-                0x08007350        0xa build/obj/chsys.o
- *fill*         0x0800735a        0x6 00
+                0x08007360        0xa build/obj/chsys.o
+ *fill*         0x0800736a        0x6 00
  .rodata.str1.1
-                0x08007360        0xf build/obj/chschd.o
- *fill*         0x0800736f        0x1 00
- .rodata.vmt    0x08007370       0x20 build/obj/serial_usb.o
+                0x08007370        0xf build/obj/chschd.o
+ *fill*         0x0800737f        0x1 00
+ .rodata.vmt    0x08007380       0x20 build/obj/serial_usb.o
  .rodata.zero_status
-                0x08007390        0x2 build/obj/usb.o
- *fill*         0x08007392        0xe 00
- .rodata.active_status
                 0x080073a0        0x2 build/obj/usb.o
  *fill*         0x080073a2        0xe 00
- .rodata.halted_status
+ .rodata.active_status
                 0x080073b0        0x2 build/obj/usb.o
  *fill*         0x080073b2        0xe 00
+ .rodata.halted_status
+                0x080073c0        0x2 build/obj/usb.o
+ *fill*         0x080073c2        0xe 00
  .rodata._stm32_dma_streams
-                0x080073c0       0xc0 build/obj/stm32_dma.o
-                0x080073c0                _stm32_dma_streams
+                0x080073d0       0xc0 build/obj/stm32_dma.o
+                0x080073d0                _stm32_dma_streams
  .rodata.fsparams
-                0x08007480        0xc build/obj/usb_lld.o
- *fill*         0x0800748c        0x4 00
+                0x08007490        0xc build/obj/usb_lld.o
+ *fill*         0x0800749c        0x4 00
  .rodata.str1.1
-                0x08007490        0xd build/obj/usb_lld.o
- *fill*         0x0800749d        0x3 00
+                0x080074a0        0xd build/obj/usb_lld.o
+ *fill*         0x080074ad        0x3 00
  .rodata.ep0config
-                0x080074a0       0x24 build/obj/usb_lld.o
- *fill*         0x080074c4        0xc 00
+                0x080074b0       0x24 build/obj/usb_lld.o
+ *fill*         0x080074d4        0xc 00
  .rodata.pal_default_config
-                0x080074d0       0xfc build/obj/board.o
-                0x080074d0                pal_default_config
- *fill*         0x080075cc        0x4 00
+                0x080074e0       0xfc build/obj/board.o
+                0x080074e0                pal_default_config
+ *fill*         0x080075dc        0x4 00
  .rodata.str1.1
-                0x080075d0        0x7 build/obj/chprintf.o
- *fill*         0x080075d7        0x9 00
+                0x080075e0        0x7 build/obj/chprintf.o
+ *fill*         0x080075e7        0x9 00
  .rodata.str1.1
-                0x080075e0       0xf4 build/obj/main.o
+                0x080075f0       0xf4 build/obj/main.o
                                  0xf7 (size before relaxing)
- *fill*         0x080076d4        0xc 00
+ *fill*         0x080076e4        0xc 00
  .rodata.C.0.9859
-                0x080076e0       0x18 build/obj/main.o
- *fill*         0x080076f8        0x8 00
+                0x080076f0       0x18 build/obj/main.o
+ *fill*         0x08007708        0x8 00
  .rodata.ep1config
-                0x08007700       0x24 build/obj/usbcfg.o
- *fill*         0x08007724        0xc 00
+                0x08007710       0x24 build/obj/usbcfg.o
+ *fill*         0x08007734        0xc 00
  .rodata.vcom_configuration_descriptor_data
-                0x08007730       0x43 build/obj/usbcfg.o
- *fill*         0x08007773        0xd 00
+                0x08007740       0x43 build/obj/usbcfg.o
+ *fill*         0x08007783        0xd 00
  .rodata.vcom_configuration_descriptor
-                0x08007780        0x8 build/obj/usbcfg.o
- *fill*         0x08007788        0x8 00
+                0x08007790        0x8 build/obj/usbcfg.o
+ *fill*         0x08007798        0x8 00
  .rodata.ep2config
-                0x08007790       0x24 build/obj/usbcfg.o
- *fill*         0x080077b4        0xc 00
+                0x080077a0       0x24 build/obj/usbcfg.o
+ *fill*         0x080077c4        0xc 00
  .rodata.usbcfg
-                0x080077c0       0x10 build/obj/usbcfg.o
-                0x080077c0                usbcfg
+                0x080077d0       0x10 build/obj/usbcfg.o
+                0x080077d0                usbcfg
  .rodata.vcom_device_descriptor_data
-                0x080077d0       0x12 build/obj/usbcfg.o
- *fill*         0x080077e2        0xe 00
+                0x080077e0       0x12 build/obj/usbcfg.o
+ *fill*         0x080077f2        0xe 00
  .rodata.vcom_string0
-                0x080077f0        0x4 build/obj/usbcfg.o
- *fill*         0x080077f4        0xc 00
+                0x08007800        0x4 build/obj/usbcfg.o
+ *fill*         0x08007804        0xc 00
  .rodata.vcom_string1
-                0x08007800       0x26 build/obj/usbcfg.o
- *fill*         0x08007826        0xa 00
+                0x08007810       0x26 build/obj/usbcfg.o
+ *fill*         0x08007836        0xa 00
  .rodata.vcom_string2
-                0x08007830       0x38 build/obj/usbcfg.o
- *fill*         0x08007868        0x8 00
- .rodata.vcom_string3
-                0x08007870        0x8 build/obj/usbcfg.o
+                0x08007840       0x38 build/obj/usbcfg.o
  *fill*         0x08007878        0x8 00
+ .rodata.vcom_string3
+                0x08007880        0x8 build/obj/usbcfg.o
+ *fill*         0x08007888        0x8 00
  .rodata.vcom_strings
-                0x08007880       0x20 build/obj/usbcfg.o
+                0x08007890       0x20 build/obj/usbcfg.o
  .rodata.serusbcfg
-                0x080078a0        0x4 build/obj/usbcfg.o
-                0x080078a0                serusbcfg
- *fill*         0x080078a4        0xc 00
+                0x080078b0        0x4 build/obj/usbcfg.o
+                0x080078b0                serusbcfg
+ *fill*         0x080078b4        0xc 00
  .rodata.vcom_device_descriptor
-                0x080078b0        0x8 build/obj/usbcfg.o
- *fill*         0x080078b8        0x8 00
+                0x080078c0        0x8 build/obj/usbcfg.o
+ *fill*         0x080078c8        0x8 00
  .rodata.adcgrpcfg2_pot
-                0x080078c0       0x2c build/obj/EKF_Pressure.o
- *fill*         0x080078ec        0x4 00
+                0x080078d0       0x2c build/obj/EKF_Pressure.o
+ *fill*         0x080078fc        0x4 00
  .rodata.C.1.9085
-                0x080078f0       0x10 build/obj/EKF_Pressure.o
+                0x08007900       0x10 build/obj/EKF_Pressure.o
  .rodata.adcgrpcfg2_pressure_calibrate
-                0x08007900       0x2c build/obj/EKF_Pressure.o
- *fill*         0x0800792c        0x4 00
+                0x08007910       0x2c build/obj/EKF_Pressure.o
+ *fill*         0x0800793c        0x4 00
  .rodata.C.0.9084
-                0x08007930        0x8 build/obj/EKF_Pressure.o
- *fill*         0x08007938        0x8 00
+                0x08007940        0x8 build/obj/EKF_Pressure.o
+ *fill*         0x08007948        0x8 00
  .rodata.str1.1
-                0x08007940        0xd build/obj/EKF_Pressure.o
- *fill*         0x0800794d        0x3 00
+                0x08007950        0xd build/obj/EKF_Pressure.o
+ *fill*         0x0800795d        0x3 00
  .rodata.C.3.9087
-                0x08007950        0x8 build/obj/EKF_Pressure.o
- *fill*         0x08007958        0x8 00
+                0x08007960        0x8 build/obj/EKF_Pressure.o
+ *fill*         0x08007968        0x8 00
  .rodata.adcgrpcfg2_pressure
-                0x08007960       0x2c build/obj/EKF_Pressure.o
- *fill*         0x0800798c        0x4 00
+                0x08007970       0x2c build/obj/EKF_Pressure.o
+ *fill*         0x0800799c        0x4 00
  .rodata.str1.1
-                0x08007990        0x4 build/obj/PPG_Demod.o
- *fill*         0x08007994        0xc 00
+                0x080079a0        0x4 build/obj/PPG_Demod.o
+ *fill*         0x080079a4        0xc 00
  .rodata.adcgrpcfg2
-                0x080079a0       0x2c build/obj/PPG_Demod.o
- *fill*         0x080079cc        0x4 00
+                0x080079b0       0x2c build/obj/PPG_Demod.o
+ *fill*         0x080079dc        0x4 00
  .rodata.cosinusoid.7260
-                0x080079d0       0x78 build/obj/PPG.o
- *fill*         0x08007a48        0x8 00
+                0x080079e0       0x78 build/obj/PPG.o
+ *fill*         0x08007a58        0x8 00
  .rodata.sinusoid.7259
-                0x08007a50       0x78 build/obj/PPG.o
- *fill*         0x08007ac8        0x8 00
+                0x08007a60       0x78 build/obj/PPG.o
+ *fill*         0x08007ad8        0x8 00
  .rodata.str1.4
-                0x08007ad0        0x9 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_asin.o)
+                0x08007ae0        0x9 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_asin.o)
                                   0xc (size before relaxing)
- *fill*         0x08007ad9        0x7 00
+ *fill*         0x08007ae9        0x7 00
  .rodata.str1.4
-                0x08007ae0        0x6 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
+                0x08007af0        0x6 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
                                   0x8 (size before relaxing)
- *fill*         0x08007ae6        0xa 00
+ *fill*         0x08007af6        0xa 00
  .rodata.str1.4
-                0x08007af0        0x4 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-impure.o)
+                0x08007b00        0x4 /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libc.a(lib_a-impure.o)
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.gcc*)
 
-.vfp11_veneer   0x08007af4        0x0
+.vfp11_veneer   0x08007b04        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08007af4        0x0
+.v4_bx          0x08007b04        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x08007af4        0x0
-                0x08007af4                PROVIDE (__exidx_start, .)
+.ARM.exidx      0x08007b04        0x0
+                0x08007b04                PROVIDE (__exidx_start, .)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x08007af4                PROVIDE (__exidx_end, .)
+                0x08007b04                PROVIDE (__exidx_end, .)
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -1905,11 +1905,11 @@ destructors     0x08000188        0x0
 .eh_frame
  *(.eh_frame)
 
-.textalign      0x08007af4        0x4
-                0x08007af8                . = ALIGN (0x8)
- *fill*         0x08007af4        0x4 00
-                0x08007af8                _etext = .
-                0x08007af8                _textdata = _etext
+.textalign      0x08007b04        0x4
+                0x08007b08                . = ALIGN (0x8)
+ *fill*         0x08007b04        0x4 00
+                0x08007b08                _etext = .
+                0x08007b08                _textdata = _etext
 
 .stacks         0x20000000     0xa000
                 0x20000000                . = ALIGN (0x8)
@@ -1926,7 +1926,7 @@ destructors     0x08000188        0x0
                 0x2000a000                __process_stack_end__ = .
                 0x2000a000                __main_thread_stack_end__ = .
 
-.data           0x2000a000      0x10c load address 0x08007af8
+.data           0x2000a000      0x10c load address 0x08007b08
                 0x2000a000                . = ALIGN (0x4)
                 0x2000a000                PROVIDE (_data, .)
  *(.data)
@@ -1948,7 +1948,7 @@ destructors     0x08000188        0x0
                 0x2000a10c                . = ALIGN (0x4)
                 0x2000a10c                PROVIDE (_edata, .)
 
-.bss            0x2000a110     0x3dd4 load address 0x08007c04
+.bss            0x2000a110     0x3dd4 load address 0x08007c14
                 0x2000a110                . = ALIGN (0x4)
                 0x2000a110                PROVIDE (_bss_start, .)
  *(.bss)
@@ -2067,7 +2067,7 @@ destructors     0x08000188        0x0
                 0x2001c000                __heap_end__ = __ram_end__
 OUTPUT(build/ch.elf elf32-littlearm)
 
-.debug_abbrev   0x00000000     0x617d
+.debug_abbrev   0x00000000     0x616e
  .debug_abbrev  0x00000000      0x163 build/obj/crt0.o
  .debug_abbrev  0x00000163       0x76 build/obj/vectors.o
  .debug_abbrev  0x000001d9       0x43 build/obj/chcore.o
@@ -2134,20 +2134,20 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x00004b46      0x1ee build/obj/chprintf.o
  .debug_abbrev  0x00004d34      0x268 build/obj/main.o
  .debug_abbrev  0x00004f9c      0x216 build/obj/usbcfg.o
- .debug_abbrev  0x000051b2      0x29a build/obj/EKF_Pressure.o
- .debug_abbrev  0x0000544c       0x51 build/obj/PID_Pressure.o
- .debug_abbrev  0x0000549d      0x244 build/obj/PPG_Demod.o
- .debug_abbrev  0x000056e1      0x20d build/obj/PPG.o
- .debug_abbrev  0x000058ee       0x81 build/obj/Pressure.o
- .debug_abbrev  0x0000596f      0x1f4 build/obj/EKF_Estimator.o
- .debug_abbrev  0x00005b63       0xc8 build/obj/PID_Control.o
- .debug_abbrev  0x00005c2b       0xa9 build/obj/Pressure_Filter.o
- .debug_abbrev  0x00005cd4       0x9e build/obj/Quickselect.o
- .debug_abbrev  0x00005d72      0x218 build/obj/Scanf.o
- .debug_abbrev  0x00005f8a      0x12c build/obj/Stepper.o
- .debug_abbrev  0x000060b6       0xc7 build/obj/Timer.o
+ .debug_abbrev  0x000051b2      0x28b build/obj/EKF_Pressure.o
+ .debug_abbrev  0x0000543d       0x51 build/obj/PID_Pressure.o
+ .debug_abbrev  0x0000548e      0x244 build/obj/PPG_Demod.o
+ .debug_abbrev  0x000056d2      0x20d build/obj/PPG.o
+ .debug_abbrev  0x000058df       0x81 build/obj/Pressure.o
+ .debug_abbrev  0x00005960      0x1f4 build/obj/EKF_Estimator.o
+ .debug_abbrev  0x00005b54       0xc8 build/obj/PID_Control.o
+ .debug_abbrev  0x00005c1c       0xa9 build/obj/Pressure_Filter.o
+ .debug_abbrev  0x00005cc5       0x9e build/obj/Quickselect.o
+ .debug_abbrev  0x00005d63      0x218 build/obj/Scanf.o
+ .debug_abbrev  0x00005f7b      0x12c build/obj/Stepper.o
+ .debug_abbrev  0x000060a7       0xc7 build/obj/Timer.o
 
-.debug_info     0x00000000    0x1f84d
+.debug_info     0x00000000    0x1f851
  .debug_info    0x00000000      0x52f build/obj/crt0.o
  .debug_info    0x0000052f       0xb9 build/obj/vectors.o
  .debug_info    0x000005e8       0x8f build/obj/chcore.o
@@ -2214,20 +2214,20 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x00016e6a      0x447 build/obj/chprintf.o
  .debug_info    0x000172b1     0x2001 build/obj/main.o
  .debug_info    0x000192b2     0x1466 build/obj/usbcfg.o
- .debug_info    0x0001a718     0x1678 build/obj/EKF_Pressure.o
- .debug_info    0x0001bd90       0xb8 build/obj/PID_Pressure.o
- .debug_info    0x0001be48      0xda8 build/obj/PPG_Demod.o
- .debug_info    0x0001cbf0      0xaaf build/obj/PPG.o
- .debug_info    0x0001d69f      0x125 build/obj/Pressure.o
- .debug_info    0x0001d7c4      0xb80 build/obj/EKF_Estimator.o
- .debug_info    0x0001e344      0x138 build/obj/PID_Control.o
- .debug_info    0x0001e47c      0x10b build/obj/Pressure_Filter.o
- .debug_info    0x0001e587      0x1d7 build/obj/Quickselect.o
- .debug_info    0x0001e75e      0x557 build/obj/Scanf.o
- .debug_info    0x0001ecb5      0x682 build/obj/Stepper.o
- .debug_info    0x0001f337      0x516 build/obj/Timer.o
+ .debug_info    0x0001a718     0x167c build/obj/EKF_Pressure.o
+ .debug_info    0x0001bd94       0xb8 build/obj/PID_Pressure.o
+ .debug_info    0x0001be4c      0xda8 build/obj/PPG_Demod.o
+ .debug_info    0x0001cbf4      0xaaf build/obj/PPG.o
+ .debug_info    0x0001d6a3      0x125 build/obj/Pressure.o
+ .debug_info    0x0001d7c8      0xb80 build/obj/EKF_Estimator.o
+ .debug_info    0x0001e348      0x138 build/obj/PID_Control.o
+ .debug_info    0x0001e480      0x10b build/obj/Pressure_Filter.o
+ .debug_info    0x0001e58b      0x1d7 build/obj/Quickselect.o
+ .debug_info    0x0001e762      0x557 build/obj/Scanf.o
+ .debug_info    0x0001ecb9      0x682 build/obj/Stepper.o
+ .debug_info    0x0001f33b      0x516 build/obj/Timer.o
 
-.debug_line     0x00000000    0x1b6de
+.debug_line     0x00000000    0x1b6d8
  .debug_line    0x00000000      0x395 build/obj/crt0.o
  .debug_line    0x00000395      0x31d build/obj/vectors.o
  .debug_line    0x000006b2      0x31c build/obj/chcore.o
@@ -2294,20 +2294,20 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x0001601a      0x453 build/obj/chprintf.o
  .debug_line    0x0001646d      0x942 build/obj/main.o
  .debug_line    0x00016daf      0x611 build/obj/usbcfg.o
- .debug_line    0x000173c0      0x9e6 build/obj/EKF_Pressure.o
- .debug_line    0x00017da6      0x85a build/obj/PID_Pressure.o
- .debug_line    0x00018600      0x6bd build/obj/PPG_Demod.o
- .debug_line    0x00018cbd      0x6d0 build/obj/PPG.o
- .debug_line    0x0001938d      0x546 build/obj/Pressure.o
- .debug_line    0x000198d3      0x858 build/obj/EKF_Estimator.o
- .debug_line    0x0001a12b       0x64 build/obj/PID_Control.o
- .debug_line    0x0001a18f      0x353 build/obj/Pressure_Filter.o
- .debug_line    0x0001a4e2      0x4fc build/obj/Quickselect.o
- .debug_line    0x0001a9de      0x474 build/obj/Scanf.o
- .debug_line    0x0001ae52      0x639 build/obj/Stepper.o
- .debug_line    0x0001b48b      0x253 build/obj/Timer.o
+ .debug_line    0x000173c0      0x9e0 build/obj/EKF_Pressure.o
+ .debug_line    0x00017da0      0x85a build/obj/PID_Pressure.o
+ .debug_line    0x000185fa      0x6bd build/obj/PPG_Demod.o
+ .debug_line    0x00018cb7      0x6d0 build/obj/PPG.o
+ .debug_line    0x00019387      0x546 build/obj/Pressure.o
+ .debug_line    0x000198cd      0x858 build/obj/EKF_Estimator.o
+ .debug_line    0x0001a125       0x64 build/obj/PID_Control.o
+ .debug_line    0x0001a189      0x353 build/obj/Pressure_Filter.o
+ .debug_line    0x0001a4dc      0x4fc build/obj/Quickselect.o
+ .debug_line    0x0001a9d8      0x474 build/obj/Scanf.o
+ .debug_line    0x0001ae4c      0x639 build/obj/Stepper.o
+ .debug_line    0x0001b485      0x253 build/obj/Timer.o
 
-.debug_macinfo  0x00000000   0xfbfc57
+.debug_macinfo  0x00000000   0xfbfc98
  .debug_macinfo
                 0x00000000     0x770c build/obj/crt0.o
  .debug_macinfo
@@ -2437,35 +2437,35 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macinfo
                 0x00ce9a86     0x7796 build/obj/chprintf.o
  .debug_macinfo
-                0x00cf121c    0x5357a build/obj/main.o
+                0x00cf121c    0x5358e build/obj/main.o
  .debug_macinfo
-                0x00d44796    0x4e4c4 build/obj/usbcfg.o
+                0x00d447aa    0x4e4c4 build/obj/usbcfg.o
  .debug_macinfo
-                0x00d92c5a    0x511e9 build/obj/EKF_Pressure.o
+                0x00d92c6e    0x511ee build/obj/EKF_Pressure.o
  .debug_macinfo
-                0x00de3e43    0x50f73 build/obj/PID_Pressure.o
+                0x00de3e5c    0x50f78 build/obj/PID_Pressure.o
  .debug_macinfo
-                0x00e34db6    0x4f19e build/obj/PPG_Demod.o
+                0x00e34dd4    0x4f1a8 build/obj/PPG_Demod.o
  .debug_macinfo
-                0x00e83f54    0x40c8a build/obj/PPG.o
+                0x00e83f7c    0x40c8f build/obj/PPG.o
  .debug_macinfo
-                0x00ec4bde     0xa25c build/obj/Pressure.o
+                0x00ec4c0b     0xa261 build/obj/Pressure.o
  .debug_macinfo
-                0x00ecee3a    0x5106c build/obj/EKF_Estimator.o
+                0x00ecee6c    0x51071 build/obj/EKF_Estimator.o
  .debug_macinfo
-                0x00f1fea6     0x224b build/obj/PID_Control.o
+                0x00f1fedd     0x224b build/obj/PID_Control.o
  .debug_macinfo
-                0x00f220f1     0x7658 build/obj/Pressure_Filter.o
+                0x00f22128     0x7658 build/obj/Pressure_Filter.o
  .debug_macinfo
-                0x00f29749     0x94a3 build/obj/Quickselect.o
+                0x00f29780     0x94a3 build/obj/Quickselect.o
  .debug_macinfo
-                0x00f32bec     0x54fc build/obj/Scanf.o
+                0x00f32c23     0x54fc build/obj/Scanf.o
  .debug_macinfo
-                0x00f380e8    0x4e736 build/obj/Stepper.o
+                0x00f3811f    0x4e73b build/obj/Stepper.o
  .debug_macinfo
-                0x00f8681e    0x39439 build/obj/Timer.o
+                0x00f8685a    0x3943e build/obj/Timer.o
 
-.debug_loc      0x00000000     0x8ba3
+.debug_loc      0x00000000     0x8bcd
  .debug_loc     0x00000000       0xb2 build/obj/crt0.o
  .debug_loc     0x000000b2      0x11e build/obj/chcore_v7m.o
  .debug_loc     0x000001d0      0x102 build/obj/nvic.o
@@ -2503,17 +2503,17 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_loc     0x00006c02      0x792 build/obj/chprintf.o
  .debug_loc     0x00007394      0x29d build/obj/main.o
  .debug_loc     0x00007631       0xab build/obj/usbcfg.o
- .debug_loc     0x000076dc      0x4bf build/obj/EKF_Pressure.o
- .debug_loc     0x00007b9b      0x18b build/obj/PPG_Demod.o
- .debug_loc     0x00007d26      0x210 build/obj/PPG.o
- .debug_loc     0x00007f36       0x31 build/obj/Pressure.o
- .debug_loc     0x00007f67      0x1ae build/obj/EKF_Estimator.o
- .debug_loc     0x00008115       0x3b build/obj/PID_Control.o
- .debug_loc     0x00008150       0x63 build/obj/Pressure_Filter.o
- .debug_loc     0x000081b3      0x1dd build/obj/Quickselect.o
- .debug_loc     0x00008390      0x7da build/obj/Scanf.o
- .debug_loc     0x00008b6a       0x19 build/obj/Stepper.o
- .debug_loc     0x00008b83       0x20 build/obj/Timer.o
+ .debug_loc     0x000076dc      0x4e9 build/obj/EKF_Pressure.o
+ .debug_loc     0x00007bc5      0x18b build/obj/PPG_Demod.o
+ .debug_loc     0x00007d50      0x210 build/obj/PPG.o
+ .debug_loc     0x00007f60       0x31 build/obj/Pressure.o
+ .debug_loc     0x00007f91      0x1ae build/obj/EKF_Estimator.o
+ .debug_loc     0x0000813f       0x3b build/obj/PID_Control.o
+ .debug_loc     0x0000817a       0x63 build/obj/Pressure_Filter.o
+ .debug_loc     0x000081dd      0x1dd build/obj/Quickselect.o
+ .debug_loc     0x000083ba      0x7da build/obj/Scanf.o
+ .debug_loc     0x00008b94       0x19 build/obj/Stepper.o
+ .debug_loc     0x00008bad       0x20 build/obj/Timer.o
 
 .debug_pubnames
                 0x00000000     0x1a90
@@ -3673,7 +3673,6 @@ __aeabi_d2iz                                      /home/laurence/CodeSourcery/So
                                                   build/obj/chprintf.o
 __aeabi_dadd                                      /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_addsubdf3.o)
                                                   build/obj/Scanf.o
-                                                  build/obj/EKF_Pressure.o
 __aeabi_ddiv                                      /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_arm_muldivdf3.o)
                                                   /home/laurence/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-eabi/4.5.2/../../../../arm-none-eabi/lib/thumb2/libm.a(lib_a-wf_sqrt.o)
                                                   build/obj/Scanf.o

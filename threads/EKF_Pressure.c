@@ -191,7 +191,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
   */
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
-	uint8_t index=0;
+	uint8_t index=0,Direction=0;
 	uint16_t holdoff=0;
 	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target,Setpoint=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR,Old_State[2]=INITIAL_STATE,Old_Setpoint=0;/* Initialisation for the EKF */
@@ -307,6 +307,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			}
 			else {			/* We cannot enter the deadband */
 				if(signbit(velocity)==signbit(delta)) {/* If we are moving towards the target */
+					Direction=0;
 					float stop_distance=(velocity*velocity)/(2*Actuator->MaxAcc);/* The minimum stopping distance for the hardware */
 					if( fabs(delta) > (stop_distance/*-Actuator->DeadPos*/) ) {/* We have chance to stop with some margin */
 						prior_velocity=velocity;/* The initial velocity is stored for reference */
@@ -335,8 +336,19 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					}
 				}
 				else {		/* If we are moving away from the target */
-					prior_velocity=velocity;/* The initial velocity is stored for reference */
+					if(!Direction && index ) {/* We are now heading towards the target */
+						float first_acc = (velocity-prior_velocity);/* Acc over previous GPT timestep */
+						first_acc -= velocity;/* Correct this accel */
+						if( fabs(first_acc)>Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0 ) {/* Adjusted acceleration exceeds limit */
+							first_acc = signbit(first_acc)?-Actuator->MaxAcc:Actuator->MaxAcc;/* Apply range limit */
+							first_acc*= PRESSURE_TIME_SECONDS/4.0;/* Scale for delta time, ready to add to velocity */
+						}
+						velocity = prior_velocity + first_acc;/* Backapply the acceleration */
+						velocities[index-1] = velocity;/* Backapply velocity */
+					}
+					prior_velocity=velocity;
 					velocity-=signbit(delta)?Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0:-Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0;
+					Direction=1;
 				}		/* Try our best to head towards target*/
 			}
 			if(index<4) {

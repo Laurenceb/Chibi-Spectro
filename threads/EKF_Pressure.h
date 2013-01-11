@@ -5,6 +5,7 @@
 
 extern Mailbox Pressures_Setpoint;
 extern Mailbox Pressures_Reported;
+extern volatile float Target;
 
 typedef struct{
 	float MaxAcc;

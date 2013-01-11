@@ -140,7 +140,7 @@ static GPTConfig gpt8cfg =
 };
 
 /* Globals for passing motor info */
-volatile float Actuator_Position,Actuator_Velocity;
+volatile float Actuator_Position,Actuator_Velocity,Target;
 
 /*
  * GPT8 callback.
@@ -154,7 +154,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 		Actuator_Position+=Motor_Velocity*PRESSURE_TIME_SECONDS/4.0;/* This is the position at the end of the current time bin - 4 due to 400hz */
 		Actuator_Velocity=Motor_Velocity;
 		if(!Motor_Velocity) {
-			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
+			GPIO_Stepper_Enable(1/*0*/);	/* Disable the stepper driver if zero velocity */
 		}
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
@@ -193,9 +193,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0,Direction=0;
 	uint16_t holdoff=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure,target,Setpoint=0;
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure=0,target,Setpoint=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR,Old_State[2]=INITIAL_STATE,Old_Setpoint=0;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
+	float arm_pos_est=State[1];
+	float old_pressure=0,old_actuator_midway_position=0,instantaneous_elasticity=0.5;
 	uint16_t Pressure_Sample;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
 	chRegSetThreadName("EKF Pressure");
@@ -269,7 +271,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
-			Update_State(State, Covar, pressure, actuator_midway_position, 0.01*(velocity*velocity*State[0]*State[0])+1); 
+			Update_State(State, Covar, pressure, actuator_midway_position, 1/*0.01*(velocity*velocity*State[0]*State[0])+10*/); 
 			//Measurement_Covar);/*Use the previously stored midway position */
 		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
@@ -283,10 +285,29 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			//if(holdoff++<300)
 			//	target = Old_State[1] + (Setpoint / Old_State[0]) ;
 			//else
+				//arm_pos_est = arm_pos_est*0.95 + 0.05*( actuator_midway_position - pressure/State[0] );/*  */
+				//target = arm_pos_est + Setpoint / State[0];
+				//target = State[1] + Setpoint/State[0];
+				if(Actuator_Velocity<15)
+				target = /*(State[1]*/actuator_midway_position + ( (Setpoint-(pressure+Actuator_Velocity*0.1)) / (4.0*State[0]) ) ;
+				else
 				target = /*(State[1]*/actuator_midway_position + ( (Setpoint-pressure) / (2.0*State[0]) ) ;
+			/*if(pressure>PRESSURE_MARGIN && actuator_midway_position!=old_actuator_midway_position) {
+				if((pressure-old_pressure)/(actuator_midway_position-old_actuator_midway_position)>0) {
+					float elasticity=(pressure-old_pressure)/(actuator_midway_position-old_actuator_midway_position);
+					float weighting=fabs(pressure-old_pressure)/10.0*fabs(actuator_midway_position-old_actuator_midway_position);
+					if(weighting>0.01)
+						instantaneous_elasticity=elasticity;
+				}	
+				if(instantaneous_elasticity>100)
+					instantaneous_elasticity=100.0;
+			}
+			target = actuator_midway_position + ( (Setpoint-pressure) / instantaneous_elasticity ) ;
+			old_pressure=pressure;
+			old_actuator_midway_position=actuator_midway_position;*/
 		}
-		else
-			target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
+		//else
+		//	target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
@@ -363,6 +384,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		for(index=0;index<4;index++)
 			chMBPost(&Actuator_Velocities, *((msg_t*)&velocities[index]), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
 		chMBPost(&Pressures_Reported, *((msg_t*)&pressure), TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
+		Target=target;
 	}
 }
 #endif

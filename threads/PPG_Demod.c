@@ -1,6 +1,6 @@
 #include "PPG_Demod.h"
 #include "Hardware_Conf.h"
-#include "PID_Pressure.h"
+#include "EKF_Pressure.h"
 
 #include "ch.h"
 #include "hal.h"
@@ -18,6 +18,8 @@ static msg_t PPG_Demod_Buff[PPG_CHANNELS][MAILBOX_SIZE];
  */
 Mailbox Pressures_Output;
 static msg_t Pressures_Output_Buff[MAILBOX_SIZE];
+Mailbox Targets_Reported;
+static msg_t Targets_Reported_Buff[MAILBOX_SIZE];
 
 /*
  * Working area for this thread
@@ -46,6 +48,7 @@ Thread* Spawn_PPG_Thread(void) {
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)
 		chMBInit(&PPG_Demod[n], &PPG_Demod_Buff[n][0], MAILBOX_SIZE);//PPG output
 	chMBInit(&Pressures_Output, Pressures_Output_Buff, MAILBOX_SIZE);//Pressure data Out
+	chMBInit(&Targets_Reported, Targets_Reported_Buff, MAILBOX_SIZE);//Out
 	/*
 	* Creates the thread. Thread has priority slightly above normal and takes no argument
 	*/
@@ -128,6 +131,7 @@ msg_t PPG_Thread(void *arg) {			/* Initialise as zeros */
 			if(chMBFetch(&Pressures_Reported, (msg_t*)&Pressure_Read_, TIME_IMMEDIATE) == RDY_OK)
 				Pressure_Read=Pressure_Read_;
 			chMBPost(&Pressures_Output, (msg_t)Pressure_Read, TIME_IMMEDIATE);/* Non blocking write to the Reported Pressure mailbox FIFO */
+			chMBPost(&Targets_Reported, *(msg_t*)&Target, TIME_IMMEDIATE);
 		}
 	}
 }

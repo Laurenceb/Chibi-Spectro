@@ -102,13 +102,13 @@ int main(void) {
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
-  Actuator_TypeDef Our_Config = { .MaxAcc=250, .MaxVel=40, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.01, .DeadVel=16 };
+  Actuator_TypeDef Our_Config = { .MaxAcc=400, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6, .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.01, .DeadVel=16 };
   /* Variables for dumping data */
   //For pressure setting
   //float pressure_setpoints[NUMBER_SETPOINTS];
   float pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL]={};
   //end pressure
-  float pressure;
+  float pressure,target;
   uint32_t ppg[PPG_CHANNELS],iterations=0,loaded_setpoints=0,n=0;
   /* A bit of debug info here */
   chprintf(USBout, "Firmware compiled %s, running ChibiOS\r\n",__DATE__);
@@ -156,6 +156,10 @@ int main(void) {
   for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
 	if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
 		pressure_set_array[n]=3.0;
+	else if((sizeof(pressure_set_array)/sizeof(float)-n)<1500)
+		pressure_set_array[n]=0.5;
+	else if((sizeof(pressure_set_array)/sizeof(float)-n)<2000)
+		pressure_set_array[n]=3.0;
 	else
 		pressure_set_array[n]=0.2;
   }
@@ -182,18 +186,21 @@ int main(void) {
 	while(1) {
 		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;
-			if(n==sizeof(pressure_set_array)/sizeof(float))
+			if(n==sizeof(pressure_set_array)/sizeof(float)) {
 				n=0;	//Loop around to start of buffer
+			}
 		}
 		else
 			break;		//Break once the mailbox fifo is filled
 		chThdSleepMilliseconds(1);
 	}
 	chMBFetch( &Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);//Waits for data to be posted
+	chMBFetch( &Targets_Reported, (msg_t*) &target, TIME_INFINITE);
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)
 		chMBFetch( &PPG_Demod[n], (msg_t*) &ppg[n], TIME_INFINITE);//Waits for data to be posted
 	chprintf(USBout, "%3f,", (float)iterations/PPG_SAMPLE_RATE);
-	chprintf(USBout, "%3f", pressure);
+	chprintf(USBout, "%3f,", pressure);
+	chprintf(USBout, "%3f", target);
 	for(uint8_t n=0; n<PPG_CHANNELS; n++)
 		chprintf(USBout, ",%lu", ppg[n]);
 	chprintf(USBout, "\r\n");

@@ -196,7 +196,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure=0,target,Setpoint=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR,Old_State[2]=INITIAL_STATE,Old_Setpoint=0;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
-	float arm_pos_est=State[1];
+	float meanv=0;//arm_pos_est=State[1];
 	float old_pressure=0,old_actuator_midway_position=0,instantaneous_elasticity=0.5;
 	uint16_t Pressure_Sample;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
@@ -271,7 +271,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
-			Update_State(State, Covar, pressure, actuator_midway_position, 1/*0.01*(velocity*velocity*State[0]*State[0])+10*/); 
+			Update_State(State, Covar, pressure, actuator_midway_position, 0.1*(velocity*velocity*State[0]*State[0])+1); 
 			//Measurement_Covar);/*Use the previously stored midway position */
 		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
@@ -288,10 +288,12 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 				//arm_pos_est = arm_pos_est*0.95 + 0.05*( actuator_midway_position - pressure/State[0] );/*  */
 				//target = arm_pos_est + Setpoint / State[0];
 				//target = State[1] + Setpoint/State[0];
-				if(Actuator_Velocity<15)
-				target = /*(State[1]*/actuator_midway_position + ( (Setpoint-(pressure+Actuator_Velocity*0.1)) / (4.0*State[0]) ) ;
+				if(Actuator_Velocity<15) {
+					meanv=meanv*0.6+0.4*(velocities[0]+velocities[1]+velocities[2]);
+					target = /*(State[1]*/actuator_midway_position + ( (Setpoint-(pressure+meanv*0.1)) / (2.0*State[0]) ) ;
+				}
 				else
-				target = /*(State[1]*/actuator_midway_position + ( (Setpoint-pressure) / (2.0*State[0]) ) ;
+					target = /*State[1]*/actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
 			/*if(pressure>PRESSURE_MARGIN && actuator_midway_position!=old_actuator_midway_position) {
 				if((pressure-old_pressure)/(actuator_midway_position-old_actuator_midway_position)>0) {
 					float elasticity=(pressure-old_pressure)/(actuator_midway_position-old_actuator_midway_position);

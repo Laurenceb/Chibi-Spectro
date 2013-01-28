@@ -170,7 +170,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 	if( !freeslots ) {			/* There are no more messages : we are entering final time interval */
 		chSysLockFromIsr();
 		if (tp != NULL) {
-			tp->p_u.rdymsg = (msg_t)NULL;/*(buffer==PPG_Sample_Buffer? (msg_t)1 : (msg_t)0 );*//* Sending the message, gives buffer index.*/
+			tp->p_u.rdymsg = (msg_t)NULL;/* Sending a message, e.g. buffer index.*/
 			chSchReadyI(tp);
 			tp = NULL;
 			chSysUnlockFromIsr();
@@ -193,11 +193,12 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0,Direction=0;
 	uint16_t holdoff=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position=0,pot_position,end_position,pressure=0,target,Setpoint=0;
-	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR,Old_State[2]=INITIAL_STATE,Old_Setpoint=0;/* Initialisation for the EKF */
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,\
+	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0;
+	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
-	float meanv=0;//arm_pos_est=State[1];
-	float old_pressure=0,old_actuator_midway_position=0,instantaneous_elasticity=0.5;
+	float meanv=0;
+	float extropolated_position=State[1];
 	uint16_t Pressure_Sample;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
 	chRegSetThreadName("EKF Pressure");
@@ -277,39 +278,18 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			//if(Setpoint!=Old_Setpoint) {
-			//	Old_Setpoint=Setpoint;
-			//	memcpy(Old_State,State,sizeof(Old_State));/* Use this until next state change */
-			//	holdoff=0;	/* Use stored state after a setpoint change */
-			//}
-			//if(holdoff++<300)
-			//	target = Old_State[1] + (Setpoint / Old_State[0]) ;
-			//else
-				//arm_pos_est = arm_pos_est*0.95 + 0.05*( actuator_midway_position - pressure/State[0] );/*  */
-				//target = arm_pos_est + Setpoint / State[0];
-				//target = State[1] + Setpoint/State[0];
-				if(Actuator_Velocity<10) {
-					meanv=meanv*0.8+0.2*((velocities[0]+velocities[1]+velocities[2])/3.0);
-					target = /*(State[1]*/actuator_midway_position + ( (Setpoint-(pressure+meanv*0.24)) / (1.5*State[0]) ) ;
-				}
-				else
-					target = /*State[1]*/actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
-			/*if(pressure>PRESSURE_MARGIN && actuator_midway_position!=old_actuator_midway_position) {
-				if((pressure-old_pressure)/(actuator_midway_position-old_actuator_midway_position)>0) {
-					float elasticity=(pressure-old_pressure)/(actuator_midway_position-old_actuator_midway_position);
-					float weighting=fabs(pressure-old_pressure)/10.0*fabs(actuator_midway_position-old_actuator_midway_position);
-					if(weighting>0.01)
-						instantaneous_elasticity=elasticity;
-				}	
-				if(instantaneous_elasticity>100)
-					instantaneous_elasticity=100.0;
-			}
-			target = actuator_midway_position + ( (Setpoint-pressure) / instantaneous_elasticity ) ;
-			old_pressure=pressure;
-			old_actuator_midway_position=actuator_midway_position;*/
+			meanv = meanv * 0.8 + 0.2 * ((velocities[0]+velocities[1]+velocities[2])/3.0);
+			//extropolated_position = extropolated_position * 0.8 + 0.2 * (actuator_midway_position-(pressure+meanv*0.24)/State[0]);
+			if((Setpoint-pressure)<0.25/*Actuator_Velocity<10*/)
+				target = actuator_midway_position + ( (Setpoint-(pressure+meanv*0.24)) / (1.5*State[0]) );
+			else
+				target = actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
+			//target = extropolated_position + Setpoint/State[0];
 		}
-		//else
-		//	target = Old_State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
+		else {
+			//extropolated_position = State[1]; 
+			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
+		}
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */

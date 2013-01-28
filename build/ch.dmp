@@ -7,9 +7,9 @@ start address 0x08000190
 
 Program Header:
     LOAD off    0x00008000 vaddr 0x08000000 paddr 0x08000000 align 2**15
-         filesz 0x00007722 memsz 0x00007728 flags rwx
-    LOAD off    0x00012000 vaddr 0x2000a000 paddr 0x08007728 align 2**15
-         filesz 0x00000080 memsz 0x0000407c flags rw-
+         filesz 0x00007ff4 memsz 0x00007ff8 flags rwx
+    LOAD off    0x00012000 vaddr 0x2000a000 paddr 0x08007ff8 align 2**15
+         filesz 0x00000444 memsz 0x00004448 flags rw-
     LOAD off    0x00018000 vaddr 0x20000000 paddr 0x20000000 align 2**15
          filesz 0x00000000 memsz 0x0000a000 flags rw-
 private flags = 5000002: [Version5 EABI] [has entry point]
@@ -18,45 +18,45 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 startup       00000188  08000000  08000000  00008000  2**4
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00007592  08000190  08000190  00008190  2**4
+  1 .text         00007e64  08000190  08000190  00008190  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .textalign    00000006  08007722  08007722  0000f722  2**0
+  2 .textalign    00000004  08007ff4  08007ff4  0000fff4  2**0
                   ALLOC
   3 .stacks       0000a000  20000000  20000000  00018000  2**0
                   ALLOC
-  4 .data         00000080  2000a000  08007728  00012000  2**2
+  4 .data         00000444  2000a000  08007ff8  00012000  2**3
                   CONTENTS, ALLOC, LOAD, DATA
-  5 .bss          00003ffc  2000a080  080077a8  00012080  2**3
+  5 .bss          00004000  2000a448  08008440  00012444  2**3
                   ALLOC
-  6 .debug_info   0001f71a  00000000  00000000  00012080  2**0
+  6 .debug_info   0001f16c  00000000  00000000  00012444  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00005e5f  00000000  00000000  0003179a  2**0
+  7 .debug_abbrev 00005db2  00000000  00000000  000315b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00009096  00000000  00000000  000375f9  2**0
+  8 .debug_loc    000093fa  00000000  00000000  00037362  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_aranges 00000e58  00000000  00000000  00040690  2**3
+  9 .debug_aranges 00000d58  00000000  00000000  0004075c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00001130  00000000  00000000  000414e8  2**0
+ 10 .debug_ranges 00001178  00000000  00000000  000414b4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_macro  00013d9c  00000000  00000000  00042618  2**0
+ 11 .debug_macro  00013db1  00000000  00000000  0004262c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_line   0000f2ea  00000000  00000000  000563b4  2**0
+ 12 .debug_line   0000f765  00000000  00000000  000563dd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    00050bc8  00000000  00000000  0006569e  2**0
+ 13 .debug_str    00050bb7  00000000  00000000  00065b42  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .comment      0000003a  00000000  00000000  000b6266  2**0
+ 14 .comment      00000070  00000000  00000000  000b66f9  2**0
                   CONTENTS, READONLY
- 15 .ARM.attributes 00000039  00000000  00000000  000b62a0  2**0
+ 15 .ARM.attributes 00000039  00000000  00000000  000b6769  2**0
                   CONTENTS, READONLY
- 16 .debug_frame  000020ec  00000000  00000000  000b62dc  2**2
+ 16 .debug_frame  000023b4  00000000  00000000  000b67a4  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
 08000190 l    d  .text	00000000 .text
-08007722 l    d  .textalign	00000000 .textalign
+08007ff4 l    d  .textalign	00000000 .textalign
 20000000 l    d  .stacks	00000000 .stacks
 2000a000 l    d  .data	00000000 .data
-2000a080 l    d  .bss	00000000 .bss
+2000a448 l    d  .bss	00000000 .bss
 00000000 l    d  .debug_info	00000000 .debug_info
 00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
 00000000 l    d  .debug_loc	00000000 .debug_loc
@@ -70,16 +70,16 @@ SYMBOL TABLE:
 00000000 l    d  .debug_frame	00000000 .debug_frame
 00000000 l    df *ABS*	00000000 vectors.c
 00000000 l    df *ABS*	00000000 main.c
-080042c0 l     F .text	00000034 Thread1
-2000a5a8 l     O .bss	000001b8 waThread1
-2000a760 l     O .bss	00000258 SDU1
+08004290 l     F .text	00000034 Thread1
+2000a970 l     O .bss	000001b8 waThread1
+2000ab28 l     O .bss	00000258 SDU1
 00000000 l    df *ABS*	00000000 crt0.c
 00000000 l    df *ABS*	00000000 chcore.c
 00000000 l    df *ABS*	00000000 chcore_v7m.c
-08001454 l       .text	00000000 _port_exit_from_isr
+08001444 l       .text	00000000 _port_exit_from_isr
 00000000 l    df *ABS*	00000000 nvic.c
 00000000 l    df *ABS*	00000000 chsys.c
-2000a080 l     O .bss	0000004c mainthread.4812
+2000a448 l     O .bss	0000004c mainthread.4816
 00000000 l    df *ABS*	00000000 chdebug.c
 00000000 l    df *ABS*	00000000 chvt.c
 00000000 l    df *ABS*	00000000 chschd.c
@@ -92,521 +92,518 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 chqueues.c
 08001d50 l     F .text	00000024 qwait
 00000000 l    df *ABS*	00000000 chmemcore.c
-2000a248 l     O .bss	00000004 endmem
-2000a24c l     O .bss	00000004 nextmem
+2000a610 l     O .bss	00000004 endmem
+2000a614 l     O .bss	00000004 nextmem
 00000000 l    df *ABS*	00000000 chheap.c
-2000a250 l     O .bss	00000020 default_heap
+2000a618 l     O .bss	00000020 default_heap
 00000000 l    df *ABS*	00000000 hal.c
 00000000 l    df *ABS*	00000000 adc.c
 00000000 l    df *ABS*	00000000 gpt.c
 00000000 l    df *ABS*	00000000 pwm.c
 00000000 l    df *ABS*	00000000 serial_usb.c
-08002250 l     F .text	0000005e inotify
-080022b0 l     F .text	00000056 onotify
-08002310 l     F .text	00000006 readt
-08002320 l     F .text	0000000a read
-08002330 l     F .text	00000006 writet
-08002340 l     F .text	0000000a write
-08002350 l     F .text	00000006 gett
-08002360 l     F .text	0000000a get
-08002370 l     F .text	00000006 putt
-08002380 l     F .text	0000000a put
-08006b00 l     O .text	00000020 vmt
+08002230 l     F .text	0000005e inotify
+08002290 l     F .text	00000056 onotify
+080022f0 l     F .text	00000006 readt
+08002300 l     F .text	0000000a read
+08002310 l     F .text	00000006 writet
+08002320 l     F .text	0000000a write
+08002330 l     F .text	00000006 gett
+08002340 l     F .text	0000000a get
+08002350 l     F .text	00000006 putt
+08002360 l     F .text	0000000a put
+080073d0 l     O .text	00000020 vmt
 2000a000 l     O .data	00000007 linecoding
 00000000 l    df *ABS*	00000000 usb.c
-08006b20 l     O .text	00000002 zero_status
-08006b30 l     O .text	00000002 active_status
-08006b40 l     O .text	00000002 halted_status
+080073f0 l     O .text	00000002 zero_status
+08007400 l     O .text	00000002 active_status
+08007410 l     O .text	00000002 halted_status
 00000000 l    df *ABS*	00000000 stm32_dma.c
-2000a270 l     O .bss	00000080 dma_isr_redir
-2000a2f0 l     O .bss	00000004 dma_streams_mask
+2000a638 l     O .bss	00000080 dma_isr_redir
+2000a6b8 l     O .bss	00000004 dma_streams_mask
 00000000 l    df *ABS*	00000000 hal_lld.c
 00000000 l    df *ABS*	00000000 adc_lld.c
-080031c0 l     F .text	000000dc adc_lld_serve_rx_interrupt
+08003190 l     F .text	000000dc adc_lld_serve_rx_interrupt
 00000000 l    df *ABS*	00000000 gpt_lld.c
 00000000 l    df *ABS*	00000000 pwm_lld.c
 00000000 l    df *ABS*	00000000 pal_lld.c
-08003510 l     F .text	0000001e initgpio
+080034f0 l     F .text	0000001e initgpio
 00000000 l    df *ABS*	00000000 usb_lld.c
-080035e0 l     F .text	00000078 otg_disable_ep
-08003660 l     F .text	00000056 otg_epout_handler
-080036c0 l     F .text	00000016 otg_txfifo_flush
-080036e0 l     F .text	00000300 usb_lld_pump
-080039e0 l     F .text	00000078 otg_epin_handler
-08006c10 l     O .text	0000000c fsparams
-08006c30 l     O .text	00000024 ep0config
-2000a590 l     O .bss	00000010 ep0_state
-2000a5a0 l     O .bss	00000008 ep0setup_buffer
+080035c0 l     F .text	00000084 otg_disable_ep
+08003650 l     F .text	00000058 otg_epout_handler
+080036b0 l     F .text	00000016 otg_txfifo_flush
+080036d0 l     F .text	000002ee usb_lld_pump
+080039c0 l     F .text	0000007a otg_epin_handler
+080074e0 l     O .text	0000000c fsparams
+08007500 l     O .text	00000024 ep0config
+2000a958 l     O .bss	00000010 ep0_state
+2000a968 l     O .bss	00000008 ep0setup_buffer
 00000000 l    df *ABS*	00000000 board.c
 00000000 l    df *ABS*	00000000 chprintf.c
-08003fd0 l     F .text	00000046 long_to_string_with_divisor
+08003fb0 l     F .text	00000046 long_to_string_with_divisor
 00000000 l    df *ABS*	00000000 usbcfg.c
-08004300 l     F .text	00000034 get_descriptor
-08004340 l     F .text	00000038 usb_event
-08006e70 l     O .text	00000024 ep1config
-2000a9b8 l     O .bss	00000010 ep1instate
-2000a9d8 l     O .bss	00000010 ep1outstate
-08006ea0 l     O .text	00000043 vcom_configuration_descriptor_data
-08006ef0 l     O .text	00000008 vcom_configuration_descriptor
-08006f00 l     O .text	00000024 ep2config
-2000a9c8 l     O .bss	00000010 ep2instate
-08006f40 l     O .text	00000012 vcom_device_descriptor_data
-08006f60 l     O .text	00000004 vcom_string0
-08006f70 l     O .text	00000026 vcom_string1
-08006fa0 l     O .text	00000038 vcom_string2
-08006fe0 l     O .text	00000008 vcom_string3
-08006ff0 l     O .text	00000020 vcom_strings
-08007020 l     O .text	00000008 vcom_device_descriptor
+080042d0 l     F .text	00000034 get_descriptor
+08004310 l     F .text	00000038 usb_event
+08007740 l     O .text	00000024 ep1config
+2000ad80 l     O .bss	00000010 ep1instate
+2000ada0 l     O .bss	00000010 ep1outstate
+08007770 l     O .text	00000043 vcom_configuration_descriptor_data
+080077c0 l     O .text	00000008 vcom_configuration_descriptor
+080077d0 l     O .text	00000024 ep2config
+2000ad90 l     O .bss	00000010 ep2instate
+08007810 l     O .text	00000012 vcom_device_descriptor_data
+08007830 l     O .text	00000004 vcom_string0
+08007840 l     O .text	00000026 vcom_string1
+08007870 l     O .text	00000038 vcom_string2
+080078b0 l     O .text	00000008 vcom_string3
+080078c0 l     O .text	00000020 vcom_strings
+080078f0 l     O .text	00000008 vcom_device_descriptor
 00000000 l    df *ABS*	00000000 EKF_Pressure.c
-08004380 l     F .text	00000002 adc2errorcallback
-08004940 l     F .text	00000108 GPT_Stepper_Callback
-08004a50 l     F .text	00000024 adc2callback_pressure
-2000aa10 l     O .bss	00000200 Pressures_Setpoint_Buff
-08007030 l     O .text	0000002c adcgrpcfg2_pressure_calibrate
-2000ac10 l     O .bss	00000028 Actuator_Velocities
-2000ac38 l     O .bss	00000004 tp
-2000ac40 l     O .bss	00000d38 waThreadPressure
-2000b978 l     O .bss	00000200 Pressures_Reported_Buff
-2000bb78 l     O .bss	00000276 Pressure_Samples
-2000bdf0 l     O .bss	00000200 Actuator_Velocities_Buff
-08007070 l     O .text	0000002c adcgrpcfg2_pot
+08004350 l     F .text	00000002 adc2errorcallback
+080048f0 l     F .text	00000108 GPT_Stepper_Callback
+08004a00 l     F .text	00000024 adc2callback_pressure
+2000add8 l     O .bss	00000200 Pressures_Setpoint_Buff
+08007900 l     O .text	0000002c adcgrpcfg2_pressure_calibrate
+2000afd8 l     O .bss	00000028 Actuator_Velocities
+2000b000 l     O .bss	00000004 tp
+2000b008 l     O .bss	00000d38 waThreadPressure
+2000bd40 l     O .bss	00000200 Pressures_Reported_Buff
+2000bf40 l     O .bss	00000276 Pressure_Samples
+2000c1b8 l     O .bss	00000200 Actuator_Velocities_Buff
+08007940 l     O .text	0000002c adcgrpcfg2_pot
 2000a008 l     O .data	00000008 gpt8cfg
-2000bff8 l     O .bss	00000002 Pot_sample
-080070a0 l     O .text	0000002c adcgrpcfg2_pressure
+2000c3c0 l     O .bss	00000002 Pot_sample
+08007970 l     O .text	0000002c adcgrpcfg2_pressure
 00000000 l    df *ABS*	00000000 PPG_Demod.c
-08004ae0 l     F .text	00000002 adc1errorcallback
-08004bb0 l     F .text	00000030 adc1callback
-2000c028 l     O .bss	00000a00 PPG_Demod_Buff
-2000ca28 l     O .bss	00000200 Targets_Reported_Buff
-2000cc28 l     O .bss	00000004 tp
-2000cd20 l     O .bss	00000538 waThreadPPG
-080070e0 l     O .text	0000002c adcgrpcfg2
-2000d258 l     O .bss	00000bb8 PPG_Sample_Buffer
-2000de38 l     O .bss	00000200 Pressures_Output_Buff
+08004a90 l     F .text	00000002 adc1errorcallback
+08004b50 l     F .text	00000034 adc1callback
+2000c3f0 l     O .bss	00000a00 PPG_Demod_Buff
+2000cdf0 l     O .bss	00000200 Targets_Reported_Buff
+2000cff0 l     O .bss	00000004 tp
+2000d0e8 l     O .bss	00000538 waThreadPPG
+080079b0 l     O .text	0000002c adcgrpcfg2
+2000d620 l     O .bss	00000bb8 PPG_Sample_Buffer
+2000e200 l     O .bss	00000200 Pressures_Output_Buff
 00000000 l    df *ABS*	00000000 PPG.c
-2000e038 l     O .bss	00000028 Frequency_Bin.7386
-08007110 l     O .text	00000078 sinusoid.7387
-2000e074 l     O .bss	00000001 m.7389
-08007190 l     O .text	00000078 cosinusoid.7388
-2000e075 l     O .bss	00000001 bindex.7385
+2000e400 l     O .bss	00000028 Frequency_Bin.7384
+080079e0 l     O .text	00000078 sinusoid.7385
+2000e43c l     O .bss	00000001 m.7387
+08007a60 l     O .text	00000078 cosinusoid.7386
+2000e43d l     O .bss	00000001 bindex.7383
 00000000 l    df *ABS*	00000000 Pressure.c
-2000e076 l     O .bss	00000001 n.5491
-2000e078 l     O .bss	00000004 Pressure_Offset
+2000e440 l     O .bss	00000004 Pressure_Offset
+2000e444 l     O .bss	00000001 n.5489
 00000000 l    df *ABS*	00000000 EKF_Estimator.c
-08004fd0 l     F .text	0000006a by2multiply
+08004f70 l     F .text	0000006a by2multiply
 00000000 l    df *ABS*	00000000 Quickselect.c
 00000000 l    df *ABS*	00000000 Scanf.c
-08005280 l     F .text	00000014 scanchar
-080052a0 l     F .text	00000024 trim_leading
-08005340 l     F .text	000000a4 scan_int
-080053f0 l     F .text	0000025c scan
+08005220 l     F .text	00000014 scanchar
+08005240 l     F .text	00000024 trim_leading
+080052e0 l     F .text	0000009c scan_int
+08005380 l     F .text	00000254 scan
 00000000 l    df *ABS*	00000000 Stepper.c
 00000000 l    df *ABS*	00000000 Timer.c
-00000000 l    df *ABS*	00000000 sf_sin.c
 00000000 l    df *ABS*	00000000 s_signbit.c
+00000000 l    df *ABS*	00000000 sf_sin.c
 00000000 l    df *ABS*	00000000 wf_asin.c
 00000000 l    df *ABS*	00000000 wf_sqrt.c
 00000000 l    df *ABS*	00000000 ef_asin.c
 00000000 l    df *ABS*	00000000 ef_rem_pio2.c
-08007230 l     O .text	00000080 npio2_hw
-080072b0 l     O .text	00000318 two_over_pi
+08007b00 l     O .text	00000080 npio2_hw
+08007b80 l     O .text	00000318 two_over_pi
 00000000 l    df *ABS*	00000000 ef_sqrt.c
 00000000 l    df *ABS*	00000000 kf_cos.c
 00000000 l    df *ABS*	00000000 kf_rem_pio2.c
-080075d0 l     O .text	0000000c init_jk
-080075e0 l     O .text	0000002c PIo2
+08007ea0 l     O .text	0000000c init_jk
+08007eb0 l     O .text	0000002c PIo2
 00000000 l    df *ABS*	00000000 kf_sin.c
+00000000 l    df *ABS*	00000000 s_matherr.c
+00000000 l    df *ABS*	00000000 s_nan.c
 00000000 l    df *ABS*	00000000 sf_fabs.c
 00000000 l    df *ABS*	00000000 sf_floor.c
 00000000 l    df *ABS*	00000000 sf_fpclassify.c
 00000000 l    df *ABS*	00000000 sf_scalbn.c
-00000000 l    df *ABS*	00000000 s_matherr.c
-00000000 l    df *ABS*	00000000 s_nan.c
 00000000 l    df *ABS*	00000000 sf_copysign.c
 00000000 l    df *ABS*	00000000 errno.c
 00000000 l    df *ABS*	00000000 memset.c
 00000000 l    df *ABS*	00000000 ctype_.c
 00000000 l    df *ABS*	00000000 impure.c
-2000a018 l     O .data	00000064 impure_data
+2000a018 l     O .data	00000428 impure_data
 00000000 l    df *ABS*	00000000 s_lib_ver.c
-08006c60 g     O .text	000000fc pal_default_config
-08001430  w    F .text	00000002 Vector58
-08001430  w    F .text	00000002 VectorE8
-08001430  w    F .text	00000002 Vector9C
-080015b0 g     F .text	00000040 nvicEnableVector
-080023f0 g     F .text	0000001a sduStart
-08003490 g     F .text	00000054 VectorAC
+08007530 g     O .text	000000fc pal_default_config
+08001420  w    F .text	00000002 Vector58
+08001420  w    F .text	00000002 VectorE8
+08001420  w    F .text	00000002 Vector9C
+080015a0 g     F .text	00000044 nvicEnableVector
+080023d0 g     F .text	0000001a sduStart
+08003460 g     F .text	00000064 VectorAC
 08001b50 g     F .text	0000000a chThdExit
-080016b0 g     F .text	0000005c chSysTimerHandlerI
+080016b0 g     F .text	00000058 chSysTimerHandlerI
 08001c10 g     F .text	00000020 chEvtBroadcastFlagsI
 08001890 g     F .text	00000040 chSchGoSleepTimeoutS
-08004a80 g     F .text	00000060 Spawn_Pressure_Thread
-08002210 g     F .text	00000014 gptStartContinuous
+08004a30 g     F .text	00000060 Spawn_Pressure_Thread
+080021f0 g     F .text	00000014 gptStartContinuous
 08001eb0 g     F .text	0000002a chOQResetI
-08001430  w    F .text	00000002 Vector5C
-080007a4 g     F .text	0000005a __floatdidf
-08001430  w    F .text	00000002 NMIVector
+08001420  w    F .text	00000002 Vector5C
+08000794 g     F .text	0000005a __floatdidf
+08001420  w    F .text	00000002 NMIVector
 08001a60 g     F .text	0000000c _thread_memfill
-08001430  w    F .text	00000002 Vector11C
-080026c0 g     F .text	00000026 usbStartTransmitI
-080021d0 g     F .text	0000000a gptObjectInit
-08002e00 g     F .text	00000044 dmaInit
-080020e0 g     F .text	0000001c halPolledDelay
-080029e0 g     F .text	000000a2 _usb_ep0in
-08003ec0 g     F .text	0000002a usb_lld_prepare_receive
-080010a8 g     F .text	00000136 __divsf3
-080033a0 g     F .text	0000005c gpt_lld_start
-08001430  w    F .text	00000002 Vector8C
-08004c50 g     F .text	00000044 PPG_Frequency_Bin_Rotate
-08001430  w    F .text	00000002 VectorDC
-08001430  w    F .text	00000002 Vector168
+08001420  w    F .text	00000002 Vector11C
+080026a0 g     F .text	00000028 usbStartTransmitI
+080021b0 g     F .text	0000000a gptObjectInit
+08002de0 g     F .text	00000040 dmaInit
+080020c0 g     F .text	0000001c halPolledDelay
+080029c0 g     F .text	000000a2 _usb_ep0in
+08003ea0 g     F .text	0000002a usb_lld_prepare_receive
+08001098 g     F .text	00000136 __divsf3
+08003370 g     F .text	0000005c gpt_lld_start
+08001420  w    F .text	00000002 Vector8C
+08004c00 g     F .text	00000044 PPG_Frequency_Bin_Rotate
+08001420  w    F .text	00000002 VectorDC
+08001420  w    F .text	00000002 Vector168
 08000000 g     O startup	00000188 _vectors
-080012d0 g     F .text	0000004c __fixsfsi
+080012c0 g     F .text	0000004c __fixsfsi
 08001840 g     F .text	00000048 chSchGoSleepS
-08001430  w    F .text	00000002 Vector110
-080024a0 g     F .text	0000006c sduDataTransmitted
-08006a80 g     F .text	0000000c __errno
-08005d90 g     F .text	000002ac __ieee754_rem_pio2f
-2000e07c g       *ABS*	00000000 __heap_base__
-08007728 g       *ABS*	00000000 _etext
-08002c80 g     F .text	00000028 Vector120
+08001420  w    F .text	00000002 Vector110
+08002480 g     F .text	0000006c sduDataTransmitted
+08007230 g     F .text	0000000c __errno
+08005da0 g     F .text	00000358 __ieee754_rem_pio2f
+2000e448 g       *ABS*	00000000 __heap_base__
+08007ff8 g       *ABS*	00000000 _etext
+08002c60 g     F .text	00000028 Vector120
 08001a70 g     F .text	00000024 chThdCreateI
-08003f90 g     F .text	00000010 usb_lld_clear_out
-08001430  w    F .text	00000002 VectorC8
-08003420 g     F .text	0000000c gpt_lld_stop_timer
-08000d2c g     F .text	00000160 __aeabi_fadd
-08000d28 g     F .text	00000164 __subsf3
+08003f70 g     F .text	00000010 usb_lld_clear_out
+08001420  w    F .text	00000002 VectorC8
+080033f0 g     F .text	0000000c gpt_lld_stop_timer
+08000d1c g     F .text	00000160 __aeabi_fadd
+08000d18 g     F .text	00000164 __subsf3
 080018d0 g     F .text	00000050 chSchWakeupS
-08005a40 g     F .text	000000a0 sqrtf
+080059e0 g     F .text	0000009c sqrtf
 080017a0 g     F .text	00000014 _scheduler_init
-08002590 g     F .text	00000010 usbObjectInit
+08002570 g     F .text	00000010 usbObjectInit
 080019d0 g     F .text	00000018 chSchRescheduleS
 08001aa0 g     F .text	00000044 chThdCreateStatic
-08001430  w    F .text	00000002 Vector94
-08001430  w    F .text	00000002 VectorA8
-08002720 g     F .text	000002c0 _usb_ep0setup
-08001430  w    F .text	00000002 VectorB4
-080012b8 g     F .text	00000012 __aeabi_fcmpgt
-08000734 g     F .text	00000022 __floatsidf
-08002180 g     F .text	00000038 adcConvert
-08005730 g     F .text	000001a0 Setup_PPG_PWM
+08001420  w    F .text	00000002 Vector94
+08001420  w    F .text	00000002 VectorA8
+08002700 g     F .text	000002bc _usb_ep0setup
+08001420  w    F .text	00000002 VectorB4
+080012a8 g     F .text	00000012 __aeabi_fcmpgt
+08000724 g     F .text	00000022 __floatsidf
+08002160 g     F .text	00000038 adcConvert
+080056c0 g     F .text	000001a0 Setup_PPG_PWM
 080017c0 g     F .text	00000024 chSchReadyI
 08000188 g       startup	00000000 __fini_array_end
-08001440  w    F .text	00000004 port_halt
-08004dd0 g     F .text	00000028 PWM_Linear
+08001430  w    F .text	00000004 port_halt
+08004d70 g     F .text	00000028 PWM_Linear
 2000a000 g       .stacks	00000000 __main_thread_stack_end__
-08004e00 g     F .text	00000068 PPG_correct_brightness
+08004da0 g     F .text	00000068 PPG_correct_brightness
 08001720 g     F .text	00000018 _vt_init
-08001ff0 g     F .text	00000028 chCoreAllocI
-08002510 g     F .text	00000056 sduDataReceived
-080058d0 g     F .text	00000048 Enable_PPG_PWM
-08002060 g     F .text	0000001c _heap_init
-08000e94 g     F .text	0000001c __aeabi_i2f
-08002b60 g     F .text	0000002c Vector74
-08002080 g     F .text	0000002c halInit
-08001430  w    F .text	00000002 Vector160
-080011e8 g     F .text	00000066 __lesf2
-08001430  w    F .text	00000002 VectorEC
-2000a080 g       .bss	00000000 _bss_start
+08001fd0 g     F .text	00000028 chCoreAllocI
+080024f0 g     F .text	00000056 sduDataReceived
+08005860 g     F .text	00000048 Enable_PPG_PWM
+08002040 g     F .text	0000001c _heap_init
+08000e84 g     F .text	0000001c __aeabi_i2f
+08002b40 g     F .text	0000002c Vector74
+08002060 g     F .text	0000002c halInit
+08001420  w    F .text	00000002 Vector160
+080011d8 g     F .text	00000066 __lesf2
+08001420  w    F .text	00000002 VectorEC
+2000a448 g       .bss	00000000 _bss_start
 08001920 g     F .text	00000048 chSchDoRescheduleBehind
-08001430  w    F .text	00000002 UsageFaultVector
-08006950 g     F .text	00000054 __fpclassifyf
+08001420  w    F .text	00000002 UsageFaultVector
+08007100 g     F .text	00000056 __fpclassifyf
 2001c000 g       *ABS*	00000000 __heap_end__
-08001430  w    F .text	00000002 DebugMonitorVector
-08000714 g     F .text	0000001e __aeabi_ui2d
-08000490 g     F .text	00000000 __aeabi_drsub
-08001430  w    F .text	00000002 Vector40
-08001430  w    F .text	00000002 VectorF8
-08001430  w    F .text	00000002 Vector108
-08002690 g     F .text	00000026 usbStartReceiveI
-08001340 g     F .text	000000e8 ResetHandler
-08001e20 g     F .text	0000006a chIQReadTimeout
-08001430  w    F .text	00000002 VectorBC
-08002d70 g     F .text	0000002c Vector150
-08003ea0 g     F .text	00000012 usb_lld_read_setup
-080068c0 g     F .text	00000006 fabsf
-08002cb0 g     F .text	0000002c Vector124
-08004be0 g     F .text	00000068 Spawn_PPG_Thread
-08001490 g     F .text	00000034 _port_init
-08002ee0 g     F .text	000000ac hal_lld_init
-08000758 g     F .text	0000003a __extendsfdf2
-08000a54 g     F .text	000001d0 __aeabi_ddiv
-08003f30 g     F .text	00000010 usb_lld_start_out
-08001c30 g     F .text	00000026 chMBInit
-0800049c g     F .text	00000276 __adddf3
-080011f0 g     F .text	0000005e __nesf2
-08005040 g     F .text	000000f4 Update_State
-08000800 g     F .text	00000254 __aeabi_dmul
+08001420  w    F .text	00000002 DebugMonitorVector
+08000704 g     F .text	0000001e __aeabi_ui2d
+08000480 g     F .text	00000000 __aeabi_drsub
+08001420  w    F .text	00000002 Vector40
+08001420  w    F .text	00000002 VectorF8
+08001420  w    F .text	00000002 Vector108
+08002670 g     F .text	00000028 usbStartReceiveI
+08001330 g     F .text	000000e8 ResetHandler
+08001e20 g     F .text	00000068 chIQReadTimeout
+08001420  w    F .text	00000002 VectorBC
+08002d50 g     F .text	0000002c Vector150
+08003e80 g     F .text	00000012 usb_lld_read_setup
+08007050 g     F .text	00000006 fabsf
+08002c90 g     F .text	0000002c Vector124
+08004b90 g     F .text	00000068 Spawn_PPG_Thread
+08001480 g     F .text	00000034 _port_init
+08002eb0 g     F .text	000000ac hal_lld_init
+08000748 g     F .text	0000003a __extendsfdf2
+08000a44 g     F .text	000001d0 __aeabi_ddiv
+08003f10 g     F .text	00000010 usb_lld_start_out
+08001c30 g     F .text	00000028 chMBInit
+0800048c g     F .text	00000276 __adddf3
+080011e0 g     F .text	0000005e __nesf2
+08004fe0 g     F .text	000000f4 Update_State
+080007f0 g     F .text	00000254 __aeabi_dmul
 08001b10 g     F .text	0000003c chThdExitS
 2000a010 g     O .data	00000001 __fdlib_version
-08002570 g     F .text	00000002 sduInterruptTransmitted
-080067c0 g     F .text	000000f4 __kernel_sinf
-08002150 g     F .text	00000022 adcStartConversion
-08001430  w    F .text	00000002 Vector148
-08002100 g     F .text	00000004 adcInit
-08000714 g     F .text	0000001e __floatunsidf
-08003f70 g     F .text	00000010 usb_lld_stall_out
-080030a0 g     F .text	00000078 adc_lld_start
-2000bffc g     O .bss	00000028 Pressures_Reported
-08001430  w    F .text	00000002 PendSVVector
-08001430  w    F .text	00000002 Vector118
-08000c80 g     F .text	0000009e __aeabi_d2f
+08002550 g     F .text	00000002 sduInterruptTransmitted
+08006f30 g     F .text	00000100 __kernel_sinf
+08002130 g     F .text	00000022 adcStartConversion
+08001420  w    F .text	00000002 Vector148
+080020e0 g     F .text	00000004 adcInit
+08000704 g     F .text	0000001e __floatunsidf
+08003f50 g     F .text	00000010 usb_lld_stall_out
+08003070 g     F .text	00000078 adc_lld_start
+2000c3c4 g     O .bss	00000028 Pressures_Reported
+08001420  w    F .text	00000002 PendSVVector
+08001420  w    F .text	00000002 Vector118
+08000c70 g     F .text	0000009e __aeabi_d2f
 08001740 g     F .text	00000030 chVTSetI
-08001430  w    F .text	00000002 Vector64
-2000e07c g       .bss	00000000 _bss_end
+08001420  w    F .text	00000002 Vector64
+2000e448 g       .bss	00000000 _bss_end
 08001d20 g     F .text	00000030 chMBFetchI
-08000d28 g     F .text	00000164 __aeabi_fsub
-2000a218 g     O .bss	00000004 dbg_panic_msg
-08001330  w    F .text	00000002 _default_exit
-08003040 g     F .text	00000060 adc_lld_init
-08001430  w    F .text	00000002 VectorCC
-080012a4 g     F .text	00000012 __aeabi_fcmpge
-08000c30 g     F .text	0000004e __fixdfsi
+08000d18 g     F .text	00000164 __aeabi_fsub
+2000a5e0 g     O .bss	00000004 dbg_panic_msg
+08001320  w    F .text	00000002 _default_exit
+08003010 g     F .text	00000060 adc_lld_init
+08001420  w    F .text	00000002 VectorCC
+08001294 g     F .text	00000012 __aeabi_fcmpge
+08000c20 g     F .text	0000004e __fixdfsi
 08001b60 g     F .text	00000008 chSemInit
-08001430  w    F .text	00000002 Vector54
-080060f0 g     F .text	00000134 __kernel_cosf
-08000ec0 g     F .text	0000007c __floatdisf
-08001430  w    F .text	00000002 Vector98
-08001c60 g     F .text	00000036 chMBPostS
-2000a328 g     O .bss	00000034 ADCD2
-2000a2f4 g     O .bss	00000034 ADCD1
-08001430  w    F .text	00000002 VectorD8
-080011e0 g     F .text	0000006e __gtsf2
-08001430  w    F .text	00000002 Vector138
-0800049c g     F .text	00000276 __aeabi_dadd
-08001430  w    F .text	00000002 Vector24
-08001290 g     F .text	00000012 __aeabi_fcmple
-08000794 g     F .text	0000006a __aeabi_ul2d
-08002040 g     F .text	00000014 chCoreStatus
-08003c60 g     F .text	000000b4 usb_lld_reset
+08001420  w    F .text	00000002 Vector54
+080061e0 g     F .text	000001b8 __kernel_cosf
+08000eb0 g     F .text	0000007c __floatdisf
+08001420  w    F .text	00000002 Vector98
+08001c60 g     F .text	00000038 chMBPostS
+2000a6f0 g     O .bss	00000034 ADCD2
+2000a6bc g     O .bss	00000034 ADCD1
+08001420  w    F .text	00000002 VectorD8
+080011d0 g     F .text	0000006e __gtsf2
+08001420  w    F .text	00000002 Vector138
+0800048c g     F .text	00000276 __aeabi_dadd
+08001420  w    F .text	00000002 Vector24
+08001280 g     F .text	00000012 __aeabi_fcmple
+08000784 g     F .text	0000006a __aeabi_ul2d
+08002020 g     F .text	00000014 chCoreStatus
+08003c40 g     F .text	000000b4 usb_lld_reset
 080019f0 g     F .text	00000018 chSchDoReschedule
 08001640 g     F .text	00000064 chSysInit
-08005ae0 g     F .text	000002b0 __ieee754_asinf
-00000000  w      *UND*	00000000 __sf_fake_stderr
-08001430  w    F .text	00000002 Vector178
-08002650 g     F .text	0000001e usbPrepareQueuedReceive
-080025d0 g     F .text	00000032 usbInitEndpointI
+08005a80 g     F .text	00000316 __ieee754_asinf
+08001420  w    F .text	00000002 Vector178
+08002630 g     F .text	0000001e usbPrepareQueuedReceive
+080025b0 g     F .text	00000032 usbInitEndpointI
 08001af0 g     F .text	00000018 chThdSleep
-08004f50 g     F .text	00000048 Calibrate_Sensor
+08004ef0 g     F .text	00000048 Calibrate_Sensor
 08001d80 g     F .text	0000001c chIQInit
-08006b50 g     O .text	000000c0 _stm32_dma_streams
-08002c20 g     F .text	0000002c Vector84
-2000a35c g     O .bss	00000010 GPTD8
-2000de10 g     O .bss	00000028 Pressures_Output
-08003ef0 g     F .text	00000032 usb_lld_prepare_transmit
-08001560 g     F .text	0000001a SysTickVector
-08002610 g     F .text	0000001c usbPrepareReceive
-08005670 g     F .text	0000007c Setup_Stepper_PWM
-08003e80 g     F .text	0000001a usb_lld_get_status_in
-08002f90 g     F .text	000000ac stm32_clock_init
-08003530 g     F .text	000000a4 _pal_lld_init
-08001430  w    F .text	00000002 BusFaultVector
-2000cc2c g     O .bss	000000c8 PPG_Demod
-08000498 g     F .text	0000027a __aeabi_dsub
-08001430  w    F .text	00000002 VectorD0
-08003fa0 g     F .text	00000010 usb_lld_clear_in
-08003b40 g     F .text	00000044 usb_lld_init
-08001fc0 g     F .text	00000028 _core_init
-080034f0 g     F .text	00000018 pwm_lld_init
-08000794 g     F .text	0000006a __floatundidf
-2000bff0 g     O .bss	00000004 Actuator_Velocity
-08000e94 g     F .text	0000001c __floatsisf
-08001430  w    F .text	00000002 Vector140
-08001430  w    F .text	00000002 VectorE4
-08002a90 g     F .text	0000006c _usb_ep0out
-08001430  w    F .text	00000002 VectorC0
-08002dd0 g     F .text	0000002c Vector158
-08003400 g     F .text	00000018 gpt_lld_start_timer
-08002630 g     F .text	0000001c usbPrepareTransmit
-08002d40 g     F .text	00000028 Vector130
-08001580 g     F .text	00000018 _port_switch
+08007420 g     O .text	000000c0 _stm32_dma_streams
+08002c00 g     F .text	0000002c Vector84
+2000a724 g     O .bss	00000010 GPTD8
+2000e1d8 g     O .bss	00000028 Pressures_Output
+08003ed0 g     F .text	00000032 usb_lld_prepare_transmit
+08001550 g     F .text	0000001a SysTickVector
+080025f0 g     F .text	0000001c usbPrepareReceive
+08005600 g     F .text	0000007c Setup_Stepper_PWM
+08003e60 g     F .text	0000001a usb_lld_get_status_in
+08002f60 g     F .text	000000a8 stm32_clock_init
+08003510 g     F .text	000000a4 _pal_lld_init
+08001420  w    F .text	00000002 BusFaultVector
+2000cff4 g     O .bss	000000c8 PPG_Demod
+08000488 g     F .text	0000027a __aeabi_dsub
+08001420  w    F .text	00000002 VectorD0
+08003f80 g     F .text	00000010 usb_lld_clear_in
+08003b20 g     F .text	00000044 usb_lld_init
+08001fa0 g     F .text	00000028 _core_init
+080034d0 g     F .text	00000018 pwm_lld_init
+08000784 g     F .text	0000006a __floatundidf
+2000c3b8 g     O .bss	00000004 Actuator_Velocity
+08000e84 g     F .text	0000001c __floatsisf
+08001420  w    F .text	00000002 Vector140
+08001420  w    F .text	00000002 VectorE4
+08002a70 g     F .text	0000006c _usb_ep0out
+08001420  w    F .text	00000002 VectorC0
+08002db0 g     F .text	0000002c Vector158
+080033d0 g     F .text	00000018 gpt_lld_start_timer
+08002610 g     F .text	0000001c usbPrepareTransmit
+08002d20 g     F .text	00000028 Vector130
+08001570 g     F .text	00000018 _port_switch
 0001c000 g       *ABS*	00000000 __ram_size__
-080012d0 g     F .text	0000004c __aeabi_f2iz
-08001cc0 g     F .text	00000038 chMBFetchS
-080011f0 g     F .text	0000005e __eqsf2
-08001460 g     F .text	00000024 SVCallVector
-08001320  w    F .text	00000002 __late_init
-080021c0 g     F .text	00000004 gptInit
+080012c0 g     F .text	0000004c __aeabi_f2iz
+08001cc0 g     F .text	0000003a chMBFetchS
+080011e0 g     F .text	0000005e __eqsf2
+08001450 g     F .text	00000024 SVCallVector
+08001310  w    F .text	00000002 __late_init
+080021a0 g     F .text	00000004 gptInit
 08001710 g     F .text	0000000c chDbgPanic
-2000a21c g     O .bss	00000010 vtlist
-08004af0 g     F .text	000000b4 PPG_Thread
-08001430  w    F .text	00000002 HardFaultVector
-080014d0 g     F .text	00000084 _port_irq_epilogue
-08001430  w    F .text	00000002 Vector134
-08002020 g     F .text	00000014 chCoreAlloc
-080010a8 g     F .text	00000136 __aeabi_fdiv
-08000734 g     F .text	00000022 __aeabi_i2d
-08003430 g     F .text	00000030 VectorF0
-08002d10 g     F .text	0000002c Vector12C
-08002230 g     F .text	00000004 pwmInit
-08000eb0 g     F .text	0000008c __floatundisf
-08005650 g     F .text	0000001e sscanf
-08003380 g     F .text	00000014 gpt_lld_init
-08001430  w    F .text	00000002 Vector13C
-08000a54 g     F .text	000001d0 __divdf3
-080026f0 g     F .text	00000024 _usb_reset
-08004ca0 g     F .text	00000130 PPG_LO_Filter
-08000e8c g     F .text	00000024 __aeabi_ui2f
-08001430  w    F .text	00000002 Vector100
-08000800 g     F .text	00000254 __muldf3
-08007728 g       *ABS*	00000000 _textdata
-08001430  w    F .text	00000002 VectorE0
+2000a5e4 g     O .bss	00000010 vtlist
+08004aa0 g     F .text	000000b0 PPG_Thread
+08001420  w    F .text	00000002 HardFaultVector
+080014c0 g     F .text	00000084 _port_irq_epilogue
+08001420  w    F .text	00000002 Vector134
+08002000 g     F .text	00000014 chCoreAlloc
+08001098 g     F .text	00000136 __aeabi_fdiv
+08000724 g     F .text	00000022 __aeabi_i2d
+08003400 g     F .text	00000030 VectorF0
+08002cf0 g     F .text	0000002c Vector12C
+08002210 g     F .text	00000004 pwmInit
+08000ea0 g     F .text	0000008c __floatundisf
+080055e0 g     F .text	0000001e sscanf
+08003350 g     F .text	00000014 gpt_lld_init
+08001420  w    F .text	00000002 Vector13C
+08000a44 g     F .text	000001d0 __divdf3
+080026d0 g     F .text	00000026 _usb_reset
+08004c50 g     F .text	00000114 PPG_LO_Filter
+08000e7c g     F .text	00000024 __aeabi_ui2f
+08001420  w    F .text	00000002 Vector100
+080007f0 g     F .text	00000254 __muldf3
+08007ff8 g       *ABS*	00000000 _textdata
+08001420  w    F .text	00000002 VectorE0
 00000000 g       *ABS*	00000000 _text
-08001430  w    F .text	00000002 VectorF4
-08001430  w    F .text	00000002 MemManageVector
-080052d0 g     F .text	00000064 ch_to_digit
+08001420  w    F .text	00000002 VectorF4
+08001420  w    F .text	00000002 MemManageVector
+08005270 g     F .text	00000064 ch_to_digit
 08000188 g       startup	00000000 __fini_array_start
-080069b0 g     F .text	000000a0 scalbnf
-00000000  w      *UND*	00000000 __sf_fake_stdin
-080011f0 g     F .text	0000005e __cmpsf2
-08006a90 g     F .text	00000010 memset
-08006040 g     F .text	000000a4 __ieee754_sqrtf
-08000190 g     F .text	000002f4 main
-08002b00 g     F .text	00000028 Vector6C
-080021e0 g     F .text	0000001c gptStart
-08004390 g     F .text	000005a8 Pressure_Thread
-08002130 g     F .text	0000001c adcStart
-08000ec0 g     F .text	0000007c __aeabi_l2f
-2000a22c g     O .bss	0000001c rlist
-08001430  w    F .text	00000002 VectorA0
-080011e8 g     F .text	00000066 __ltsf2
-08002110 g     F .text	00000016 adcObjectInit
+08007160 g     F .text	000000c0 scalbnf
+080011e0 g     F .text	0000005e __cmpsf2
+08007240 g     F .text	0000012c memset
+08006100 g     F .text	000000d2 __ieee754_sqrtf
+08000190 g     F .text	000002f0 main
+08002ae0 g     F .text	00000028 Vector6C
+080021c0 g     F .text	0000001c gptStart
+08004360 g     F .text	0000058c Pressure_Thread
+08002110 g     F .text	0000001c adcStart
+08000eb0 g     F .text	0000007c __aeabi_l2f
+2000a5f4 g     O .bss	0000001c rlist
+08001420  w    F .text	00000002 VectorA0
+080011d8 g     F .text	00000066 __ltsf2
+080020f0 g     F .text	00000016 adcObjectInit
 08001d00 g     F .text	00000014 chMBFetch
-08006a50 g     F .text	00000004 matherr
-2000a380 g     O .bss	00000210 USBD1
-08000c80 g     F .text	0000009e __truncdfsf2
+08007030 g     F .text	00000004 matherr
+2000a748 g     O .bss	00000210 USBD1
+08000c70 g     F .text	0000009e __truncdfsf2
 08000188 g       startup	00000000 __init_array_end
-2000a36c g     O .bss	00000014 PWMD1
-080007a4 g     F .text	0000005a __aeabi_l2d
-08001430  w    F .text	00000002 VectorC4
-08002bc0 g     F .text	00000028 Vector7C
-08001430  w    F .text	00000002 Vector180
+2000a734 g     O .bss	00000014 PWMD1
+08000794 g     F .text	0000005a __aeabi_l2d
+08001420  w    F .text	00000002 VectorC4
+08002ba0 g     F .text	00000028 Vector7C
+08001420  w    F .text	00000002 Vector180
 08001bd0 g     F .text	0000000a chMtxInit
-08000eb0 g     F .text	0000008c __aeabi_ul2f
+08000ea0 g     F .text	0000008c __aeabi_ul2f
 08001620 g     F .text	00000014 _idle_thread
-2000a9e8 g     O .bss	00000028 Pressures_Setpoint
-08001f40 g     F .text	00000072 chOQWriteTimeout
-08001258 g     F .text	00000010 __aeabi_cfcmple
-08002240 g     F .text	0000000a pwmObjectInit
-08001430  w    F .text	00000002 VectorB0
-08000f40 g     F .text	00000168 __mulsf3
-080025a0 g     F .text	00000026 usbStart
-08004020 g     F .text	0000029c chprintf
-08001430  w    F .text	00000002 Vector90
+2000adb0 g     O .bss	00000028 Pressures_Setpoint
+08001f30 g     F .text	0000006e chOQWriteTimeout
+08001248 g     F .text	00000010 __aeabi_cfcmple
+08002220 g     F .text	0000000a pwmObjectInit
+08001420  w    F .text	00000002 VectorB0
+08000f30 g     F .text	00000168 __mulsf3
+08002580 g     F .text	00000026 usbStart
+08004000 g     F .text	0000028c chprintf
+08001420  w    F .text	00000002 Vector90
 08001be0 g     F .text	0000002e chEvtSignalI
-080051a0 g     F .text	000000e0 quick_select
-08002450 g     F .text	0000004c sduRequestsHook
-08001430  w    F .text	00000002 Vector114
+08005140 g     F .text	000000d4 quick_select
+08002430 g     F .text	00000048 sduRequestsHook
+08001420  w    F .text	00000002 Vector114
 20000000 g       *ABS*	00000000 __ram_start__
-080015a0 g     F .text	00000010 _port_thread_start
-08001430  w    F .text	00000002 Vector164
-08001430  w    F .text	00000002 Vector60
-08001430  w    F .text	00000002 Vector1C
+08001590 g     F .text	00000010 _port_thread_start
+08001420  w    F .text	00000002 Vector164
+08001420  w    F .text	00000002 Vector60
+08001420  w    F .text	00000002 Vector1C
 08001970 g     F .text	00000058 chSchDoRescheduleAhead
-08006a70 g     F .text	0000000c copysignf
-08001430  w    F .text	00000002 Vector17C
-08001430  w    F .text	00000002 Vector48
-08003f80 g     F .text	00000010 usb_lld_stall_in
+08007220 g     F .text	0000000c copysignf
+08001420  w    F .text	00000002 Vector17C
+08001420  w    F .text	00000002 Vector48
+08003f60 g     F .text	00000010 usb_lld_stall_in
 20002000 g       .stacks	00000000 __process_stack_base__
-08003120 g     F .text	00000064 adc_lld_start_conversion
-080011e0 g     F .text	0000006e __gesf2
-08007010 g     O .text	00000004 serusbcfg
-08001430  w    F .text	00000002 Vector16C
-08000d20 g     F .text	0000016c __aeabi_frsub
-08005140 g     F .text	0000005c Predict_State
-2000a07c g     O .data	00000004 _impure_ptr
-08002b30 g     F .text	0000002c Vector70
-08001268 g     F .text	00000012 __aeabi_fcmpeq
-08001430  w    F .text	00000002 VectorD4
-08002410 g     F .text	0000003a sduConfigureHookI
-080015f0 g     F .text	00000028 nvicSetSystemHandlerPriority
-08000f40 g     F .text	00000168 __aeabi_fmul
-2000c024 g     O .bss	00000004 Actuator_Position
-08001250 g     F .text	00000018 __aeabi_cfrcmple
-080056f0 g     F .text	00000018 GPIO_Stepper_Enable
-2000a0d0 g     O .bss	00000148 _idle_thread_wa
+080030f0 g     F .text	00000064 adc_lld_start_conversion
+080011d0 g     F .text	0000006e __gesf2
+080078e0 g     O .text	00000004 serusbcfg
+08001420  w    F .text	00000002 Vector16C
+08000d10 g     F .text	0000016c __aeabi_frsub
+080050e0 g     F .text	0000005c Predict_State
+2000a440 g     O .data	00000004 _impure_ptr
+08002b10 g     F .text	0000002c Vector70
+08001258 g     F .text	00000012 __aeabi_fcmpeq
+08001420  w    F .text	00000002 VectorD4
+080023f0 g     F .text	0000003a sduConfigureHookI
+080015f0 g     F .text	0000002c nvicSetSystemHandlerPriority
+08000f30 g     F .text	00000168 __aeabi_fmul
+2000c3ec g     O .bss	00000004 Actuator_Position
+08001240 g     F .text	00000018 __aeabi_cfrcmple
+08005680 g     F .text	00000018 GPIO_Stepper_Enable
+2000a498 g     O .bss	00000148 _idle_thread_wa
 08001e90 g     F .text	00000018 chOQInit
-08001dd0 g     F .text	00000048 chIQGetTimeout
+08001dd0 g     F .text	00000044 chIQGetTimeout
 2000a000 g       .data	00000000 _data
-2000bff4 g     O .bss	00000004 Target
-08001430  w    F .text	00000002 Vector4C
-08001430  w    F .text	00000002 Vector144
-08005920 g     F .text	00000068 sinf
-08002bf0 g     F .text	0000002c Vector80
-08001450 g     F .text	00000006 _port_switch_from_isr
-08003d20 g     F .text	00000018 usb_lld_set_address
-08004fa0 g     F .text	00000028 Convert_Pressure
-08006a60 g     F .text	0000000c nan
-08001430  w    F .text	00000002 Vector15C
-0800127c g     F .text	00000012 __aeabi_fcmplt
-08001430  w    F .text	00000002 Vector68
+2000c3bc g     O .bss	00000004 Target
+08001420  w    F .text	00000002 Vector4C
+08001420  w    F .text	00000002 Vector144
+080058c0 g     F .text	00000076 sinf
+08002bd0 g     F .text	0000002c Vector80
+08001440 g     F .text	00000006 _port_switch_from_isr
+08003d00 g     F .text	00000018 usb_lld_set_address
+08004f40 g     F .text	00000028 Convert_Pressure
+08007040 g     F .text	0000000a nan
+08001420  w    F .text	00000002 Vector15C
+0800126c g     F .text	00000012 __aeabi_fcmplt
+08001420  w    F .text	00000002 Vector68
 20002000 g       .stacks	00000000 __main_stack_end__
-08002b90 g     F .text	0000002c Vector78
+08002b70 g     F .text	0000002c Vector78
 2001c000 g       *ABS*	00000000 __ram_end__
-2000a080 g       .data	00000000 _edata
-08004e70 g     F .text	000000d4 PPG_Automatic_Brightness_Control
-2000e07c g       *ABS*	00000000 _end
-08002670 g     F .text	0000001e usbPrepareQueuedTransmit
-2000e060 g     O .bss	00000014 Last_PPG_Values
+2000a444 g       .data	00000000 _edata
+08004e10 g     F .text	000000d4 PPG_Automatic_Brightness_Control
+2000e448 g       *ABS*	00000000 _end
+08002650 g     F .text	0000001e usbPrepareQueuedTransmit
+2000e428 g     O .bss	00000014 Last_PPG_Values
 08001770 g     F .text	00000024 chVTResetI
-08001430 g     F .text	00000002 _unhandled_exception
-08001430  w    F .text	00000002 Vector170
+08001420 g     F .text	00000002 _unhandled_exception
+08001420  w    F .text	00000002 Vector170
 08001ca0 g     F .text	00000014 chMBPost
-080032a0 g     F .text	000000d4 Vector88
+08003270 g     F .text	000000d4 Vector88
 20002000 g       .stacks	00000000 __main_thread_stack_base__
-08000e8c g     F .text	00000024 __floatunsisf
-08002200 g     F .text	00000008 gptStartContinuousI
-08000c30 g     F .text	0000004e __aeabi_d2iz
-08002580 g     F .text	00000004 usbInit
-08001430  w    F .text	00000002 Vector104
+08000e7c g     F .text	00000024 __floatunsisf
+080021e0 g     F .text	00000008 gptStartContinuousI
+08000c20 g     F .text	0000004e __aeabi_d2iz
+08002560 g     F .text	00000004 usbInit
+08001420  w    F .text	00000002 Vector104
 2000a014 g     O .data	00000004 __ctype_ptr__
-08001258 g     F .text	00000010 __aeabi_cfcmpeq
-08003b90 g     F .text	000000c8 usb_lld_start
-08001430  w    F .text	00000002 Vector184
-080023a0 g     F .text	00000048 sduObjectInit
-00000000  w      *UND*	00000000 __sf_fake_stdout
-08001430  w    F .text	00000002 Vector10C
-08005710 g     F .text	00000018 GPIO_Stepper_Dir
-08007610 g     O .text	00000101 _ctype_
+08001248 g     F .text	00000010 __aeabi_cfcmpeq
+08003b70 g     F .text	000000c8 usb_lld_start
+08001420  w    F .text	00000002 Vector184
+08002380 g     F .text	00000048 sduObjectInit
+08001420  w    F .text	00000002 Vector10C
+080056a0 g     F .text	00000018 GPIO_Stepper_Dir
+08007ee0 g     O .text	00000101 _ctype_
 08000188 g       startup	00000000 __init_array_start
-08005990 g     F .text	00000006 __signbitf
-08003f40 g     F .text	00000022 usb_lld_start_in
-08006230 g     F .text	00000584 __kernel_rem_pio2f
-08003e60 g     F .text	0000001a usb_lld_get_status_out
-08003a60 g     F .text	000000d8 Vector14C
+080058b0 g     F .text	00000006 __signbitf
+08003f20 g     F .text	00000022 usb_lld_start_in
+080063a0 g     F .text	00000b90 __kernel_rem_pio2f
+08003e40 g     F .text	0000001a usb_lld_get_status_out
+08003a40 g     F .text	000000d8 Vector14C
 08001a10 g     F .text	0000004c _thread_init
-08001430  w    F .text	00000002 Vector50
-08003190 g     F .text	0000002e adc_lld_stop_conversion
-08002e50 g     F .text	0000008c dmaStreamAllocate
-08002da0 g     F .text	0000002c Vector154
-080068d0 g     F .text	00000080 floorf
-08001ee0 g     F .text	00000052 chOQPutTimeout
+08001420  w    F .text	00000002 Vector50
+08003160 g     F .text	0000002e adc_lld_stop_conversion
+08002e20 g     F .text	0000008c dmaStreamAllocate
+08002d80 g     F .text	0000002c Vector154
+08007060 g     F .text	00000092 floorf
+08001ee0 g     F .text	00000050 chOQPutTimeout
 20000000 g       .stacks	00000000 __main_stack_base__
-08001430  w    F .text	00000002 Vector44
-08000758 g     F .text	0000003a __aeabi_f2d
-08001430  w    F .text	00000002 Vector28
-08003fc0 g     F .text	00000002 boardInit
-08001430  w    F .text	00000002 VectorB8
-080059a0 g     F .text	00000098 asinf
+08001420  w    F .text	00000002 Vector44
+08000748 g     F .text	0000003a __aeabi_f2d
+08001420  w    F .text	00000002 Vector28
+08003fa0 g     F .text	00000002 boardInit
+08001420  w    F .text	00000002 VectorB8
+08005940 g     F .text	000000a0 asinf
 00002000 g       *ABS*	00000000 __main_stack_size__
-08002c50 g     F .text	0000002c VectorFC
-08000498 g     F .text	0000027a __subdf3
+08002c30 g     F .text	0000002c VectorFC
+08000488 g     F .text	0000027a __subdf3
 2000a000 g       .stacks	00000000 __process_stack_end__
-08002390 g     F .text	00000002 sduInit
-08001430  w    F .text	00000002 Vector34
+08002370 g     F .text	00000002 sduInit
+08001420  w    F .text	00000002 Vector34
 08001da0 g     F .text	00000028 chIQResetI
-08003fb0 g     F .text	00000004 __early_init
+08003f90 g     F .text	00000004 __early_init
 08001bb0 g     F .text	0000001e chSemSignalI
-08002ce0 g     F .text	0000002c Vector128
-08006f30 g     O .text	00000010 usbcfg
-08000d2c g     F .text	00000160 __addsf3
-2000ccf4 g     O .bss	00000028 Targets_Reported
-08003460 g     F .text	00000024 VectorA4
+08002cc0 g     F .text	0000002c Vector128
+08007800 g     O .text	00000010 usbcfg
+08000d1c g     F .text	00000160 __addsf3
+2000d0bc g     O .bss	00000028 Targets_Reported
+08003430 g     F .text	00000024 VectorA4
 00008000 g       *ABS*	00000000 __process_stack_size__
-08003d40 g     F .text	00000120 usb_lld_init_endpoint
-080020b0 g     F .text	0000002c halIsCounterWithin
-08001430  w    F .text	00000002 Vector20
+08003d20 g     F .text	00000120 usb_lld_init_endpoint
+08002090 g     F .text	0000002c halIsCounterWithin
+08001420  w    F .text	00000002 Vector20
 08001b70 g     F .text	0000003c chSemWaitTimeoutS
-08001430  w    F .text	00000002 Vector174
+08001420  w    F .text	00000002 Vector174
 
 

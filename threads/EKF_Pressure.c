@@ -288,9 +288,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 				//arm_pos_est = arm_pos_est*0.95 + 0.05*( actuator_midway_position - pressure/State[0] );/*  */
 				//target = arm_pos_est + Setpoint / State[0];
 				//target = State[1] + Setpoint/State[0];
-				if(Actuator_Velocity<15) {
-					meanv=meanv*0.6+0.4*(velocities[0]+velocities[1]+velocities[2]);
-					target = /*(State[1]*/actuator_midway_position + ( (Setpoint-(pressure+meanv*0.1)) / (2.0*State[0]) ) ;
+				if(Actuator_Velocity<10) {
+					meanv=meanv*0.8+0.2*((velocities[0]+velocities[1]+velocities[2])/3.0);
+					target = /*(State[1]*/actuator_midway_position + ( (Setpoint-(pressure+meanv*0.24)) / (1.5*State[0]) ) ;
 				}
 				else
 					target = /*State[1]*/actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;

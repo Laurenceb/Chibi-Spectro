@@ -154,7 +154,7 @@ int main(void) {
   } while(valid_string==0);		//We loop here until string is valid
   /* At present we just have a 5s pulse at end of each period */
   for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
-	if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
+	/*if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
 		pressure_set_array[n]=3.0;
 	else if((sizeof(pressure_set_array)/sizeof(float)-n)<1500)
 		pressure_set_array[n]=0.5;
@@ -162,6 +162,11 @@ int main(void) {
 		pressure_set_array[n]=3.0;
 	else
 		pressure_set_array[n]=0.2;
+	*/
+	if(n<(sizeof(pressure_set_array)/(2.0*sizeof(float))))
+		pressure_set_array[n]=2.0*(float)n/((sizeof(pressure_set_array)/sizeof(float)));//sweep from 0psi to 1
+	else
+		pressure_set_array[n]=2.0*(1.0-(float)n/((sizeof(pressure_set_array)/sizeof(float))));
   }
   //pressure_setpoints[0]=0.3;
   //pressure_setpoints[1]=2.5;

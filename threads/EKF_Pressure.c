@@ -191,9 +191,9 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
   */
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
-	uint8_t index=0,Direction=0;
+	uint8_t index=0,Direction=0,vindex=0;
 	uint16_t holdoff=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,\
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,old_velocities[5]={},\
 	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;

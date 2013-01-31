@@ -195,8 +195,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0,Direction=0;
 	uint16_t sindex=0,holdoff=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,\
-	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0;
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position_est=0,\
+	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0,real_position=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;
@@ -272,6 +272,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			pressure += Pressure_Samples[sindex];
 		pressure = Convert_Pressure(pressure/(PRESSURE_SAMPLE_BUFF_SIZE/2));/* Converts to PSI as a float */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
+		/* Generate the actual actuator position (end of actuator) at sampling midpoint using estimated position */
+		/* Only update if the end of the actuator isnt idling in deadband */
+		if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )
+			actuator_midway_position=actuator_midway_position_est+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
+									>actuator_midway_position)?-1.0:1.0);
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
@@ -281,8 +286,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			if((Setpoint-pressure)<0.25/*Actuator_Velocity<10*/)/*Near to the target we apply a safety factor to reduce risk of overshoot*/
-				target = actuator_midway_position + ( (Setpoint-(pressure/*+meanv*0.1*/)) / (1.5*State[0]) );
+			if((Setpoint-pressure)<0.2/*Actuator_Velocity<10*/)/*Near to the target we apply a safety factor to reduce risk of overshoot*/
+				target = actuator_midway_position + ( (Setpoint-pressure) / (2.5*State[0]) );
 			else
 				target = actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
 		}
@@ -292,7 +297,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
-		actuator_midway_position=position;/* Initialise this */
+		actuator_midway_position_est=position;/* Initialise this - estimated with no backlash correction */
 		/* Apply software end stops */
 		/* Note that the EKF position is not in real space - it can drift, so we use pot */
 		end_position = ( pot_position + target - position + (velocities[3]*PRESSURE_TIME_SECONDS/4.0) );/* Pot is measured at end of 3rd GPT */
@@ -302,9 +307,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
-			/* Correct for backlash in the actuator */
-			position-=Actuator->BackLash*signbit(velocity)?-1.0:1.0;/* Currently set +-0.2mm backlash in main- found from experimentation */
-			delta=target-position;	/* The travel distance to target - defined starting from next GPT callback */
+			if( fabs(position-real_position)>Actuator->BackLash/2.0 )
+				real_position=position+(Actuator->BackLash/2.0)*((position>real_position)?-1.0:1.0);
+			delta=target-real_position;/* The travel distance to target - defined starting from next GPT callback */
 			if( fabs(delta)<Actuator->DeadPos && fabs(velocity)<Actuator->DeadVel ) {/* Position,Veloctiy deadband for our hardware */
 				prior_velocity=velocity;/* The initial velocity is stored for reference */
 				velocity=0;	/* If the GPT callback reads zero velocity it knows to de-energize the motor */
@@ -358,9 +363,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			if(index<4) {
 				velocities[index]=velocity;
 				if(!index)	/* Store the midway position to eliminate lag from the EKF */
-					actuator_midway_position+=velocity*PRESSURE_TIME_SECONDS/4.0;
+					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/4.0;
 				else if(index==1)/* The ADC sampling interval lasts just under three GPT intervals (3/2=1.5)*/
-					actuator_midway_position+=velocity*PRESSURE_TIME_SECONDS/8.0;
+					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/8.0;
 			}
 			position+=velocity*PRESSURE_TIME_SECONDS/4.0;/* The new reference position for the next loop */
 		}

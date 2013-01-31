@@ -14,6 +14,7 @@ typedef struct{
 	float LimitPlus;
 	float DeadVel;
 	float DeadPos;
+	float BackLash;
 } Actuator_TypeDef;
 
 static void GPT_Stepper_Callback(GPTDriver *gptp);
@@ -54,7 +55,7 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 
 #define POS_LIMIT	(ACTUATOR_LENGTH*ACTUATOR_LENGTH/11.0)/* Limit on the size of the position error covar */
 
-#define MEASUREMENT_COVAR 1/*((PRESSURE_MARGIN/3)*(PRESSURE_MARGIN/3))/* 3 sigma margin */
+#define MEASUREMENT_COVAR 1/*((PRESSURE_MARGIN/3)*(PRESSURE_MARGIN/3)) // 3 sigma margin */
 
 #define PROCESS_NOISE {0.001,(0.1*0.1)}/* EV of 0.1% shift in modulus, 0.1mm hand drift per second,  */
 

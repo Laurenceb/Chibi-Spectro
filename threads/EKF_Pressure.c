@@ -1,11 +1,13 @@
 #include <math.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "EKF_Pressure.h"
 #include "Stepper.h"
 #include "EKF_Pressure.h"
 #include "EKF_Estimator.h"
 #include "Quickselect.h"
+#include "Quicksort.h"
 #include "Pressure.h"
 #define EKF_PRESSURE
 #ifdef EKF_PRESSURE
@@ -30,7 +32,7 @@ static msg_t Actuator_Velocities_Buff[MAILBOX_SIZE];
 /*
  * Working area for this thread
 */
-static WORKING_AREA(waThreadPressure, 3072);
+static WORKING_AREA(waThreadPressure, 8192);
 
 /*
  * Thread pointer used for thread wakeup processing
@@ -191,14 +193,12 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
   */
 msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
-	uint8_t index=0,Direction=0,vindex=0;
-	uint16_t holdoff=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,old_velocities[5]={},\
+	uint8_t index=0,Direction=0;
+	uint16_t sindex=0,holdoff=0;
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,\
 	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
-	float meanv=0;
-	float extropolated_position=State[1];
 	uint16_t Pressure_Sample;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
 	chRegSetThreadName("EKF Pressure");
@@ -266,8 +266,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/*
 		/ First we process the data - we use a median filter to take out the non guassian noise
 		*/
-		Pressure_Sample = quick_select(Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE);/* Use the quick select algorythm - from numerical recepies*/
-		pressure = Convert_Pressure((uint16_t)Pressure_Sample);/* Converts to PSI as a float */
+		QuickSort(Pressure_Samples, PRESSURE_SAMPLE_BUFF_SIZE-1);/* Use the quick sort algorythm - from numerical recepies*/
+		pressure=0;
+		for(sindex = (PRESSURE_SAMPLE_BUFF_SIZE/4); sindex < ((PRESSURE_SAMPLE_BUFF_SIZE*3)/4); sindex++)/* Interquartile mean */
+			pressure += Pressure_Samples[sindex];
+		pressure = Convert_Pressure(pressure/(PRESSURE_SAMPLE_BUFF_SIZE/2));/* Converts to PSI as a float */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
@@ -278,16 +281,12 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			meanv = meanv * 0.8 + 0.2 * ((velocities[0]+velocities[1]+velocities[2])/3.0);
-			//extropolated_position = extropolated_position * 0.8 + 0.2 * (actuator_midway_position-(pressure+meanv*0.24)/State[0]);
-			if((Setpoint-pressure)<0.25/*Actuator_Velocity<10*/)
-				target = actuator_midway_position + ( (Setpoint-(pressure+meanv*0.24)) / (1.5*State[0]) );
+			if((Setpoint-pressure)<0.25/*Actuator_Velocity<10*/)/*Near to the target we apply a safety factor to reduce risk of overshoot*/
+				target = actuator_midway_position + ( (Setpoint-(pressure/*+meanv*0.1*/)) / (1.5*State[0]) );
 			else
 				target = actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
-			//target = extropolated_position + Setpoint/State[0];
 		}
 		else {
-			//extropolated_position = State[1]; 
 			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
 		}
 		/* Perform motor driver processing, places results into mailbox fifo */
@@ -303,6 +302,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
+			/* Correct for backlash in the actuator */
+			position-=Actuator->BackLash*signbit(velocity)?-1.0:1.0;/* Currently set +-0.2mm backlash in main- found from experimentation */
 			delta=target-position;	/* The travel distance to target - defined starting from next GPT callback */
 			if( fabs(delta)<Actuator->DeadPos && fabs(velocity)<Actuator->DeadVel ) {/* Position,Veloctiy deadband for our hardware */
 				prior_velocity=velocity;/* The initial velocity is stored for reference */

@@ -24,11 +24,11 @@ bool Calibrate_Sensor(uint16_t diff) {
 
 
 /**
-  * @brief  This function returns the converted pressure from an unsigned integer
-  * @param  uint16_t from ADC
+  * @brief  This function returns the converted pressure from a float
+  * @param  flaot from ADC - here we use mean of the interquartiles after qsort
   * @retval Pressure in PSI
   */
-float Convert_Pressure(uint16_t diff) {
-	return 	(DIFF_GAIN)*((float)diff-Pressure_Offset);
+float Convert_Pressure(float diff) {
+	return 	(DIFF_GAIN)*(diff-Pressure_Offset);
 }
 

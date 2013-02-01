@@ -291,7 +291,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			//target = 5.0+(float)Setpoint;
 		else
 			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
-		Target=actuator_midway_position;
+		Target=target;
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */

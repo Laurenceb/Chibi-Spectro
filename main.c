@@ -103,7 +103,7 @@ int main(void) {
 
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
   Actuator_TypeDef Our_Config = { .MaxAcc=400, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6,\
-   .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.02, .DeadVel=16, .BackLash=0.01 };
+   .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.02, .DeadVel=16, .BackLash=0.3 };
   /* Variables for dumping data */
   //For pressure setting
   //float pressure_setpoints[NUMBER_SETPOINTS];

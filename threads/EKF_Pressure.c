@@ -275,8 +275,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Generate the actual actuator position (end of actuator) at sampling midpoint using estimated position */
 		/* Only update if the end of the actuator isnt idling in deadband */
-		//if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )
-			actuator_midway_position=actuator_midway_position_est;//+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
+		if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )
+			actuator_midway_position=actuator_midway_position_est+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
 									>actuator_midway_position)?-1.0:1.0);
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
@@ -287,8 +287,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
-			//target = /*actuator_midway_position*/ State[1] + ( (Setpoint-pressure) / State[0] ) ;
-			target = 5.0+(float)Setpoint;
+			target = actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
+			//target = 5.0+(float)Setpoint;
 		else
 			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
 		Target=actuator_midway_position;
@@ -298,14 +298,14 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		actuator_midway_position_est=position;/* Initialise this - estimated with no backlash correction */
 		/* Apply software end stops */
 		/* Note that the EKF position is not in real space - it can drift, so we use pot */
-		//end_position = ( pot_position + target - position + (velocities[3]*PRESSURE_TIME_SECONDS/4.0) );/* Pot is measured at end of 3rd GPT */
-		//if( end_position > Actuator->LimitPlus )/* To extropolate the end position after moving to position Target */
-		//	target -= end_position - Actuator->LimitPlus;/* Adjust the Target - this may mean we never reach correct pressure */
-		//else if( end_position < Actuator->LimitMinus )
-		//	target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
+		end_position = ( pot_position + target - position + (velocities[3]*PRESSURE_TIME_SECONDS/4.0) );/* Pot is measured at end of 3rd GPT */
+		if( end_position > Actuator->LimitPlus )/* To extropolate the end position after moving to position Target */
+			target -= end_position - Actuator->LimitPlus;/* Adjust the Target - this may mean we never reach correct pressure */
+		else if( end_position < Actuator->LimitMinus )
+			target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
-			//if( fabs(position-real_position)>Actuator->BackLash/2.0 )
+			if( fabs(position-real_position)>Actuator->BackLash/2.0 )
 				real_position=position;//+(Actuator->BackLash/2.0)*((position>real_position)?-1.0:1.0);
 			delta=target-real_position;/* The travel distance to target - defined starting from next GPT callback */
 			if( fabs(delta)<Actuator->DeadPos && fabs(velocity)<Actuator->DeadVel ) {/* Position,Veloctiy deadband for our hardware */

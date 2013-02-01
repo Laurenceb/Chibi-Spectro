@@ -162,9 +162,9 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
 			GPIO_Stepper_Dir(Motor_Velocity>0);/* Set the direction line to the motor */
 			Motor_Velocity=fabs(Motor_Velocity);/* Make sure this is positive */
-			uint16_t Timer_Period=(uint16_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity);
-			SET_STEPPER_PERIOD(Timer_Period);/* Set the timer ARR register to control pwm period */	
 		}
+		uint16_t Timer_Period=Motor_Velocity?(uint16_t)(ACTUATOR_STEP_CONSTANT/Motor_Velocity):0xFFFF;
+		Set_Stepper_Period(Timer_Period);/* Set the timer ARR register to control pwm period */	
 		chSysLockFromIsr();
 	}
 	uint8_t freeslots = chMBGetUsedCountI( &Actuator_Velocities );
@@ -271,11 +271,12 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		for(sindex = (PRESSURE_SAMPLE_BUFF_SIZE/4); sindex < ((PRESSURE_SAMPLE_BUFF_SIZE*3)/4); sindex++)/* Interquartile mean */
 			pressure += Pressure_Samples[sindex];
 		pressure = Convert_Pressure(pressure/(PRESSURE_SAMPLE_BUFF_SIZE/2));/* Converts to PSI as a float */
+		/* Get the potentiometer value from the actuator */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Generate the actual actuator position (end of actuator) at sampling midpoint using estimated position */
 		/* Only update if the end of the actuator isnt idling in deadband */
-		if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )
-			actuator_midway_position=actuator_midway_position_est+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
+		//if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )
+			actuator_midway_position=actuator_midway_position_est;//+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
 									>actuator_midway_position)?-1.0:1.0);
 		/* Run the EKF */
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
@@ -285,30 +286,27 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
-		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
-			if((Setpoint-pressure)<0.2/*Actuator_Velocity<10*/)/*Near to the target we apply a safety factor to reduce risk of overshoot*/
-				target = actuator_midway_position + ( (Setpoint-pressure) / (2.5*State[0]) );
-			else
-				target = actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
-		}
-		else {
+		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
+			//target = /*actuator_midway_position*/ State[1] + ( (Setpoint-pressure) / State[0] ) ;
+			target = 5.0+(float)Setpoint;
+		else
 			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
-		}
+		Target=actuator_midway_position;
 		/* Perform motor driver processing, places results into mailbox fifo */
 		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
 		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
 		actuator_midway_position_est=position;/* Initialise this - estimated with no backlash correction */
 		/* Apply software end stops */
 		/* Note that the EKF position is not in real space - it can drift, so we use pot */
-		end_position = ( pot_position + target - position + (velocities[3]*PRESSURE_TIME_SECONDS/4.0) );/* Pot is measured at end of 3rd GPT */
-		if( end_position > Actuator->LimitPlus )/* To extropolate the end position after moving to position Target */
-			target -= end_position - Actuator->LimitPlus;/* Adjust the Target - this may mean we never reach correct pressure */
-		else if( end_position < Actuator->LimitMinus )
-			target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
+		//end_position = ( pot_position + target - position + (velocities[3]*PRESSURE_TIME_SECONDS/4.0) );/* Pot is measured at end of 3rd GPT */
+		//if( end_position > Actuator->LimitPlus )/* To extropolate the end position after moving to position Target */
+		//	target -= end_position - Actuator->LimitPlus;/* Adjust the Target - this may mean we never reach correct pressure */
+		//else if( end_position < Actuator->LimitMinus )
+		//	target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
-			if( fabs(position-real_position)>Actuator->BackLash/2.0 )
-				real_position=position+(Actuator->BackLash/2.0)*((position>real_position)?-1.0:1.0);
+			//if( fabs(position-real_position)>Actuator->BackLash/2.0 )
+				real_position=position;//+(Actuator->BackLash/2.0)*((position>real_position)?-1.0:1.0);
 			delta=target-real_position;/* The travel distance to target - defined starting from next GPT callback */
 			if( fabs(delta)<Actuator->DeadPos && fabs(velocity)<Actuator->DeadVel ) {/* Position,Veloctiy deadband for our hardware */
 				prior_velocity=velocity;/* The initial velocity is stored for reference */
@@ -345,7 +343,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					}
 				}
 				else {		/* If we are moving away from the target */
-					if(!Direction && index ) {/* We are now heading towards the target */
+					if(!Direction && index ) {/* We were heading towards the target */
 						float first_acc = (velocity-prior_velocity);/* Acc over previous GPT timestep */
 						first_acc -= velocity;/* Correct this accel */
 						if( fabs(first_acc)>Actuator->MaxAcc*PRESSURE_TIME_SECONDS/4.0 ) {/* Adjusted acceleration exceeds limit */
@@ -372,7 +370,6 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		for(index=0;index<4;index++)
 			chMBPost(&Actuator_Velocities, *((msg_t*)&velocities[index]), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
 		chMBPost(&Pressures_Reported, *((msg_t*)&pressure), TIME_IMMEDIATE);/* Non blocking write attempt to the Reported Pressure mailbox FIFO */
-		Target=target;
 	}
 }
 #endif

@@ -32,3 +32,12 @@ void GPIO_Stepper_Dir(uint8_t Dir) {
 	#endif
 	palWritePad( STEPPER_PORT, STEPPER_DIR_PIN, Dir?PAL_HIGH:PAL_LOW);
 }
+
+//Note this should only be called from inside an ISR or where it cannot be interrupted
+void Set_Stepper_Period(uint16_t period) {
+	uint16_t tim = TIM1->CNT;
+	TIM1->CR1&=~TIM_CR1_ARPE;	//Disable the Preload
+	TIM1->ARR = tim + 2;		//Create a reload as soon as possible
+	TIM1->CR1|=TIM_CR1_ARPE;	//Enable the Preload
+	TIM1->ARR = period;		//Set the new timer period	
+}

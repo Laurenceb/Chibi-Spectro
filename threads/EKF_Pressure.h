@@ -39,7 +39,7 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 #define ACTUATOR_LIMIT_MINUS	(0.1*ACTUATOR_LENGTH)
 #define ACTUATOR_LIMIT_PLUS	(0.9*ACTUATOR_LENGTH)
 
-#define ACTUATOR_STEP_CONSTANT	((LEADSCREW_PITCH/STEPS_PER_ROTATION)*TIMER1_CLK/2.0)/* Note 2.0 due to toggle mode */
+#define ACTUATOR_STEP_CONSTANT	(float)((LEADSCREW_PITCH/STEPS_PER_ROTATION)*TIMER1_CLK/2.0)/* Note 2.0 due to toggle mode */
 
 #ifdef INVERSE_POT
 	#define CONVERT_POT(adc)	(ACTUATOR_LENGTH*(float)(4096-adc[0])/4096.0)

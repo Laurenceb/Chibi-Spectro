@@ -358,6 +358,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					Direction=1;
 				}		/* Try our best to head towards target*/
 			}
+			/* Apply some rounding of the velocity at this point to give a half integer number of timer periods */
+			float periods = velocity*(PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH;
+			periods *= 2.0;		/* As we are using toggle mode pwm, we have to double the number of timer periods */
+			periods = roundf(periods+0.5)-0.5;/* Round to the nearest half integer number of timer periods, to give isr some timing clearance */
+			velocity = periods/((PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Finally convert back to a rounded velocity */
 			if(index<4) {
 				velocities[index]=velocity;
 				if(!index)	/* Store the midway position to eliminate lag from the EKF */

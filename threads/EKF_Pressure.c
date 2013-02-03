@@ -359,12 +359,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 				}		/* Try our best to head towards target*/
 			}
 			/* Apply some rounding of the velocity at this point to give a half integer number of timer periods */
-			float periods = velocity*(PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH;
-			periods *= 2.0;		/* As we are using toggle mode pwm, we have to double the number of timer periods */
-			periods = roundf(periods+0.5)-0.5;/* Round to the nearest half integer number of timer periods, to give isr some timing clearance */
-			velocity = periods/((PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Finally convert back to a rounded velocity */
 			if(index<4) {
-				velocities[index]=velocity;
+				velocities[index] = Set_Stepper_Velocity(&velocity, velocity);
 				if(!index)	/* Store the midway position to eliminate lag from the EKF */
 					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/4.0;
 				else if(index==1)/* The ADC sampling interval lasts just under three GPT intervals (3/2=1.5)*/

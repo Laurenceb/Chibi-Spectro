@@ -42,3 +42,12 @@ void Set_Stepper_Period(uint16_t period) {
 	TIM1->CR1|=TIM_CR1_ARPE;	//Enable the Preload
 	TIM1->ARR = period;		//Set the new timer period	
 }
+
+//This function returns the velocity to use in the motor controller, and takes arguments of pointer to produced velocity and input request velocity
+float Set_Stepper_Velocity(float *ret_v, float v) {
+	float periods = roundf(velocity*(PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Round to integer number of stepper steps */
+	periods *= 2.0;			/* As we are using toggle mode pwm, we have to double the number of timer periods */
+	float periods_actual = periods + 0.25;/* Round to the nearest half integer number of timer periods, to give isr some timing clearance */
+	*ret_v = periods/((PRESSURE_TIME_SECONDS/2.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Finally convert back to a rounded velocity - actual v*/
+	return periods_actual/((PRESSURE_TIME_SECONDS/2.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Return the value to use in the stepper */
+}

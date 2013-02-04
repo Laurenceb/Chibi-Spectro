@@ -141,8 +141,8 @@ static GPTConfig gpt8cfg =
     GPT_Stepper_Callback			/* Timer callback.*/
 };
 
-/* Globals for passing motor info */
-volatile float Actuator_Position,Actuator_Velocity,Target;
+/* Global(s) for passing motor info */
+volatile float Target;
 
 /*
  * GPT8 callback.
@@ -153,8 +153,6 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 	chSysLockFromIsr();			/* Use lock to access the mailbox fifo */
 	if(chMBFetchI(&Actuator_Velocities, (msg_t*)&Motor_Velocity) == RDY_OK) {/* If we have some data */
 		chSysUnlockFromIsr();
-		//Actuator_Position+=Motor_Velocity*PRESSURE_TIME_SECONDS/4.0;/*This is the position at the end of the current time bin - 4 due to 400hz */
-		//Actuator_Velocity=Motor_Velocity;
 		if(!Motor_Velocity) {
 			GPIO_Stepper_Enable(1/*0*/);	/* Disable the stepper driver if zero velocity */
 		}
@@ -195,7 +193,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	msg_t msg;				/* Used to read the setpoint buffer and messages from GPT */
 	uint8_t index=0,Direction=0;
 	uint16_t sindex=0,holdoff=0;
-	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position_est=0,\
+	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position_est=0,actuator_position,actuator_velocity,\
 	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0,real_position=0;
 	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
@@ -240,8 +238,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	velocity=0;
 	chMBPost(&Actuator_Velocities, *((msg_t*)&velocity), TIME_IMMEDIATE);/* This will force the stepper driver to off state */
 	/* Reset these after the actuator is positioned */
-	Actuator_Position=0;
-	Actuator_Velocity=0;
+	actuator_position=0;
+	actuator_velocity=0;
 	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADc group convertions and calibrate until ready*/
 	holdoff=0;
 	do {
@@ -288,13 +286,13 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
 			target = actuator_midway_position + ( (Setpoint-pressure) / State[0] ) ;
-			//target = 5.0+(float)Setpoint;
+			//target = 5.0+(float)Setpoint;/* Debug test code for testing lower level motor control code */
 		else
 			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */
-		Target=target;
+		Target=target;			/* Debug test output from thread */
 		/* Perform motor driver processing, places results into mailbox fifo */
-		position=Actuator_Position;	/* Store the position variable from the GPT callback (thread safe on 32bit architectures) */
-		velocity=Actuator_Velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
+		position=actuator_position;	/* Store the position variable from the previous 4th loop */
+		velocity=actuator_velocity;	/* Same for the velocity - this will be valid data only at the END of the current GPT bin */
 		actuator_midway_position_est=position;/* Initialise this - estimated with no backlash correction */
 		/* Apply software end stops */
 		/* Note that the EKF position is not in real space - it can drift, so we use pot */
@@ -362,13 +360,15 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			if(index<4) {
 				velocities[index] = Set_Stepper_Velocity(&velocity, velocity);
 				if(!index)	/* Store the midway position to eliminate lag from the EKF */
-					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/4.0;
+					actuator_midway_position_est += velocity*PRESSURE_TIME_SECONDS/4.0;
 				else if(index==1)/* The ADC sampling interval lasts just under three GPT intervals (3/2=1.5)*/
-					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/8.0;
-				Actuator_Position = position;
-				Actuator_Velocity = velocity;
+					actuator_midway_position_est += velocity*PRESSURE_TIME_SECONDS/8.0;
 			}
-			position+=velocity*PRESSURE_TIME_SECONDS/4.0;/* The new reference position for the next loop */
+			position += velocity*PRESSURE_TIME_SECONDS/4.0;/* The new reference position for the next loop */
+			if(index==3) {		/* Store these for reference in next thread iteration */
+				actuator_position = position;
+				actuator_velocity = velocity;
+			}
 		}
 		for(index=0;index<4;index++)
 			chMBPost(&Actuator_Velocities, *((msg_t*)&velocities[index]), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */

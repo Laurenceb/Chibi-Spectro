@@ -225,7 +225,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	* park the linear actuator near to the top of the run
 	*/
 	do {
-		velocity=-4.0;//a slow retraction speed means that motor can be turned on/off freely
+		velocity=Set_Stepper_Velocity(NULL, -4.0);//a slow retraction speed means that motor can be turned on/off freely
 		for(index=0;index<4;index++)	/* Post 4 velocities to the stepper GPT */
 			chMBPost(&Actuator_Velocities, *((msg_t*)&velocity), TIME_IMMEDIATE);/* Non blocking write attempt to GPT motor driver */
 		/* Sleep until we are awoken by the GPT ISR - meaning the 4 GPT intervals have been read */

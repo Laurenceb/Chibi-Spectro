@@ -153,8 +153,8 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 	chSysLockFromIsr();			/* Use lock to access the mailbox fifo */
 	if(chMBFetchI(&Actuator_Velocities, (msg_t*)&Motor_Velocity) == RDY_OK) {/* If we have some data */
 		chSysUnlockFromIsr();
-		Actuator_Position+=Motor_Velocity*PRESSURE_TIME_SECONDS/4.0;/* This is the position at the end of the current time bin - 4 due to 400hz */
-		Actuator_Velocity=Motor_Velocity;
+		//Actuator_Position+=Motor_Velocity*PRESSURE_TIME_SECONDS/4.0;/*This is the position at the end of the current time bin - 4 due to 400hz */
+		//Actuator_Velocity=Motor_Velocity;
 		if(!Motor_Velocity) {
 			GPIO_Stepper_Enable(1/*0*/);	/* Disable the stepper driver if zero velocity */
 		}
@@ -365,6 +365,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/4.0;
 				else if(index==1)/* The ADC sampling interval lasts just under three GPT intervals (3/2=1.5)*/
 					actuator_midway_position_est+=velocity*PRESSURE_TIME_SECONDS/8.0;
+				Actuator_Position = position;
+				Actuator_Velocity = velocity;
 			}
 			position+=velocity*PRESSURE_TIME_SECONDS/4.0;/* The new reference position for the next loop */
 		}

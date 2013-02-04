@@ -1,7 +1,10 @@
+#include <math.h>
+
 #include "ch.h"
 #include "hal.h"
 #include "Stepper.h"
 #include "Hardware_Conf.h"
+#include "EKF_Pressure.h"
 
 void Setup_Stepper_PWM(void) {/* Note that this is hardcoded to timer1 chan2 - used to drive the stepper on the F4Discovery*/
 	/* Clk and Reset tim1 */
@@ -35,9 +38,8 @@ void GPIO_Stepper_Dir(uint8_t Dir) {
 
 //Note this should only be called from inside an ISR or where it cannot be interrupted
 void Set_Stepper_Period(uint16_t period) {
-	uint16_t tim = TIM1->CNT;
 	TIM1->CR1&=~TIM_CR1_ARPE;	//Disable the Preload
-	TIM1->ARR = tim + 2;		//Create a reload as soon as possible
+	TIM1->ARR = TIM1->CNT+1;	//Create a reload as soon as possible
 	TIM1->CCR2 = period-1;		//Stepper signal flips at end of period, this is buffered and updates at timer overflow
 	TIM1->CR1|=TIM_CR1_ARPE;	//Enable the Preload
 	TIM1->ARR = period;		//Set the new timer period	
@@ -45,10 +47,10 @@ void Set_Stepper_Period(uint16_t period) {
 
 //This function returns the velocity to use in the motor controller, and takes arguments of pointer to produced velocity and input request velocity
 float Set_Stepper_Velocity(float *ret_v, float v) {
-	float periods = roundf(velocity*(PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Round to integer number of stepper steps */
+	float periods = roundf(v*(PRESSURE_TIME_SECONDS/4.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Round to integer number of stepper steps */
 	periods *= 2.0;			/* As we are using toggle mode pwm, we have to double the number of timer periods */
 	float periods_actual = periods + 0.25;/* Round to the nearest half integer number of timer periods, to give isr some timing clearance */
 	if(ret_v)
-		*ret_v = periods/((PRESSURE_TIME_SECONDS/2.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Finally convert back to a rounded velocity - actual v*/
+		*ret_v = periods/((PRESSURE_TIME_SECONDS/2.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Finally convert back to a rounded velocity -actual v*/
 	return periods_actual/((PRESSURE_TIME_SECONDS/2.0)*STEPS_PER_ROTATION/LEADSCREW_PITCH);/* Return the value to use in the stepper */
 }

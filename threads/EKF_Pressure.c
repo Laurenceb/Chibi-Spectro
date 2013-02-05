@@ -154,7 +154,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 	if(chMBFetchI(&Actuator_Velocities, (msg_t*)&Motor_Velocity) == RDY_OK) {/* If we have some data */
 		chSysUnlockFromIsr();
 		if(!Motor_Velocity) {
-			GPIO_Stepper_Enable(1/*0*/);	/* Disable the stepper driver if zero velocity */
+			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
 		}
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
@@ -240,7 +240,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	/* Reset these after the actuator is positioned */
 	actuator_position=0;
 	actuator_velocity=0;
-	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADc group convertions and calibrate until ready*/
+	/* At this point when starting up we need to calibrate the force sensor offset, so fire off ADC group convertions and calibrate until ready*/
 	holdoff=0;
 	do {
 		adcConvert(&ADCD2, &adcgrpcfg2_pressure_calibrate, &Pressure_Sample, 1);/* This function blocks until it has one sample*/

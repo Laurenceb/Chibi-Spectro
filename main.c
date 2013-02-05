@@ -110,33 +110,18 @@ int main(void) {
   float pressure_set_array[PRESSURE_PROFILE_LENGTH_MS/PRESSURE_TIME_INTERVAL]={};
   //end pressure
   float pressure,target;
-  uint32_t ppg[PPG_CHANNELS],iterations=0,loaded_setpoints=0,n=0;
+  uint32_t ppg[PPG_CHANNELS],iterations=0,n=0;
   /* A bit of debug info here */
   chprintf(USBout, "Firmware compiled %s, running ChibiOS\r\n",__DATE__);
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   chprintf(USBout, "\r\n\r\nEnter config or press enter to use default (10s timeout)\r\n");
-  //debug code
-  /*Setup_Stepper_PWM();
-  GPIO_Stepper_Enable(1);
-  while(1){
-	GPIO_Stepper_Dir(1);
-	chThdSleepMilliseconds(500);
-	SET_STEPPER_PERIOD(1667);
-	chThdSleepMilliseconds(500);
-	SET_STEPPER_PERIOD(4999);
-	chThdSleepMilliseconds(500);
-	GPIO_Stepper_Dir(0);
-	chThdSleepMilliseconds(500);
-	SET_STEPPER_PERIOD(1667);
-	chThdSleepMilliseconds(500);
-	SET_STEPPER_PERIOD(4999);
-	chThdSleepMilliseconds(500);
-  }*/
+  chprintf(USBout, "\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
   uint8_t numchars=0, timeout=0, valid_string=1;
-  double test;
+  int16_t test=-1;
+  double per=30,peak=1.0;
   do {
 	  do {
 	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff), MS2ST(100));//100ms second timeout
@@ -147,32 +132,50 @@ int main(void) {
 		numchars+=a;
 		timeout++;
 	  } while(timeout<100 && scanbuff[numchars-1]!='\r' && scanbuff[numchars-1]!='\n');//Loop until newline or timeout with nothing
-	  sscanf(scanbuff, "%D", &test );//scanf will exentually allow setpoints input - TODO
-	  chprintf(USBout, "\r\n Read:%f\r\n", (float)test );
-	  //TODO: PID setpoints, pressure pulse sequences, autobrightness config
-	  if(!valid_string)
+	  sscanf(scanbuff, "%i,%D,%D", &test, &per, &peak );//scanf for setpoints input
+	  chprintf(USBout, "\r\n Read:%i, %f, %f\r\n", test, (float)per, (float)peak );
+	  //TODO:  autobrightness config ?
+	  if(!valid_string) {
 		chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
+  		chprintf(USBout, "\r\nProfile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
+	}
   } while(valid_string==0);		//We loop here until string is valid
-  /* At present we just have a 5s pulse at end of each period */
-  for(uint16_t n=0;n<sizeof(pressure_set_array)/sizeof(float);n++) {
-	/*if((sizeof(pressure_set_array)/sizeof(float)-n)<500)
-		pressure_set_array[n]=3.0;
-	else if((sizeof(pressure_set_array)/sizeof(float)-n)<1500)
-		pressure_set_array[n]=0.5;
-	else if((sizeof(pressure_set_array)/sizeof(float)-n)<2000)
-		pressure_set_array[n]=3.0;
-	else
-		pressure_set_array[n]=0.2;
-	*/
-	if(n<(sizeof(pressure_set_array)/(2.0*sizeof(float))))
-		pressure_set_array[n]=2.0*(float)n/((sizeof(pressure_set_array)/sizeof(float)));//sweep from 0psi to 1
-	else
-		pressure_set_array[n]=2.0*(1.0-(float)n/((sizeof(pressure_set_array)/sizeof(float))));
+  if((test==2 && per>15.0) || (test!=2 && per>30.0)) {
+  	chprintf(USBout,"Period is invalid, using default period\r\n");
+	per=(test==2)?15.0:30.0;
   }
-  //pressure_setpoints[0]=0.3;
-  //pressure_setpoints[1]=2.5;
+  uint16_t itr = ((float)per*1000.0/(float)PRESSURE_TIME_INTERVAL);//Number of pressure setpoints sent to the control loop
+  if(itr*sizeof(float)>sizeof(pressure_set_array)) {
+  	chprintf(USBout,"Setpoint length too long, using default\r\n");
+	itr=sizeof(pressure_set_array)/sizeof(float);
+  }
+  /* At present we just have a 1/3 pulse at end of each period */
+  for(uint16_t n=0;n<itr;n++) {
+	if(test==3) {
+		if((itr-n)<itr/6)
+			pressure_set_array[n]=peak;
+		else if((itr-n)<itr/2)
+			pressure_set_array[n]=0.5;//At present these two release pressures are hardcoded
+		else if((itr-n)<2*itr/3)
+			pressure_set_array[n]=peak;
+		else
+			pressure_set_array[n]=0.2;
+	}
+	if(test==2) {
+		if((itr-n)<itr/3)
+			pressure_set_array[n]=peak;
+		else
+			pressure_set_array[n]=0.2;
+	}
+	if(test==-1 || test==1) {
+		if(n<(itr/2))
+			pressure_set_array[n]=2.0*peak*(float)n/(float)itr;//sweep from 0psi to setpoint
+		else
+			pressure_set_array[n]=2.0*peak*(1.0-(float)n/(float)itr);
+	}
+  }
   /* Populate our pressure control struct*/
-	//Done in declaration atm
+  //Done in declaration atm
   /* Create the Pressure thread */
   Spawn_Pressure_Thread((void*)&Our_Config);
   /* Create the PPG thread */
@@ -188,7 +191,6 @@ int main(void) {
    * wait for mailbox data in a loop and dump it to usb
    */
   while (TRUE) {
-	//TODO impliment pressure cycles using config data supplied over USB
 	while(1) {
 		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;

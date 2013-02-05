@@ -119,7 +119,7 @@ int main(void) {
   chprintf(USBout, "\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
-  uint8_t numchars=0, timeout=0, valid_string=1;
+  uint8_t numchars=0, timeout=1, valid_string=1;
   int test=-1;
   float per=30,peak=1.0;
   do {
@@ -130,17 +130,21 @@ int main(void) {
 			chprintf(USBout, "%s", &scanbuff[numchars]);//Echo the typed characters
 		}
 		numchars+=a;
-		timeout++;
+		if(timeout)		//Only continue with timeout if we haven't got any data
+			timeout++;
 	  } while(timeout<100 && scanbuff[numchars-1]!='\r' && scanbuff[numchars-1]!='\n');//Loop until newline or timeout with nothing
-	  sscanf((const char*)scanbuff, "%d %f %f", &test, &per, &peak);//scanf for setpoints input
-	  chprintf(USBout, "\r\n Read:%d", test);
-	  chprintf(USBout, ", %3f", (float)per);
-	  chprintf(USBout, ", %3f\r\n", (float)peak);
-	  //TODO:  autobrightness config ?
-	  if(!valid_string) {
-		chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
-  		chprintf(USBout, "\r\nProfile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
-	}
+	  if(timeout!=100) {
+	  	valid_string=sscanf((const char*)scanbuff, "%d %f %f", &test, &per, &peak);//scanf for setpoints input
+	  	chprintf(USBout, "\r\n Read:%d", test);
+	  	chprintf(USBout, ", %3f", (float)per);
+	  	chprintf(USBout, ", %3f\r\n", (float)peak);
+	  	//TODO:  autobrightness config ?
+	 	if(valid_string!=3) {
+			chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
+  			chprintf(USBout, "\r\nProfile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
+			valid_string=0;
+		}
+  	}
   } while(valid_string==0);		//We loop here until string is valid
   if((test==2 && per>15.0) || (test!=2 && per>30.0)) {
   	chprintf(USBout,"Period is invalid, using default period\r\n");

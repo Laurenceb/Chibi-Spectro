@@ -30,8 +30,8 @@
 #include "Hardware_Conf.h"
 #include "EKF_Pressure.h"
 #include "PPG_Demod.h"
+//#include "Scanf.h"
 #include "Timer.h"
-#include "Scanf.h"
 #include "Stepper.h"
 
 #define ORANGE_LED 6
@@ -115,13 +115,13 @@ int main(void) {
   chprintf(USBout, "Firmware compiled %s, running ChibiOS\r\n",__DATE__);
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
-  chprintf(USBout, "\r\n\r\nEnter config or press enter to use default (10s timeout)\r\n");
+  chprintf(USBout, "\r\n\r\nEnter config (whitespace separated) or press enter to use default (10s timeout)\r\n");
   chprintf(USBout, "\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
   uint8_t numchars=0, timeout=0, valid_string=1;
-  int16_t test=-1;
-  double per=30,peak=1.0;
+  int test=-1;
+  float per=30,peak=1.0;
   do {
 	  do {
 	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff), MS2ST(100));//100ms second timeout
@@ -132,8 +132,10 @@ int main(void) {
 		numchars+=a;
 		timeout++;
 	  } while(timeout<100 && scanbuff[numchars-1]!='\r' && scanbuff[numchars-1]!='\n');//Loop until newline or timeout with nothing
-	  sscanf(scanbuff, "%i,%D,%D", &test, &per, &peak );//scanf for setpoints input
-	  chprintf(USBout, "\r\n Read:%i, %f, %f\r\n", test, (float)per, (float)peak );
+	  sscanf((const char*)scanbuff, "%d %f %f", &test, &per, &peak);//scanf for setpoints input
+	  chprintf(USBout, "\r\n Read:%d", test);
+	  chprintf(USBout, ", %3f", (float)per);
+	  chprintf(USBout, ", %3f\r\n", (float)peak);
 	  //TODO:  autobrightness config ?
 	  if(!valid_string) {
 		chprintf(USBout,"Invalid config, format is: \r\n");//Message to user

@@ -87,6 +87,7 @@ CSRC = $(PORTSRC) \
        $(BOARDSRC) \
        $(CHIBIOS)/os/various/shell.c \
        $(CHIBIOS)/os/various/chprintf.c \
+       $(CHIBIOS)/os/various/syscalls.c \
        $(wildcard *.c) \
        $(wildcard threads/*.c) \
        $(wildcard sensors/*.c) \

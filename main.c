@@ -19,6 +19,7 @@
 */
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
  
 #include "ch.h"
 #include "hal.h"
@@ -188,10 +189,18 @@ int main(void) {
   Spawn_PPG_Thread();
   /* Turn on the PPG LEDs here */
   Enable_PPG_PWM();
-  /* Wait for front end to stabilise and get some data */
-  chThdSleepMilliseconds(50);
-  /* Set the brightness once on start up - TODO inpliment it later */
-  PPG_Automatic_Brightness_Control();
+  /* Loop to park the sensor on target with a 0.2PSI application pressure */
+  peak=0.2;
+  do {
+	while(chMBPost(&Pressures_Setpoint, *(msg_t*) &peak, TIME_IMMEDIATE) == RDY_OK);/* Post to the pressure controller - fill its buffer*/
+	chMBFetch(&Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);/* Reads back the pressure - blocks waiting for PPG thread */
+  } while(fabs(pressure-0.2)<0.05 || !pressure);/* Pressure is returned as zero when pressure controller is booting up */
+  /* Set the brightness once on start up - TODO impliment it later on command */
+  PPG_Automatic_Brightness_Control();	//Whilst this is running, the filled pressure setpoint buffer will supply the pressure controller
+  /* Flush the buffers to align the data (pressure fifo from pressure controller to ppg thread is emptied by itself) */
+  chMBReset(&Pressures_Output);		
+  for(uint8_t n=0; n<PPG_CHANNELS; n++)
+	chMBReset( &PPG_Demod[n]);	//Flush PPG data output
   /*
    * main() thread activity;
    * wait for mailbox data in a loop and dump it to usb

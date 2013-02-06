@@ -144,6 +144,7 @@ int main(void) {
 			chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
   			chprintf(USBout, "\r\nProfile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
 			valid_string=0;
+			numchars=0;
 		}
   	}
   } while(valid_string==0);		//We loop here until string is valid

@@ -210,7 +210,7 @@ int main(void) {
 	while(1) {
 		if(chMBPost(&Pressures_Setpoint, *(msg_t*)&pressure_set_array[n], TIME_IMMEDIATE)==RDY_OK) {
 			n++;
-			if(n==sizeof(pressure_set_array)/sizeof(float)) {
+			if(n==itr) {
 				n=0;	//Loop around to start of buffer
 			}
 		}

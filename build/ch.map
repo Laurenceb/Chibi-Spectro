@@ -11212,7 +11212,7 @@ destructors     0x08000188        0x0
                 0x2001c000                __heap_end__ = __ram_end__
 OUTPUT(build/ch.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x2084e
+.debug_info     0x00000000    0x2084b
  .debug_info    0x00000000      0x2d9 build/obj/crt0.o
  .debug_info    0x000002d9      0x1ed build/obj/vectors.o
  .debug_info    0x000004c6       0x97 build/obj/chcore.o
@@ -11247,16 +11247,16 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x00015c4f      0x212 build/obj/board.o
  .debug_info    0x00015e61      0x51b build/obj/chprintf.o
  .debug_info    0x0001637c      0xd3d build/obj/syscalls.o
- .debug_info    0x000170b9     0x26a0 build/obj/main.o
- .debug_info    0x00019759     0x152e build/obj/usbcfg.o
- .debug_info    0x0001ac87     0x1bd8 build/obj/EKF_Pressure.o
- .debug_info    0x0001c85f     0x105f build/obj/PPG_Demod.o
- .debug_info    0x0001d8be      0xc43 build/obj/PPG.o
- .debug_info    0x0001e501      0x12e build/obj/Pressure.o
- .debug_info    0x0001e62f      0xbb3 build/obj/EKF_Estimator.o
- .debug_info    0x0001f1e2       0xca build/obj/Quicksort.o
- .debug_info    0x0001f2ac     0x1090 build/obj/Stepper.o
- .debug_info    0x0002033c      0x512 build/obj/Timer.o
+ .debug_info    0x000170b9     0x269d build/obj/main.o
+ .debug_info    0x00019756     0x152e build/obj/usbcfg.o
+ .debug_info    0x0001ac84     0x1bd8 build/obj/EKF_Pressure.o
+ .debug_info    0x0001c85c     0x105f build/obj/PPG_Demod.o
+ .debug_info    0x0001d8bb      0xc43 build/obj/PPG.o
+ .debug_info    0x0001e4fe      0x12e build/obj/Pressure.o
+ .debug_info    0x0001e62c      0xbb3 build/obj/EKF_Estimator.o
+ .debug_info    0x0001f1df       0xca build/obj/Quicksort.o
+ .debug_info    0x0001f2a9     0x1090 build/obj/Stepper.o
+ .debug_info    0x00020339      0x512 build/obj/Timer.o
 
 .debug_abbrev   0x00000000     0x5f42
  .debug_abbrev  0x00000000       0xd2 build/obj/crt0.o
@@ -11304,7 +11304,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x00005c39      0x23b build/obj/Stepper.o
  .debug_abbrev  0x00005e74       0xce build/obj/Timer.o
 
-.debug_loc      0x00000000     0x8ea6
+.debug_loc      0x00000000     0x8eb4
  .debug_loc     0x00000000       0xaf build/obj/crt0.o
  .debug_loc     0x000000af      0x102 build/obj/chcore_v7m.o
  .debug_loc     0x000001b1      0x1a7 build/obj/nvic.o
@@ -11335,16 +11335,16 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_loc     0x0000620f     0x1037 build/obj/usb_lld.o
  .debug_loc     0x00007246      0x7a7 build/obj/chprintf.o
  .debug_loc     0x000079ed      0x1c3 build/obj/syscalls.o
- .debug_loc     0x00007bb0      0x2f8 build/obj/main.o
- .debug_loc     0x00007ea8      0x10f build/obj/usbcfg.o
- .debug_loc     0x00007fb7      0x781 build/obj/EKF_Pressure.o
- .debug_loc     0x00008738      0x1b4 build/obj/PPG_Demod.o
- .debug_loc     0x000088ec      0x239 build/obj/PPG.o
- .debug_loc     0x00008b25       0x59 build/obj/Pressure.o
- .debug_loc     0x00008b7e      0x1cb build/obj/EKF_Estimator.o
- .debug_loc     0x00008d49       0x3a build/obj/Quicksort.o
- .debug_loc     0x00008d83      0x103 build/obj/Stepper.o
- .debug_loc     0x00008e86       0x20 build/obj/Timer.o
+ .debug_loc     0x00007bb0      0x306 build/obj/main.o
+ .debug_loc     0x00007eb6      0x10f build/obj/usbcfg.o
+ .debug_loc     0x00007fc5      0x781 build/obj/EKF_Pressure.o
+ .debug_loc     0x00008746      0x1b4 build/obj/PPG_Demod.o
+ .debug_loc     0x000088fa      0x239 build/obj/PPG.o
+ .debug_loc     0x00008b33       0x59 build/obj/Pressure.o
+ .debug_loc     0x00008b8c      0x1cb build/obj/EKF_Estimator.o
+ .debug_loc     0x00008d57       0x3a build/obj/Quicksort.o
+ .debug_loc     0x00008d91      0x103 build/obj/Stepper.o
+ .debug_loc     0x00008e94       0x20 build/obj/Timer.o
 
 .debug_aranges  0x00000000      0xd90
  .debug_aranges
@@ -11625,7 +11625,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macro   0x00013f58      0x3c7 build/obj/Stepper.o
  .debug_macro   0x0001431f       0x73 build/obj/Timer.o
 
-.debug_line     0x00000000     0xfc5e
+.debug_line     0x00000000     0xfc5d
  .debug_line    0x00000000      0x1da build/obj/crt0.o
  .debug_line    0x000001da      0x329 build/obj/vectors.o
  .debug_line    0x00000503      0x328 build/obj/chcore.o
@@ -11660,16 +11660,16 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x0000a8ad      0x5fd build/obj/board.o
  .debug_line    0x0000aeaa      0x45f build/obj/chprintf.o
  .debug_line    0x0000b309      0x5b4 build/obj/syscalls.o
- .debug_line    0x0000b8bd      0x98e build/obj/main.o
- .debug_line    0x0000c24b      0x61d build/obj/usbcfg.o
- .debug_line    0x0000c868      0xa24 build/obj/EKF_Pressure.o
- .debug_line    0x0000d28c      0x6b1 build/obj/PPG_Demod.o
- .debug_line    0x0000d93d      0x6a5 build/obj/PPG.o
- .debug_line    0x0000dfe2      0x501 build/obj/Pressure.o
- .debug_line    0x0000e4e3      0x811 build/obj/EKF_Estimator.o
- .debug_line    0x0000ecf4      0x4ea build/obj/Quicksort.o
- .debug_line    0x0000f1de      0x818 build/obj/Stepper.o
- .debug_line    0x0000f9f6      0x268 build/obj/Timer.o
+ .debug_line    0x0000b8bd      0x98d build/obj/main.o
+ .debug_line    0x0000c24a      0x61d build/obj/usbcfg.o
+ .debug_line    0x0000c867      0xa24 build/obj/EKF_Pressure.o
+ .debug_line    0x0000d28b      0x6b1 build/obj/PPG_Demod.o
+ .debug_line    0x0000d93c      0x6a5 build/obj/PPG.o
+ .debug_line    0x0000dfe1      0x501 build/obj/Pressure.o
+ .debug_line    0x0000e4e2      0x811 build/obj/EKF_Estimator.o
+ .debug_line    0x0000ecf3      0x4ea build/obj/Quicksort.o
+ .debug_line    0x0000f1dd      0x818 build/obj/Stepper.o
+ .debug_line    0x0000f9f5      0x268 build/obj/Timer.o
 
 .debug_str      0x00000000    0x51a30
  .debug_str     0x00000000     0x2d76 build/obj/crt0.o

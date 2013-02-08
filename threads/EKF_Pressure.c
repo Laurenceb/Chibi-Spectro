@@ -198,9 +198,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	uint8_t index=0,Direction=0;
 	uint16_t sindex=0,holdoff=0;
 	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position_est=0,actuator_position,actuator_velocity,\
-	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0,real_position=0;
-	float State[2]=INITIAL_STATE,Covar[2][2]=INITIAL_COVAR;/* Initialisation for the EKF */
-	float Process_Noise[2]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
+	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0,real_position=0,old_actuator_midway_position=0;
+	float State[STATE_SIZE]=INITIAL_STATE,Covar[STATE_SIZE][STATE_SIZE]=INITIAL_COVAR;/* Initialisation for the EKF */
+	float Process_Noise[STATE_SIZE]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;
 	Actuator_TypeDef* Actuator=arg;		/* Pointer to actuator definition - MaxAcc and MaxVel defined as per GPT timebin */
 	chRegSetThreadName("EKF Pressure");
@@ -279,12 +279,22 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			actuator_midway_position=actuator_midway_position_est+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
 									>actuator_midway_position)?-1.0:1.0);
 		/* Run the EKF */
+		#ifdef EKF_NONLINEAR
+		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise, actuator_midway_position-old_actuator_midway_position);
+		old_actuator_midway_position = actuator_midway_position;
+		State[0]=(State[0]<0)?0:State[0];
+		#else
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
+		#endif
 		if(pressure>PRESSURE_MARGIN)	/* Only run the Update set if the pressure sensor indicates we are in contact */
+		#ifndef EKF_NONLINEAR
 			Update_State(State, Covar, pressure, actuator_midway_position, 0.1*(velocity*velocity*State[0]*State[0])+1); 
 			//Measurement_Covar);/*Use the previously stored midway position */
 		else if(actuator_midway_position>State[1] && !fabs(velocity))
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
+		#else
+			Update_State(State, Covar, pressure, 0.08*(velocity*velocity*State[1]*State[1])+1); 
+		#endif
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
 			target = actuator_midway_position + ( (Setpoint-pressure) / (1.5*State[0]) ) ;

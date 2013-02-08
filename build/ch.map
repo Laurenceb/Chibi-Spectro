@@ -7984,7 +7984,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c build/obj/EKF_Pressure.o
  .debug_macro   0x00000000       0x39 build/obj/EKF_Pressure.o
  .debug_macro   0x00000000      0x12a build/obj/EKF_Pressure.o
- .debug_macro   0x00000000       0x5e build/obj/EKF_Pressure.o
+ .debug_macro   0x00000000       0x6a build/obj/EKF_Pressure.o
  .group         0x00000000        0x8 build/obj/PID_Pressure.o
  .group         0x00000000        0x8 build/obj/PID_Pressure.o
  .group         0x00000000        0x8 build/obj/PID_Pressure.o
@@ -8282,7 +8282,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x6d build/obj/PPG_Demod.o
  .debug_macro   0x00000000       0x1c build/obj/PPG_Demod.o
  .debug_macro   0x00000000       0x39 build/obj/PPG_Demod.o
- .debug_macro   0x00000000       0x5e build/obj/PPG_Demod.o
+ .debug_macro   0x00000000       0x6a build/obj/PPG_Demod.o
  .group         0x00000000        0x8 build/obj/PPG.o
  .group         0x00000000        0x8 build/obj/PPG.o
  .group         0x00000000        0x8 build/obj/PPG.o
@@ -8631,7 +8631,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c build/obj/EKF_Estimator.o
  .debug_macro   0x00000000       0x39 build/obj/EKF_Estimator.o
  .debug_macro   0x00000000      0x12a build/obj/EKF_Estimator.o
- .debug_macro   0x00000000       0x5e build/obj/EKF_Estimator.o
+ .debug_macro   0x00000000       0x6a build/obj/EKF_Estimator.o
  .group         0x00000000        0x8 build/obj/EKF_Estimator_Nonlin.o
  .group         0x00000000        0x8 build/obj/EKF_Estimator_Nonlin.o
  .group         0x00000000        0x8 build/obj/EKF_Estimator_Nonlin.o
@@ -9125,7 +9125,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c build/obj/Stepper.o
  .debug_macro   0x00000000       0x39 build/obj/Stepper.o
  .debug_macro   0x00000000      0x12a build/obj/Stepper.o
- .debug_macro   0x00000000       0x5e build/obj/Stepper.o
+ .debug_macro   0x00000000       0x6a build/obj/Stepper.o
  .group         0x00000000        0x8 build/obj/Timer.o
  .group         0x00000000        0x8 build/obj/Timer.o
  .group         0x00000000        0x8 build/obj/Timer.o
@@ -9620,7 +9620,7 @@ destructors     0x08000188        0x0
  *(SORT(.fini_array.*))
                 0x08000188                PROVIDE (__fini_array_end, .)
 
-.text           0x08000190    0x11a88
+.text           0x08000190    0x11ab8
  *(.text.startup.*)
  .text.startup.main
                 0x08000190      0x4a4 build/obj/main.o
@@ -10463,582 +10463,583 @@ destructors     0x08000188        0x0
                 0x08004ce0        0x2 build/obj/EKF_Pressure.o
  *fill*         0x08004ce2        0xe 00
  .text.Pressure_Thread
-                0x08004cf0      0x5f8 build/obj/EKF_Pressure.o
+                0x08004cf0      0x604 build/obj/EKF_Pressure.o
                 0x08004cf0                Pressure_Thread
- *fill*         0x080052e8        0x8 00
+ *fill*         0x080052f4        0xc 00
  .text.GPT_Stepper_Callback
-                0x080052f0       0xe8 build/obj/EKF_Pressure.o
- *fill*         0x080053d8        0x8 00
+                0x08005300       0xe8 build/obj/EKF_Pressure.o
+ *fill*         0x080053e8        0x8 00
  .text.adc2callback_pressure
-                0x080053e0       0x24 build/obj/EKF_Pressure.o
- *fill*         0x08005404        0xc 00
+                0x080053f0       0x24 build/obj/EKF_Pressure.o
+ *fill*         0x08005414        0xc 00
  .text.Spawn_Pressure_Thread
-                0x08005410       0x60 build/obj/EKF_Pressure.o
-                0x08005410                Spawn_Pressure_Thread
+                0x08005420       0x60 build/obj/EKF_Pressure.o
+                0x08005420                Spawn_Pressure_Thread
  .text.adc1errorcallback
-                0x08005470        0x2 build/obj/PPG_Demod.o
- *fill*         0x08005472        0xe 00
+                0x08005480        0x2 build/obj/PPG_Demod.o
+ *fill*         0x08005482        0xe 00
  .text.PPG_Thread
-                0x08005480       0xb0 build/obj/PPG_Demod.o
-                0x08005480                PPG_Thread
+                0x08005490       0xb0 build/obj/PPG_Demod.o
+                0x08005490                PPG_Thread
  .text.adc1callback
-                0x08005530       0x34 build/obj/PPG_Demod.o
- *fill*         0x08005564        0xc 00
+                0x08005540       0x34 build/obj/PPG_Demod.o
+ *fill*         0x08005574        0xc 00
  .text.Spawn_PPG_Thread
-                0x08005570       0x68 build/obj/PPG_Demod.o
-                0x08005570                Spawn_PPG_Thread
- *fill*         0x080055d8        0x8 00
+                0x08005580       0x68 build/obj/PPG_Demod.o
+                0x08005580                Spawn_PPG_Thread
+ *fill*         0x080055e8        0x8 00
  .text.PPG_Frequency_Bin_Rotate
-                0x080055e0       0x44 build/obj/PPG.o
-                0x080055e0                PPG_Frequency_Bin_Rotate
- *fill*         0x08005624        0xc 00
+                0x080055f0       0x44 build/obj/PPG.o
+                0x080055f0                PPG_Frequency_Bin_Rotate
+ *fill*         0x08005634        0xc 00
  .text.PPG_LO_Filter
-                0x08005630      0x114 build/obj/PPG.o
-                0x08005630                PPG_LO_Filter
- *fill*         0x08005744        0xc 00
+                0x08005640      0x114 build/obj/PPG.o
+                0x08005640                PPG_LO_Filter
+ *fill*         0x08005754        0xc 00
  .text.PWM_Linear
-                0x08005750       0x28 build/obj/PPG.o
-                0x08005750                PWM_Linear
- *fill*         0x08005778        0x8 00
+                0x08005760       0x28 build/obj/PPG.o
+                0x08005760                PWM_Linear
+ *fill*         0x08005788        0x8 00
  .text.PPG_correct_brightness
-                0x08005780       0x68 build/obj/PPG.o
-                0x08005780                PPG_correct_brightness
- *fill*         0x080057e8        0x8 00
+                0x08005790       0x68 build/obj/PPG.o
+                0x08005790                PPG_correct_brightness
+ *fill*         0x080057f8        0x8 00
  .text.PPG_Automatic_Brightness_Control
-                0x080057f0       0xd4 build/obj/PPG.o
-                0x080057f0                PPG_Automatic_Brightness_Control
- *fill*         0x080058c4        0xc 00
+                0x08005800       0xd4 build/obj/PPG.o
+                0x08005800                PPG_Automatic_Brightness_Control
+ *fill*         0x080058d4        0xc 00
  .text.Calibrate_Sensor
-                0x080058d0       0x48 build/obj/Pressure.o
-                0x080058d0                Calibrate_Sensor
- *fill*         0x08005918        0x8 00
+                0x080058e0       0x48 build/obj/Pressure.o
+                0x080058e0                Calibrate_Sensor
+ *fill*         0x08005928        0x8 00
  .text.Convert_Pressure
-                0x08005920       0x24 build/obj/Pressure.o
-                0x08005920                Convert_Pressure
- *fill*         0x08005944        0xc 00
+                0x08005930       0x24 build/obj/Pressure.o
+                0x08005930                Convert_Pressure
+ *fill*         0x08005954        0xc 00
  .text.by2multiply
-                0x08005950       0x6a build/obj/EKF_Estimator.o
- *fill*         0x080059ba        0x6 00
+                0x08005960       0x6a build/obj/EKF_Estimator.o
+ *fill*         0x080059ca        0x6 00
  .text.Update_State
-                0x080059c0       0xf4 build/obj/EKF_Estimator.o
-                0x080059c0                Update_State
- *fill*         0x08005ab4        0xc 00
+                0x080059d0       0xf4 build/obj/EKF_Estimator.o
+                0x080059d0                Update_State
+ *fill*         0x08005ac4        0xc 00
  .text.Predict_State
-                0x08005ac0       0x5c build/obj/EKF_Estimator.o
-                0x08005ac0                Predict_State
- *fill*         0x08005b1c        0x4 00
- .text.comp     0x08005b20       0x16 build/obj/Quicksort.o
-                0x08005b20                comp
- *fill*         0x08005b36        0xa 00
+                0x08005ad0       0x5c build/obj/EKF_Estimator.o
+                0x08005ad0                Predict_State
+ *fill*         0x08005b2c        0x4 00
+ .text.comp     0x08005b30       0x16 build/obj/Quicksort.o
+                0x08005b30                comp
+ *fill*         0x08005b46        0xa 00
  .text.Setup_Stepper_PWM
-                0x08005b40       0x80 build/obj/Stepper.o
-                0x08005b40                Setup_Stepper_PWM
+                0x08005b50       0x80 build/obj/Stepper.o
+                0x08005b50                Setup_Stepper_PWM
  .text.GPIO_Stepper_Enable
-                0x08005bc0       0x18 build/obj/Stepper.o
-                0x08005bc0                GPIO_Stepper_Enable
- *fill*         0x08005bd8        0x8 00
+                0x08005bd0       0x18 build/obj/Stepper.o
+                0x08005bd0                GPIO_Stepper_Enable
+ *fill*         0x08005be8        0x8 00
  .text.GPIO_Stepper_Dir
-                0x08005be0       0x18 build/obj/Stepper.o
-                0x08005be0                GPIO_Stepper_Dir
- *fill*         0x08005bf8        0x8 00
+                0x08005bf0       0x18 build/obj/Stepper.o
+                0x08005bf0                GPIO_Stepper_Dir
+ *fill*         0x08005c08        0x8 00
  .text.Set_Stepper_Period
-                0x08005c00       0x2c build/obj/Stepper.o
-                0x08005c00                Set_Stepper_Period
- *fill*         0x08005c2c        0x4 00
+                0x08005c10       0x2c build/obj/Stepper.o
+                0x08005c10                Set_Stepper_Period
+ *fill*         0x08005c3c        0x4 00
  .text.Set_Stepper_Velocity
-                0x08005c30       0x70 build/obj/Stepper.o
-                0x08005c30                Set_Stepper_Velocity
+                0x08005c40       0x70 build/obj/Stepper.o
+                0x08005c40                Set_Stepper_Velocity
  .text.Setup_PPG_PWM
-                0x08005ca0      0x1a0 build/obj/Timer.o
-                0x08005ca0                Setup_PPG_PWM
+                0x08005cb0      0x1a0 build/obj/Timer.o
+                0x08005cb0                Setup_PPG_PWM
  .text.Enable_PPG_PWM
-                0x08005e40       0x48 build/obj/Timer.o
-                0x08005e40                Enable_PPG_PWM
- *fill*         0x08005e88        0x8 00
- .text.__signbitf
-                0x08005e90        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-s_signbit.o)
-                0x08005e90                __signbitf
+                0x08005e50       0x48 build/obj/Timer.o
+                0x08005e50                Enable_PPG_PWM
  *fill*         0x08005e98        0x8 00
- .text.roundf   0x08005ea0       0x54 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_round.o)
-                0x08005ea0                roundf
- *fill*         0x08005ef4        0xc 00
- .text.sinf     0x08005f00       0x78 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_sin.o)
-                0x08005f00                sinf
- *fill*         0x08005f78        0x8 00
- .text.asinf    0x08005f80       0xa0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_asin.o)
-                0x08005f80                asinf
- .text.sqrtf    0x08006020       0x9c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_sqrt.o)
-                0x08006020                sqrtf
- *fill*         0x080060bc        0x4 00
+ .text.__signbitf
+                0x08005ea0        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-s_signbit.o)
+                0x08005ea0                __signbitf
+ *fill*         0x08005ea8        0x8 00
+ .text.roundf   0x08005eb0       0x54 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_round.o)
+                0x08005eb0                roundf
+ *fill*         0x08005f04        0xc 00
+ .text.sinf     0x08005f10       0x78 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_sin.o)
+                0x08005f10                sinf
+ *fill*         0x08005f88        0x8 00
+ .text.asinf    0x08005f90       0xa0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_asin.o)
+                0x08005f90                asinf
+ .text.sqrtf    0x08006030       0x9c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_sqrt.o)
+                0x08006030                sqrtf
+ *fill*         0x080060cc        0x4 00
  .text.__ieee754_asinf
-                0x080060c0      0x318 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_asin.o)
-                0x080060c0                __ieee754_asinf
- *fill*         0x080063d8        0x8 00
+                0x080060d0      0x318 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_asin.o)
+                0x080060d0                __ieee754_asinf
+ *fill*         0x080063e8        0x8 00
  .text.__ieee754_rem_pio2f
-                0x080063e0      0x358 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_rem_pio2.o)
-                0x080063e0                __ieee754_rem_pio2f
- *fill*         0x08006738        0x8 00
+                0x080063f0      0x358 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_rem_pio2.o)
+                0x080063f0                __ieee754_rem_pio2f
+ *fill*         0x08006748        0x8 00
  .text.__ieee754_sqrtf
-                0x08006740       0xd4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_sqrt.o)
-                0x08006740                __ieee754_sqrtf
- *fill*         0x08006814        0xc 00
+                0x08006750       0xd4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_sqrt.o)
+                0x08006750                __ieee754_sqrtf
+ *fill*         0x08006824        0xc 00
  .text.__kernel_cosf
-                0x08006820      0x1b8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_cos.o)
-                0x08006820                __kernel_cosf
- *fill*         0x080069d8        0x8 00
+                0x08006830      0x1b8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_cos.o)
+                0x08006830                __kernel_cosf
+ *fill*         0x080069e8        0x8 00
  .text.__kernel_rem_pio2f
-                0x080069e0      0xb90 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_rem_pio2.o)
-                0x080069e0                __kernel_rem_pio2f
+                0x080069f0      0xb90 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_rem_pio2.o)
+                0x080069f0                __kernel_rem_pio2f
  .text.__kernel_sinf
-                0x08007570      0x100 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_sin.o)
-                0x08007570                __kernel_sinf
- .text.matherr  0x08007670        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-s_matherr.o)
-                0x08007670                matherr
- *fill*         0x08007674        0xc 00
- .text.nan      0x08007680        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-s_nan.o)
-                0x08007680                nan
- *fill*         0x0800768c        0x4 00
- .text.fabsf    0x08007690        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_fabs.o)
-                0x08007690                fabsf
- *fill*         0x08007698        0x8 00
- .text.floorf   0x080076a0       0x94 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_floor.o)
-                0x080076a0                floorf
- *fill*         0x08007734        0xc 00
+                0x08007580      0x100 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_sin.o)
+                0x08007580                __kernel_sinf
+ .text.matherr  0x08007680        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-s_matherr.o)
+                0x08007680                matherr
+ *fill*         0x08007684        0xc 00
+ .text.nan      0x08007690        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-s_nan.o)
+                0x08007690                nan
+ *fill*         0x0800769c        0x4 00
+ .text.fabsf    0x080076a0        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_fabs.o)
+                0x080076a0                fabsf
+ *fill*         0x080076a8        0x8 00
+ .text.floorf   0x080076b0       0x94 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_floor.o)
+                0x080076b0                floorf
+ *fill*         0x08007744        0xc 00
  .text.__fpclassifyf
-                0x08007740       0x58 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_fpclassify.o)
-                0x08007740                __fpclassifyf
- *fill*         0x08007798        0x8 00
- .text.scalbnf  0x080077a0       0xc0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_scalbn.o)
-                0x080077a0                scalbnf
+                0x08007750       0x58 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_fpclassify.o)
+                0x08007750                __fpclassifyf
+ *fill*         0x080077a8        0x8 00
+ .text.scalbnf  0x080077b0       0xc0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_scalbn.o)
+                0x080077b0                scalbnf
  .text.copysignf
-                0x08007860        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_copysign.o)
-                0x08007860                copysignf
- *fill*         0x0800786c        0x4 00
- .text.__errno  0x08007870        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-errno.o)
-                0x08007870                __errno
+                0x08007870        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-sf_copysign.o)
+                0x08007870                copysignf
  *fill*         0x0800787c        0x4 00
- .text.memset   0x08007880      0x12c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memset.o)
-                0x08007880                memset
- *fill*         0x080079ac        0x4 00
- .text.qsort    0x080079b0      0xb54 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-qsort.o)
-                0x080079b0                qsort
- *fill*         0x08008504        0xc 00
- .text.sscanf   0x08008510       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sscanf.o)
-                0x08008510                sscanf
- *fill*         0x0800856c        0x4 00
+ .text.__errno  0x08007880        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-errno.o)
+                0x08007880                __errno
+ *fill*         0x0800788c        0x4 00
+ .text.memset   0x08007890      0x12c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memset.o)
+                0x08007890                memset
+ *fill*         0x080079bc        0x4 00
+ .text.qsort    0x080079c0      0xb54 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-qsort.o)
+                0x080079c0                qsort
+ *fill*         0x08008514        0xc 00
+ .text.sscanf   0x08008520       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sscanf.o)
+                0x08008520                sscanf
+ *fill*         0x0800857c        0x4 00
  .text.__seofread
-                0x08008570        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-stdio.o)
-                0x08008570                __seofread
- *fill*         0x08008574        0xc 00
- .text.strlen   0x08008580       0x60 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strlen.o)
-                0x08008580                strlen
+                0x08008580        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-stdio.o)
+                0x08008580                __seofread
+ *fill*         0x08008584        0xc 00
+ .text.strlen   0x08008590       0x60 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strlen.o)
+                0x08008590                strlen
  .text.__ssvfscanf_r
-                0x080085e0     0x1200 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfscanf.o)
-                0x080085e0                __ssvfscanf_r
+                0x080085f0     0x1200 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfscanf.o)
+                0x080085f0                __ssvfscanf_r
  .text.__sfp_lock_acquire
-                0x080097e0        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-findfp.o)
-                0x080097e0                __sfp_lock_acquire
- *fill*         0x080097e4        0xc 00
- .text.__sfp_lock_release
                 0x080097f0        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-findfp.o)
-                0x080097f0                __sfp_lock_release
+                0x080097f0                __sfp_lock_acquire
  *fill*         0x080097f4        0xc 00
+ .text.__sfp_lock_release
+                0x08009800        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-findfp.o)
+                0x08009800                __sfp_lock_release
+ *fill*         0x08009804        0xc 00
  .text.iswspace
-                0x08009800       0x1c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-iswspace.o)
-                0x08009800                iswspace
- *fill*         0x0800981c        0x4 00
- .text.__locale_charset
-                0x08009820        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-locale.o)
-                0x08009820                __locale_charset
+                0x08009810       0x1c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-iswspace.o)
+                0x08009810                iswspace
  *fill*         0x0800982c        0x4 00
- .text.__locale_mb_cur_max
+ .text.__locale_charset
                 0x08009830        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-locale.o)
-                0x08009830                __locale_mb_cur_max
+                0x08009830                __locale_charset
  *fill*         0x0800983c        0x4 00
- .text._localeconv_r
+ .text.__locale_mb_cur_max
                 0x08009840        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-locale.o)
-                0x08009840                _localeconv_r
+                0x08009840                __locale_mb_cur_max
  *fill*         0x0800984c        0x4 00
+ .text._localeconv_r
+                0x08009850        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-locale.o)
+                0x08009850                _localeconv_r
+ *fill*         0x0800985c        0x4 00
  .text._malloc_r
-                0x08009850      0x55c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mallocr.o)
-                0x08009850                _malloc_r
- *fill*         0x08009dac        0x4 00
+                0x08009860      0x55c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mallocr.o)
+                0x08009860                _malloc_r
+ *fill*         0x08009dbc        0x4 00
  .text._mbrtowc_r
-                0x08009db0       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mbrtowc.o)
-                0x08009db0                _mbrtowc_r
- *fill*         0x08009e0c        0x4 00
+                0x08009dc0       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mbrtowc.o)
+                0x08009dc0                _mbrtowc_r
+ *fill*         0x08009e1c        0x4 00
  .text.__ascii_mbtowc
-                0x08009e10       0x28 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mbtowc_r.o)
-                0x08009e10                __ascii_mbtowc
- *fill*         0x08009e38        0x8 00
+                0x08009e20       0x28 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mbtowc_r.o)
+                0x08009e20                __ascii_mbtowc
+ *fill*         0x08009e48        0x8 00
  .text.__malloc_lock
-                0x08009e40        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mlock.o)
-                0x08009e40                __malloc_lock
- *fill*         0x08009e44        0xc 00
- .text.__malloc_unlock
                 0x08009e50        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mlock.o)
-                0x08009e50                __malloc_unlock
+                0x08009e50                __malloc_lock
  *fill*         0x08009e54        0xc 00
+ .text.__malloc_unlock
+                0x08009e60        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mlock.o)
+                0x08009e60                __malloc_unlock
+ *fill*         0x08009e64        0xc 00
  .text.__fpclassifyd
-                0x08009e60       0x68 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-s_fpclassify.o)
-                0x08009e60                __fpclassifyd
- *fill*         0x08009ec8        0x8 00
- .text.__sccl   0x08009ed0       0x94 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sccl.o)
-                0x08009ed0                __sccl
- *fill*         0x08009f64        0xc 00
- .text.nanf     0x08009f70        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sf_nan.o)
-                0x08009f70                nanf
- *fill*         0x08009f78        0x8 00
- .text.sprintf  0x08009f80       0x50 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sprintf.o)
-                0x08009f80                sprintf
+                0x08009e70       0x68 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-s_fpclassify.o)
+                0x08009e70                __fpclassifyd
+ *fill*         0x08009ed8        0x8 00
+ .text.__sccl   0x08009ee0       0x94 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sccl.o)
+                0x08009ee0                __sccl
+ *fill*         0x08009f74        0xc 00
+ .text.nanf     0x08009f80        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sf_nan.o)
+                0x08009f80                nanf
+ *fill*         0x08009f88        0x8 00
+ .text.sprintf  0x08009f90       0x50 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-sprintf.o)
+                0x08009f90                sprintf
  .text._strtod_r
-                0x08009fd0      0xea0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtod.o)
-                0x08009fd0                _strtod_r
+                0x08009fe0      0xea0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtod.o)
+                0x08009fe0                _strtod_r
  .text._strtol_r
-                0x0800ae70      0x134 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtol.o)
-                0x0800ae70                _strtol_r
- *fill*         0x0800afa4        0xc 00
+                0x0800ae80      0x134 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtol.o)
+                0x0800ae80                _strtol_r
+ *fill*         0x0800afb4        0xc 00
  .text._strtoll_r
-                0x0800afb0      0x1b8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtoll_r.o)
-                0x0800afb0                _strtoll_r
- *fill*         0x0800b168        0x8 00
+                0x0800afc0      0x1b8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtoll_r.o)
+                0x0800afc0                _strtoll_r
+ *fill*         0x0800b178        0x8 00
  .text._strtoul_r
-                0x0800b170      0x150 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtoul.o)
-                0x0800b170                _strtoul_r
+                0x0800b180      0x150 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtoul.o)
+                0x0800b180                _strtoul_r
  .text._strtoull_r
-                0x0800b2c0      0x1fc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtoull_r.o)
-                0x0800b2c0                _strtoull_r
- *fill*         0x0800b4bc        0x4 00
+                0x0800b2d0      0x1fc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtoull_r.o)
+                0x0800b2d0                _strtoull_r
+ *fill*         0x0800b4cc        0x4 00
  .text._sungetc_r
-                0x0800b4c0       0x80 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiscanf.o)
-                0x0800b4c0                _sungetc_r
+                0x0800b4d0       0x80 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiscanf.o)
+                0x0800b4d0                _sungetc_r
  .text.__ssrefill_r
-                0x0800b540       0x3c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiscanf.o)
-                0x0800b540                __ssrefill_r
- *fill*         0x0800b57c        0x4 00
+                0x0800b550       0x3c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiscanf.o)
+                0x0800b550                __ssrefill_r
+ *fill*         0x0800b58c        0x4 00
  .text._sfread_r
-                0x0800b580       0x7c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiscanf.o)
-                0x0800b580                _sfread_r
- *fill*         0x0800b5fc        0x4 00
+                0x0800b590       0x7c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiscanf.o)
+                0x0800b590                _sfread_r
+ *fill*         0x0800b60c        0x4 00
  .text._svfprintf_r
-                0x0800b600     0x1adc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
-                0x0800b600                _svfprintf_r
- *fill*         0x0800d0dc        0x4 00
+                0x0800b610     0x1adc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
+                0x0800b610                _svfprintf_r
+ *fill*         0x0800d0ec        0x4 00
  .text.__submore
-                0x0800d0e0       0x78 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-ungetc.o)
-                0x0800d0e0                __submore
- *fill*         0x0800d158        0x8 00
- .text.quorem   0x0800d160      0x2ec /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-dtoa.o)
- *fill*         0x0800d44c        0x4 00
- .text._dtoa_r  0x0800d450     0x1258 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-dtoa.o)
-                0x0800d450                _dtoa_r
- *fill*         0x0800e6a8        0x8 00
+                0x0800d0f0       0x78 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-ungetc.o)
+                0x0800d0f0                __submore
+ *fill*         0x0800d168        0x8 00
+ .text.quorem   0x0800d170      0x2ec /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-dtoa.o)
+ *fill*         0x0800d45c        0x4 00
+ .text._dtoa_r  0x0800d460     0x1258 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-dtoa.o)
+                0x0800d460                _dtoa_r
+ *fill*         0x0800e6b8        0x8 00
  .text._malloc_trim_r
-                0x0800e6b0       0x98 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-freer.o)
-                0x0800e6b0                _malloc_trim_r
- *fill*         0x0800e748        0x8 00
- .text._free_r  0x0800e750      0x194 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-freer.o)
-                0x0800e750                _free_r
- *fill*         0x0800e8e4        0xc 00
- .text.rshift   0x0800e8f0      0x13c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
- *fill*         0x0800ea2c        0x4 00
+                0x0800e6c0       0x98 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-freer.o)
+                0x0800e6c0                _malloc_trim_r
+ *fill*         0x0800e758        0x8 00
+ .text._free_r  0x0800e760      0x194 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-freer.o)
+                0x0800e760                _free_r
+ *fill*         0x0800e8f4        0xc 00
+ .text.rshift   0x0800e900      0x13c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
+ *fill*         0x0800ea3c        0x4 00
  .text.__hexdig_init
-                0x0800ea30       0x50 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
-                0x0800ea30                __hexdig_init
+                0x0800ea40       0x50 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
+                0x0800ea40                __hexdig_init
  .text.__gethex
-                0x0800ea80      0x58c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
-                0x0800ea80                __gethex
- *fill*         0x0800f00c        0x4 00
+                0x0800ea90      0x58c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
+                0x0800ea90                __gethex
+ *fill*         0x0800f01c        0x4 00
  .text.__hexnan
-                0x0800f010      0x2f0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-hexnan.o)
-                0x0800f010                __hexnan
- .text.memchr   0x0800f300      0x140 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memchr.o)
-                0x0800f300                memchr
- .text.memcpy   0x0800f440      0x144 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memcpy.o)
-                0x0800f440                memcpy
- *fill*         0x0800f584        0xc 00
- .text._Balloc  0x0800f590       0x4c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f590                _Balloc
- *fill*         0x0800f5dc        0x4 00
- .text._Bfree   0x0800f5e0       0x14 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f5e0                _Bfree
- *fill*         0x0800f5f4        0xc 00
+                0x0800f020      0x2f0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-hexnan.o)
+                0x0800f020                __hexnan
+ .text.memchr   0x0800f310      0x140 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memchr.o)
+                0x0800f310                memchr
+ .text.memcpy   0x0800f450      0x144 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memcpy.o)
+                0x0800f450                memcpy
+ *fill*         0x0800f594        0xc 00
+ .text._Balloc  0x0800f5a0       0x4c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f5a0                _Balloc
+ *fill*         0x0800f5ec        0x4 00
+ .text._Bfree   0x0800f5f0       0x14 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f5f0                _Bfree
+ *fill*         0x0800f604        0xc 00
  .text.__multadd
-                0x0800f600       0xf8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f600                __multadd
- *fill*         0x0800f6f8        0x8 00
- .text.__s2b    0x0800f700      0x140 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f700                __s2b
+                0x0800f610       0xf8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f610                __multadd
+ *fill*         0x0800f708        0x8 00
+ .text.__s2b    0x0800f710      0x140 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f710                __s2b
  .text.__hi0bits
-                0x0800f840       0x3c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f840                __hi0bits
- *fill*         0x0800f87c        0x4 00
+                0x0800f850       0x3c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f850                __hi0bits
+ *fill*         0x0800f88c        0x4 00
  .text.__lo0bits
-                0x0800f880       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f880                __lo0bits
- *fill*         0x0800f8dc        0x4 00
- .text.__i2b    0x0800f8e0       0x14 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f8e0                __i2b
- *fill*         0x0800f8f4        0xc 00
+                0x0800f890       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f890                __lo0bits
+ *fill*         0x0800f8ec        0x4 00
+ .text.__i2b    0x0800f8f0       0x14 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f8f0                __i2b
+ *fill*         0x0800f904        0xc 00
  .text.__multiply
-                0x0800f900      0x2d0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800f900                __multiply
+                0x0800f910      0x2d0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800f910                __multiply
  .text.__pow5mult
-                0x0800fbd0       0x94 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800fbd0                __pow5mult
- *fill*         0x0800fc64        0xc 00
+                0x0800fbe0       0x94 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800fbe0                __pow5mult
+ *fill*         0x0800fc74        0xc 00
  .text.__lshift
-                0x0800fc70      0x188 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800fc70                __lshift
- *fill*         0x0800fdf8        0x8 00
- .text.__mcmp   0x0800fe00       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800fe00                __mcmp
- *fill*         0x0800fe5c        0x4 00
- .text.__mdiff  0x0800fe60      0x20c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x0800fe60                __mdiff
- *fill*         0x0801006c        0x4 00
- .text.__ulp    0x08010070       0x44 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x08010070                __ulp
- *fill*         0x080100b4        0xc 00
- .text.__b2d    0x080100c0       0xbc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x080100c0                __b2d
- *fill*         0x0801017c        0x4 00
- .text.__d2b    0x08010180       0xc0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x08010180                __d2b
- .text.__ratio  0x08010240       0x54 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x08010240                __ratio
- *fill*         0x08010294        0xc 00
+                0x0800fc80      0x188 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800fc80                __lshift
+ *fill*         0x0800fe08        0x8 00
+ .text.__mcmp   0x0800fe10       0x5c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800fe10                __mcmp
+ *fill*         0x0800fe6c        0x4 00
+ .text.__mdiff  0x0800fe70      0x20c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x0800fe70                __mdiff
+ *fill*         0x0801007c        0x4 00
+ .text.__ulp    0x08010080       0x44 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x08010080                __ulp
+ *fill*         0x080100c4        0xc 00
+ .text.__b2d    0x080100d0       0xbc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x080100d0                __b2d
+ *fill*         0x0801018c        0x4 00
+ .text.__d2b    0x08010190       0xc0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x08010190                __d2b
+ .text.__ratio  0x08010250       0x54 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x08010250                __ratio
+ *fill*         0x080102a4        0xc 00
  .text.__copybits
-                0x080102a0       0xa4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x080102a0                __copybits
- *fill*         0x08010344        0xc 00
+                0x080102b0       0xa4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x080102b0                __copybits
+ *fill*         0x08010354        0xc 00
  .text.__any_on
-                0x08010350       0x74 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x08010350                __any_on
- *fill*         0x080103c4        0xc 00
+                0x08010360       0x74 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x08010360                __any_on
+ *fill*         0x080103d4        0xc 00
  .text._realloc_r
-                0x080103d0      0x3dc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-reallocr.o)
-                0x080103d0                _realloc_r
- *fill*         0x080107ac        0x4 00
- .text.strncmp  0x080107b0      0x120 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strncmp.o)
-                0x080107b0                strncmp
+                0x080103e0      0x3dc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-reallocr.o)
+                0x080103e0                _realloc_r
+ *fill*         0x080107bc        0x4 00
+ .text.strncmp  0x080107c0      0x120 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strncmp.o)
+                0x080107c0                strncmp
  .text.__ssprint_r
-                0x080108d0      0x100 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiprintf.o)
-                0x080108d0                __ssprint_r
+                0x080108e0      0x100 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfiprintf.o)
+                0x080108e0                __ssprint_r
  .text._calloc_r
-                0x080109d0       0x60 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-callocr.o)
-                0x080109d0                _calloc_r
- .text.memmove  0x08010a30      0x198 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memmove.o)
-                0x08010a30                memmove
+                0x080109e0       0x60 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-callocr.o)
+                0x080109e0                _calloc_r
+ .text.memmove  0x08010a40      0x198 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-memmove.o)
+                0x08010a40                memmove
  *(.rodata)
- *fill*         0x08010bc8        0x8 00
- .rodata        0x08010bd0       0x1c build/obj/main.o
- *fill*         0x08010bec        0x4 00
- .rodata        0x08010bf0       0x20 build/obj/EKF_Pressure.o
+ *fill*         0x08010bd8        0x8 00
+ .rodata        0x08010be0       0x1c build/obj/main.o
+ *fill*         0x08010bfc        0x4 00
+ .rodata        0x08010c00       0x3c build/obj/EKF_Pressure.o
  *(.rodata.*)
+ *fill*         0x08010c3c        0x4 00
  .rodata.str1.1
-                0x08010c10        0x5 build/obj/chsys.o
- *fill*         0x08010c15        0xb 00
+                0x08010c40        0x5 build/obj/chsys.o
+ *fill*         0x08010c45        0xb 00
  .rodata.str1.1
-                0x08010c20        0xf build/obj/chschd.o
- *fill*         0x08010c2f        0x1 00
+                0x08010c50        0xf build/obj/chschd.o
+ *fill*         0x08010c5f        0x1 00
  .rodata.ch_debug
-                0x08010c30       0x16 build/obj/chregistry.o
-                0x08010c30                ch_debug
- *fill*         0x08010c46        0xa 00
- .rodata.vmt    0x08010c50       0x20 build/obj/serial_usb.o
+                0x08010c60       0x16 build/obj/chregistry.o
+                0x08010c60                ch_debug
+ *fill*         0x08010c76        0xa 00
+ .rodata.vmt    0x08010c80       0x20 build/obj/serial_usb.o
  .rodata.zero_status
-                0x08010c70        0x2 build/obj/usb.o
- *fill*         0x08010c72        0xe 00
+                0x08010ca0        0x2 build/obj/usb.o
+ *fill*         0x08010ca2        0xe 00
  .rodata.active_status
-                0x08010c80        0x2 build/obj/usb.o
- *fill*         0x08010c82        0xe 00
+                0x08010cb0        0x2 build/obj/usb.o
+ *fill*         0x08010cb2        0xe 00
  .rodata.halted_status
-                0x08010c90        0x2 build/obj/usb.o
- *fill*         0x08010c92        0xe 00
+                0x08010cc0        0x2 build/obj/usb.o
+ *fill*         0x08010cc2        0xe 00
  .rodata._stm32_dma_streams
-                0x08010ca0       0xc0 build/obj/stm32_dma.o
-                0x08010ca0                _stm32_dma_streams
+                0x08010cd0       0xc0 build/obj/stm32_dma.o
+                0x08010cd0                _stm32_dma_streams
  .rodata.fsparams
-                0x08010d60        0xc build/obj/usb_lld.o
- *fill*         0x08010d6c        0x4 00
+                0x08010d90        0xc build/obj/usb_lld.o
+ *fill*         0x08010d9c        0x4 00
  .rodata.str1.1
-                0x08010d70        0xd build/obj/usb_lld.o
- *fill*         0x08010d7d        0x3 00
+                0x08010da0        0xd build/obj/usb_lld.o
+ *fill*         0x08010dad        0x3 00
  .rodata.ep0config
-                0x08010d80       0x24 build/obj/usb_lld.o
- *fill*         0x08010da4        0xc 00
+                0x08010db0       0x24 build/obj/usb_lld.o
+ *fill*         0x08010dd4        0xc 00
  .rodata.pal_default_config
-                0x08010db0       0xfc build/obj/board.o
-                0x08010db0                pal_default_config
- *fill*         0x08010eac        0x4 00
+                0x08010de0       0xfc build/obj/board.o
+                0x08010de0                pal_default_config
+ *fill*         0x08010edc        0x4 00
  .rodata.str1.1
-                0x08010eb0        0x7 build/obj/chprintf.o
- *fill*         0x08010eb7        0x9 00
+                0x08010ee0        0x7 build/obj/chprintf.o
+ *fill*         0x08010ee7        0x9 00
  .rodata.str1.1
-                0x08010ec0      0x255 build/obj/main.o
+                0x08010ef0      0x255 build/obj/main.o
                                 0x25c (size before relaxing)
- *fill*         0x08011115        0xb 00
+ *fill*         0x08011145        0xb 00
  .rodata.ep1config
-                0x08011120       0x24 build/obj/usbcfg.o
- *fill*         0x08011144        0xc 00
+                0x08011150       0x24 build/obj/usbcfg.o
+ *fill*         0x08011174        0xc 00
  .rodata.vcom_configuration_descriptor_data
-                0x08011150       0x43 build/obj/usbcfg.o
- *fill*         0x08011193        0xd 00
+                0x08011180       0x43 build/obj/usbcfg.o
+ *fill*         0x080111c3        0xd 00
  .rodata.vcom_configuration_descriptor
-                0x080111a0        0x8 build/obj/usbcfg.o
- *fill*         0x080111a8        0x8 00
+                0x080111d0        0x8 build/obj/usbcfg.o
+ *fill*         0x080111d8        0x8 00
  .rodata.ep2config
-                0x080111b0       0x24 build/obj/usbcfg.o
- *fill*         0x080111d4        0xc 00
+                0x080111e0       0x24 build/obj/usbcfg.o
+ *fill*         0x08011204        0xc 00
  .rodata.usbcfg
-                0x080111e0       0x10 build/obj/usbcfg.o
-                0x080111e0                usbcfg
+                0x08011210       0x10 build/obj/usbcfg.o
+                0x08011210                usbcfg
  .rodata.vcom_device_descriptor_data
-                0x080111f0       0x12 build/obj/usbcfg.o
- *fill*         0x08011202        0xe 00
+                0x08011220       0x12 build/obj/usbcfg.o
+ *fill*         0x08011232        0xe 00
  .rodata.vcom_string0
-                0x08011210        0x4 build/obj/usbcfg.o
- *fill*         0x08011214        0xc 00
+                0x08011240        0x4 build/obj/usbcfg.o
+ *fill*         0x08011244        0xc 00
  .rodata.vcom_string1
-                0x08011220       0x26 build/obj/usbcfg.o
- *fill*         0x08011246        0xa 00
+                0x08011250       0x26 build/obj/usbcfg.o
+ *fill*         0x08011276        0xa 00
  .rodata.vcom_string2
-                0x08011250       0x38 build/obj/usbcfg.o
- *fill*         0x08011288        0x8 00
+                0x08011280       0x38 build/obj/usbcfg.o
+ *fill*         0x080112b8        0x8 00
  .rodata.vcom_string3
-                0x08011290        0x8 build/obj/usbcfg.o
- *fill*         0x08011298        0x8 00
+                0x080112c0        0x8 build/obj/usbcfg.o
+ *fill*         0x080112c8        0x8 00
  .rodata.vcom_strings
-                0x080112a0       0x20 build/obj/usbcfg.o
+                0x080112d0       0x20 build/obj/usbcfg.o
  .rodata.serusbcfg
-                0x080112c0        0x4 build/obj/usbcfg.o
-                0x080112c0                serusbcfg
- *fill*         0x080112c4        0xc 00
+                0x080112f0        0x4 build/obj/usbcfg.o
+                0x080112f0                serusbcfg
+ *fill*         0x080112f4        0xc 00
  .rodata.vcom_device_descriptor
-                0x080112d0        0x8 build/obj/usbcfg.o
- *fill*         0x080112d8        0x8 00
+                0x08011300        0x8 build/obj/usbcfg.o
+ *fill*         0x08011308        0x8 00
  .rodata.adcgrpcfg2_pressure_calibrate
-                0x080112e0       0x2c build/obj/EKF_Pressure.o
- *fill*         0x0801130c        0x4 00
+                0x08011310       0x2c build/obj/EKF_Pressure.o
+ *fill*         0x0801133c        0x4 00
  .rodata.str1.1
-                0x08011310        0xd build/obj/EKF_Pressure.o
- *fill*         0x0801131d        0x3 00
+                0x08011340        0xd build/obj/EKF_Pressure.o
+ *fill*         0x0801134d        0x3 00
  .rodata.adcgrpcfg2_pot
-                0x08011320       0x2c build/obj/EKF_Pressure.o
- *fill*         0x0801134c        0x4 00
- .rodata.adcgrpcfg2_pressure
                 0x08011350       0x2c build/obj/EKF_Pressure.o
  *fill*         0x0801137c        0x4 00
+ .rodata.adcgrpcfg2_pressure
+                0x08011380       0x2c build/obj/EKF_Pressure.o
+ *fill*         0x080113ac        0x4 00
  .rodata.str1.1
-                0x08011380        0x4 build/obj/PPG_Demod.o
- *fill*         0x08011384        0xc 00
+                0x080113b0        0x4 build/obj/PPG_Demod.o
+ *fill*         0x080113b4        0xc 00
  .rodata.adcgrpcfg2
-                0x08011390       0x2c build/obj/PPG_Demod.o
- *fill*         0x080113bc        0x4 00
+                0x080113c0       0x2c build/obj/PPG_Demod.o
+ *fill*         0x080113ec        0x4 00
  .rodata.sinusoid.7386
-                0x080113c0       0x78 build/obj/PPG.o
- *fill*         0x08011438        0x8 00
+                0x080113f0       0x78 build/obj/PPG.o
+ *fill*         0x08011468        0x8 00
  .rodata.cosinusoid.7387
-                0x08011440       0x78 build/obj/PPG.o
- *fill*         0x080114b8        0x8 00
+                0x08011470       0x78 build/obj/PPG.o
+ *fill*         0x080114e8        0x8 00
  .rodata.str1.4
-                0x080114c0        0x6 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_asin.o)
+                0x080114f0        0x6 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_asin.o)
                                   0xc (size before relaxing)
- *fill*         0x080114c6        0xa 00
+ *fill*         0x080114f6        0xa 00
  .rodata.str1.4
-                0x080114d0        0x6 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_sqrt.o)
+                0x08011500        0x6 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-wf_sqrt.o)
                                   0x8 (size before relaxing)
- *fill*         0x080114d6        0xa 00
+ *fill*         0x08011506        0xa 00
  .rodata.npio2_hw
-                0x080114e0       0x80 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_rem_pio2.o)
+                0x08011510       0x80 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_rem_pio2.o)
  .rodata.two_over_pi
-                0x08011560      0x318 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_rem_pio2.o)
- *fill*         0x08011878        0x8 00
+                0x08011590      0x318 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-ef_rem_pio2.o)
+ *fill*         0x080118a8        0x8 00
  .rodata.init_jk
-                0x08011880        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_rem_pio2.o)
- *fill*         0x0801188c        0x4 00
- .rodata.PIo2   0x08011890       0x2c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_rem_pio2.o)
+                0x080118b0        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_rem_pio2.o)
  *fill*         0x080118bc        0x4 00
+ .rodata.PIo2   0x080118c0       0x2c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libm.a(lib_a-kf_rem_pio2.o)
+ *fill*         0x080118ec        0x4 00
  .rodata.str1.4
-                0x080118c0        0x2 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-impure.o)
+                0x080118f0        0x2 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-impure.o)
                                   0x4 (size before relaxing)
- *fill*         0x080118c2        0xe 00
+ *fill*         0x080118f2        0xe 00
  .rodata.basefix.6637
-                0x080118d0       0x24 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfscanf.o)
- *fill*         0x080118f4        0xc 00
+                0x08011900       0x24 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfscanf.o)
+ *fill*         0x08011924        0xc 00
  .rodata.str1.4
-                0x08011900        0x5 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfscanf.o)
+                0x08011930        0x5 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfscanf.o)
                                   0x8 (size before relaxing)
- *fill*         0x08011905        0xb 00
+ *fill*         0x08011935        0xb 00
  .rodata._ctype_
-                0x08011910      0x104 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-ctype_.o)
-                0x08011910                _ctype_
- *fill*         0x08011a14        0xc 00
+                0x08011940      0x104 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-ctype_.o)
+                0x08011940                _ctype_
+ *fill*         0x08011a44        0xc 00
  .rodata.str1.4
-                0x08011a20        0xa /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-locale.o)
+                0x08011a50        0xa /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-locale.o)
                                  0x14 (size before relaxing)
  .rodata.str1.4
                 0x00000000        0x4 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mbrtowc.o)
- *fill*         0x08011a2a        0x6 00
+ *fill*         0x08011a5a        0x6 00
  .rodata.str1.4
-                0x08011a30        0xf /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtod.o)
+                0x08011a60        0xf /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtod.o)
                                  0x10 (size before relaxing)
- *fill*         0x08011a3f        0x1 00
+ *fill*         0x08011a6f        0x1 00
  .rodata.tinytens
-                0x08011a40       0x28 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtod.o)
- *fill*         0x08011a68        0x8 00
+                0x08011a70       0x28 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-strtod.o)
+ *fill*         0x08011a98        0x8 00
  .rodata.str1.4
-                0x08011a70       0x42 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
+                0x08011aa0       0x42 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
                                  0x44 (size before relaxing)
- *fill*         0x08011ab2        0xe 00
+ *fill*         0x08011ae2        0xe 00
  .rodata.zeroes.6721
-                0x08011ac0       0x10 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
+                0x08011af0       0x10 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
  .rodata.blanks.6720
-                0x08011ad0       0x10 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
+                0x08011b00       0x10 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-svfprintf.o)
  .rodata.str1.4
-                0x08011ae0       0x10 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-dtoa.o)
+                0x08011b10       0x10 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-dtoa.o)
                                  0x14 (size before relaxing)
  .rodata.str1.4
-                0x08011af0       0x1c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
- *fill*         0x08011b0c        0x4 00
+                0x08011b20       0x1c /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-gdtoa-gethex.o)
+ *fill*         0x08011b3c        0x4 00
  .rodata.p05.5242
-                0x08011b10        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
- *fill*         0x08011b1c        0x4 00
+                0x08011b40        0xc /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+ *fill*         0x08011b4c        0x4 00
  .rodata.__mprec_tens
-                0x08011b20       0xc8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x08011b20                __mprec_tens
- *fill*         0x08011be8        0x8 00
+                0x08011b50       0xc8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x08011b50                __mprec_tens
+ *fill*         0x08011c18        0x8 00
  .rodata.__mprec_bigtens
-                0x08011bf0       0x28 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
-                0x08011bf0                __mprec_bigtens
+                0x08011c20       0x28 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/lib/armv7e-m/libc.a(lib_a-mprec.o)
+                0x08011c20                __mprec_bigtens
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.gcc*)
 
-.vfp11_veneer   0x08011c18        0x0
+.vfp11_veneer   0x08011c48        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08011c18        0x0
+.v4_bx          0x08011c48        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x08011c18        0x0
+.iplt           0x08011c48        0x0
  .iplt          0x00000000        0x0 build/obj/crt0.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x08011c18        0x8
-                0x08011c18                PROVIDE (__exidx_start, .)
+.ARM.exidx      0x08011c48        0x8
+                0x08011c48                PROVIDE (__exidx_start, .)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x08011c18        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7e-m/libgcc.a(_divdi3.o)
- .ARM.exidx     0x08011c20        0x0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7e-m/libgcc.a(_udivdi3.o)
+ .ARM.exidx     0x08011c48        0x8 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7e-m/libgcc.a(_divdi3.o)
+ .ARM.exidx     0x08011c50        0x0 /home/laurence/ARM-GCC/gcc-arm-none-eabi-4_7-2012q4/bin/../lib/gcc/arm-none-eabi/4.7.3/armv7e-m/libgcc.a(_udivdi3.o)
                                   0x8 (size before relaxing)
-                0x08011c20                PROVIDE (__exidx_end, .)
+                0x08011c50                PROVIDE (__exidx_end, .)
 
-.rel.dyn        0x08011c20        0x0
+.rel.dyn        0x08011c50        0x0
  .rel.iplt      0x00000000        0x0 build/obj/crt0.o
 
 .eh_frame_hdr
@@ -11047,10 +11048,10 @@ destructors     0x08000188        0x0
 .eh_frame
  *(.eh_frame)
 
-.textalign      0x08011c20        0x0
-                0x08011c20                . = ALIGN (0x8)
-                0x08011c20                _etext = .
-                0x08011c20                _textdata = _etext
+.textalign      0x08011c50        0x0
+                0x08011c50                . = ALIGN (0x8)
+                0x08011c50                _etext = .
+                0x08011c50                _textdata = _etext
 
 .stacks         0x20000000     0xa000
                 0x20000000                . = ALIGN (0x8)
@@ -11067,7 +11068,7 @@ destructors     0x08000188        0x0
                 0x2000a000                __process_stack_end__ = .
                 0x2000a000                __main_thread_stack_end__ = .
 
-.data           0x2000a000      0x8e0 load address 0x08011c20
+.data           0x2000a000      0x8e0 load address 0x08011c50
                 0x2000a000                . = ALIGN (0x4)
                 0x2000a000                PROVIDE (_data, .)
  *(.data)
@@ -11116,10 +11117,10 @@ destructors     0x08000188        0x0
                 0x2000a8e0                . = ALIGN (0x4)
                 0x2000a8e0                PROVIDE (_edata, .)
 
-.igot.plt       0x2000a8e0        0x0 load address 0x08012500
+.igot.plt       0x2000a8e0        0x0 load address 0x08012530
  .igot.plt      0x00000000        0x0 build/obj/crt0.o
 
-.bss            0x2000a8e0     0x5528 load address 0x08012500
+.bss            0x2000a8e0     0x5528 load address 0x08012530
                 0x2000a8e0                . = ALIGN (0x4)
                 0x2000a8e0                PROVIDE (_bss_start, .)
  *(.bss)
@@ -11252,7 +11253,7 @@ destructors     0x08000188        0x0
                 0x2001c000                __heap_end__ = __ram_end__
 OUTPUT(build/ch.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x2084b
+.debug_info     0x00000000    0x2085b
  .debug_info    0x00000000      0x2d9 build/obj/crt0.o
  .debug_info    0x000002d9      0x1ed build/obj/vectors.o
  .debug_info    0x000004c6       0x97 build/obj/chcore.o
@@ -11289,14 +11290,14 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_info    0x0001637c      0xd3d build/obj/syscalls.o
  .debug_info    0x000170b9     0x269d build/obj/main.o
  .debug_info    0x00019756     0x152e build/obj/usbcfg.o
- .debug_info    0x0001ac84     0x1bd8 build/obj/EKF_Pressure.o
- .debug_info    0x0001c85c     0x105f build/obj/PPG_Demod.o
- .debug_info    0x0001d8bb      0xc43 build/obj/PPG.o
- .debug_info    0x0001e4fe      0x12e build/obj/Pressure.o
- .debug_info    0x0001e62c      0xbb3 build/obj/EKF_Estimator.o
- .debug_info    0x0001f1df       0xca build/obj/Quicksort.o
- .debug_info    0x0001f2a9     0x1090 build/obj/Stepper.o
- .debug_info    0x00020339      0x512 build/obj/Timer.o
+ .debug_info    0x0001ac84     0x1be8 build/obj/EKF_Pressure.o
+ .debug_info    0x0001c86c     0x105f build/obj/PPG_Demod.o
+ .debug_info    0x0001d8cb      0xc43 build/obj/PPG.o
+ .debug_info    0x0001e50e      0x12e build/obj/Pressure.o
+ .debug_info    0x0001e63c      0xbb3 build/obj/EKF_Estimator.o
+ .debug_info    0x0001f1ef       0xca build/obj/Quicksort.o
+ .debug_info    0x0001f2b9     0x1090 build/obj/Stepper.o
+ .debug_info    0x00020349      0x512 build/obj/Timer.o
 
 .debug_abbrev   0x00000000     0x5f42
  .debug_abbrev  0x00000000       0xd2 build/obj/crt0.o
@@ -11344,7 +11345,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_abbrev  0x00005c39      0x23b build/obj/Stepper.o
  .debug_abbrev  0x00005e74       0xce build/obj/Timer.o
 
-.debug_loc      0x00000000     0x8eb4
+.debug_loc      0x00000000     0x8f07
  .debug_loc     0x00000000       0xaf build/obj/crt0.o
  .debug_loc     0x000000af      0x102 build/obj/chcore_v7m.o
  .debug_loc     0x000001b1      0x1a7 build/obj/nvic.o
@@ -11377,14 +11378,14 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_loc     0x000079ed      0x1c3 build/obj/syscalls.o
  .debug_loc     0x00007bb0      0x306 build/obj/main.o
  .debug_loc     0x00007eb6      0x10f build/obj/usbcfg.o
- .debug_loc     0x00007fc5      0x781 build/obj/EKF_Pressure.o
- .debug_loc     0x00008746      0x1b4 build/obj/PPG_Demod.o
- .debug_loc     0x000088fa      0x239 build/obj/PPG.o
- .debug_loc     0x00008b33       0x59 build/obj/Pressure.o
- .debug_loc     0x00008b8c      0x1cb build/obj/EKF_Estimator.o
- .debug_loc     0x00008d57       0x3a build/obj/Quicksort.o
- .debug_loc     0x00008d91      0x103 build/obj/Stepper.o
- .debug_loc     0x00008e94       0x20 build/obj/Timer.o
+ .debug_loc     0x00007fc5      0x7d4 build/obj/EKF_Pressure.o
+ .debug_loc     0x00008799      0x1b4 build/obj/PPG_Demod.o
+ .debug_loc     0x0000894d      0x239 build/obj/PPG.o
+ .debug_loc     0x00008b86       0x59 build/obj/Pressure.o
+ .debug_loc     0x00008bdf      0x1cb build/obj/EKF_Estimator.o
+ .debug_loc     0x00008daa       0x3a build/obj/Quicksort.o
+ .debug_loc     0x00008de4      0x103 build/obj/Stepper.o
+ .debug_loc     0x00008ee7       0x20 build/obj/Timer.o
 
 .debug_aranges  0x00000000      0xd90
  .debug_aranges
@@ -11522,7 +11523,7 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_ranges  0x000010d8       0x30 build/obj/Stepper.o
  .debug_ranges  0x00001108       0x20 build/obj/Timer.o
 
-.debug_macro    0x00000000    0x14392
+.debug_macro    0x00000000    0x1439e
  .debug_macro   0x00000000       0x84 build/obj/crt0.o
  .debug_macro   0x00000084      0x82c build/obj/crt0.o
  .debug_macro   0x000008b0      0x214 build/obj/crt0.o
@@ -11647,25 +11648,25 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_macro   0x00012383      0x16d build/obj/main.o
  .debug_macro   0x000124f0      0x1da build/obj/main.o
  .debug_macro   0x000126ca      0x12a build/obj/main.o
- .debug_macro   0x000127f4       0x5e build/obj/main.o
- .debug_macro   0x00012852       0x5e build/obj/main.o
- .debug_macro   0x000128b0       0x34 build/obj/main.o
- .debug_macro   0x000128e4      0x315 build/obj/usbcfg.o
- .debug_macro   0x00012bf9      0x438 build/obj/EKF_Pressure.o
- .debug_macro   0x00013031       0x89 build/obj/EKF_Pressure.o
- .debug_macro   0x000130ba       0x23 build/obj/EKF_Pressure.o
- .debug_macro   0x000130dd       0x22 build/obj/EKF_Pressure.o
- .debug_macro   0x000130ff      0x340 build/obj/PPG_Demod.o
- .debug_macro   0x0001343f       0x63 build/obj/PPG_Demod.o
- .debug_macro   0x000134a2       0x6c build/obj/PPG_Demod.o
- .debug_macro   0x0001350e      0x282 build/obj/PPG.o
- .debug_macro   0x00013790      0x1f2 build/obj/Pressure.o
- .debug_macro   0x00013982      0x3b8 build/obj/EKF_Estimator.o
- .debug_macro   0x00013d3a      0x21e build/obj/Quicksort.o
- .debug_macro   0x00013f58      0x3c7 build/obj/Stepper.o
- .debug_macro   0x0001431f       0x73 build/obj/Timer.o
+ .debug_macro   0x000127f4       0x6a build/obj/main.o
+ .debug_macro   0x0001285e       0x5e build/obj/main.o
+ .debug_macro   0x000128bc       0x34 build/obj/main.o
+ .debug_macro   0x000128f0      0x315 build/obj/usbcfg.o
+ .debug_macro   0x00012c05      0x438 build/obj/EKF_Pressure.o
+ .debug_macro   0x0001303d       0x89 build/obj/EKF_Pressure.o
+ .debug_macro   0x000130c6       0x23 build/obj/EKF_Pressure.o
+ .debug_macro   0x000130e9       0x22 build/obj/EKF_Pressure.o
+ .debug_macro   0x0001310b      0x340 build/obj/PPG_Demod.o
+ .debug_macro   0x0001344b       0x63 build/obj/PPG_Demod.o
+ .debug_macro   0x000134ae       0x6c build/obj/PPG_Demod.o
+ .debug_macro   0x0001351a      0x282 build/obj/PPG.o
+ .debug_macro   0x0001379c      0x1f2 build/obj/Pressure.o
+ .debug_macro   0x0001398e      0x3b8 build/obj/EKF_Estimator.o
+ .debug_macro   0x00013d46      0x21e build/obj/Quicksort.o
+ .debug_macro   0x00013f64      0x3c7 build/obj/Stepper.o
+ .debug_macro   0x0001432b       0x73 build/obj/Timer.o
 
-.debug_line     0x00000000     0xfc5d
+.debug_line     0x00000000     0xfc5c
  .debug_line    0x00000000      0x1da build/obj/crt0.o
  .debug_line    0x000001da      0x329 build/obj/vectors.o
  .debug_line    0x00000503      0x328 build/obj/chcore.o
@@ -11702,16 +11703,16 @@ OUTPUT(build/ch.elf elf32-littlearm)
  .debug_line    0x0000b309      0x5b4 build/obj/syscalls.o
  .debug_line    0x0000b8bd      0x98d build/obj/main.o
  .debug_line    0x0000c24a      0x61d build/obj/usbcfg.o
- .debug_line    0x0000c867      0xa24 build/obj/EKF_Pressure.o
- .debug_line    0x0000d28b      0x6b1 build/obj/PPG_Demod.o
- .debug_line    0x0000d93c      0x6a5 build/obj/PPG.o
- .debug_line    0x0000dfe1      0x501 build/obj/Pressure.o
- .debug_line    0x0000e4e2      0x811 build/obj/EKF_Estimator.o
- .debug_line    0x0000ecf3      0x4ea build/obj/Quicksort.o
- .debug_line    0x0000f1dd      0x818 build/obj/Stepper.o
- .debug_line    0x0000f9f5      0x268 build/obj/Timer.o
+ .debug_line    0x0000c867      0xa23 build/obj/EKF_Pressure.o
+ .debug_line    0x0000d28a      0x6b1 build/obj/PPG_Demod.o
+ .debug_line    0x0000d93b      0x6a5 build/obj/PPG.o
+ .debug_line    0x0000dfe0      0x501 build/obj/Pressure.o
+ .debug_line    0x0000e4e1      0x811 build/obj/EKF_Estimator.o
+ .debug_line    0x0000ecf2      0x4ea build/obj/Quicksort.o
+ .debug_line    0x0000f1dc      0x818 build/obj/Stepper.o
+ .debug_line    0x0000f9f4      0x268 build/obj/Timer.o
 
-.debug_str      0x00000000    0x51a30
+.debug_str      0x00000000    0x51a58
  .debug_str     0x00000000     0x2d76 build/obj/crt0.o
                                0x2ea7 (size before relaxing)
  .debug_str     0x00002d76     0x46a9 build/obj/vectors.o
@@ -11780,25 +11781,25 @@ OUTPUT(build/ch.elf elf32-littlearm)
                                0x73ed (size before relaxing)
  .debug_str     0x0004df35     0x1353 build/obj/syscalls.o
                                0x9eec (size before relaxing)
- .debug_str     0x0004f288     0x1fc7 build/obj/main.o
-                              0x4ddd8 (size before relaxing)
- .debug_str     0x0005124f      0x11f build/obj/usbcfg.o
+ .debug_str     0x0004f288     0x1feb build/obj/main.o
+                              0x4ddfc (size before relaxing)
+ .debug_str     0x00051273      0x11f build/obj/usbcfg.o
                               0x49c5c (size before relaxing)
- .debug_str     0x0005136e      0x3c3 build/obj/EKF_Pressure.o
-                              0x4c80f (size before relaxing)
- .debug_str     0x00051731       0xc2 build/obj/PPG_Demod.o
-                              0x4a231 (size before relaxing)
- .debug_str     0x000517f3      0x120 build/obj/PPG.o
+ .debug_str     0x00051392      0x3c7 build/obj/EKF_Pressure.o
+                              0x4c850 (size before relaxing)
+ .debug_str     0x00051759       0xc2 build/obj/PPG_Demod.o
+                              0x4a255 (size before relaxing)
+ .debug_str     0x0005181b      0x120 build/obj/PPG.o
                               0x3c9f1 (size before relaxing)
- .debug_str     0x00051913       0x28 build/obj/Pressure.o
+ .debug_str     0x0005193b       0x28 build/obj/Pressure.o
                                0x9a26 (size before relaxing)
- .debug_str     0x0005193b       0x5c build/obj/EKF_Estimator.o
-                              0x4bf16 (size before relaxing)
- .debug_str     0x00051997       0x1b build/obj/Quicksort.o
+ .debug_str     0x00051963       0x5c build/obj/EKF_Estimator.o
+                              0x4bf3a (size before relaxing)
+ .debug_str     0x000519bf       0x1b build/obj/Quicksort.o
                                0x96be (size before relaxing)
- .debug_str     0x000519b2       0x5c build/obj/Stepper.o
-                              0x4c15e (size before relaxing)
- .debug_str     0x00051a0e       0x22 build/obj/Timer.o
+ .debug_str     0x000519da       0x5c build/obj/Stepper.o
+                              0x4c182 (size before relaxing)
+ .debug_str     0x00051a36       0x22 build/obj/Timer.o
                               0x358d7 (size before relaxing)
 
 .comment        0x00000000       0x70

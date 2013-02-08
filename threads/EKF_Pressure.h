@@ -51,6 +51,8 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 #define EKF_NONLINEAR
 /* Hand position and properties estimator EKF related macros */
 #ifndef EKF_NONLINEAR
+#define STATE_SIZE 2
+
 #define MODULUS	1.0		/* Estimated from existing tests, Units are PSI/mm */
 
 #define	MODULUS_LIMIT	(MODULUS*MODULUS/4.0)
@@ -64,4 +66,23 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 #define INITIAL_COVAR {{MODULUS*MODULUS/9.0,0},{0,ACTUATOR_LENGTH*ACTUATOR_LENGTH/20.0}}/* EKF covar intialisation */
 
 #define INITIAL_STATE {MODULUS,ACTUATOR_LENGTH*0.8}/* Initial position towards end of travel, to maximise probability of a hand hit at initialisation */
+
+#else
+
+#define STATE_SIZE 3
+
+#define MODULUS	1.0		/* Estimated from existing tests, Units are PSI/mm */
+
+#define	MODULUS_LIMIT	(MODULUS*MODULUS/4.0)
+
+#define POS_LIMIT	(ACTUATOR_LENGTH*ACTUATOR_LENGTH/11.0)/* Limit on the size of the position error covar */
+
+#define MEASUREMENT_COVAR 1/*((PRESSURE_MARGIN/3)*(PRESSURE_MARGIN/3)) // 3 sigma margin */
+
+#define PROCESS_NOISE {0.001,(0.01*0.01),(0.002*0.002)}/* EV of 0.1% shift in modulus, 0.01PSI/mm,0.002PSI/mm/PSI hand properties drift per second */
+
+#define INITIAL_COVAR {{0.01,0,0},{0,MODULUS*MODULUS/9.0,0},{0,0,MODULUS*MODULUS/150.0}}/* EKF covar intialisation */
+
+#define INITIAL_STATE {0,MODULUS,MODULUS/8}/* Initial settings, zero pressure with low nonlinearity */
+
 #endif

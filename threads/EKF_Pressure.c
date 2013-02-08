@@ -5,7 +5,11 @@
 #include "EKF_Pressure.h"
 #include "Stepper.h"
 #include "EKF_Pressure.h"
-#include "EKF_Estimator.h"
+#ifndef EKF_NONLINEAR
+ #include "EKF_Estimator.h"
+#else
+ #include "EKF_Estimator_Nonlin.h"
+#endif
 #include "Quickselect.h"
 #include "Quicksort.h"
 #include "Pressure.h"

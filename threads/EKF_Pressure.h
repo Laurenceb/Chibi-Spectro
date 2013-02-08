@@ -47,8 +47,10 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 	#define CONVERT_POT(adc)	(ACTUATOR_LENGTH*(float)adc[0]/4096.0)
 #endif
 
+/* Tells us which EKF to use */
+#define EKF_NONLINEAR
 /* Hand position and properties estimator EKF related macros */
-
+#ifndef EKF_NONLINEAR
 #define MODULUS	1.0		/* Estimated from existing tests, Units are PSI/mm */
 
 #define	MODULUS_LIMIT	(MODULUS*MODULUS/4.0)
@@ -62,3 +64,4 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 #define INITIAL_COVAR {{MODULUS*MODULUS/9.0,0},{0,ACTUATOR_LENGTH*ACTUATOR_LENGTH/20.0}}/* EKF covar intialisation */
 
 #define INITIAL_STATE {MODULUS,ACTUATOR_LENGTH*0.8}/* Initial position towards end of travel, to maximise probability of a hand hit at initialisation */
+#endif

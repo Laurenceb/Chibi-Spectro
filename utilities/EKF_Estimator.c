@@ -1,6 +1,6 @@
 #include <math.h>
 #include <stdint.h>
-
+#ifndef EKF_NONLINEAR
 #include "EKF_Estimator.h"
 #include "EKF_Pressure.h"
 
@@ -47,3 +47,4 @@ void Predict_State(float State[2], float Covar[2][2], float Delta_time, float Pr
 	Covar[1][1] += Delta_time*Process_Noise[1];
 	Covar[1][1] = Covar[1][1]>POS_LIMIT?POS_LIMIT:Covar[1][1];/* Apply limits */
 }
+#endif

@@ -1,9 +1,9 @@
 #include <math.h>
 #include <stdint.h>
 #include <string.h>
+#include "EKF_Pressure.h"
 #ifdef EKF_NONLINEAR
 #include "EKF_Estimator_Nonlin.h"
-#include "EKF_Pressure.h"
 
 //The state vector is: Pressure, K_1, K_2
 //where Delta_P = K_1*Delta_X + K_2*Delta_X*Pressure
@@ -20,7 +20,7 @@ void Update_State(float State[3], float Covar[3][3], float Measurement, float Me
 	y/=s;
 	State[0] += Covar[0][0]*y; State[1] += Covar[1][0]*y; State[2] += Covar[2][0]*y;//State update
 	float Covar_Old[3][3];
-	memcyp(Covar_Old, Covar, sizeof(Covar_Old) );//Copy over the old Covar
+	memcpy(Covar_Old, Covar, sizeof(Covar_Old) );//Copy over the old Covar
 	Covar[0][0] -= Covar_Old[0][0]*Covar_Old[0][0]/s;	//Now we can update the Covar in place
 	Covar[0][1] -= Covar_Old[0][0]*Covar_Old[0][1]/s;	
 	Covar[0][2] -= Covar_Old[0][0]*Covar_Old[0][2]/s;	
@@ -47,7 +47,7 @@ void Predict_State(float State[3], float Covar[3][3], float Delta_Time, float Pr
 	PF[1] = Covar[1][0]*F[0] + Covar[1][1]*F[1] + Covar[1][2]*F[2];
 	PF[2] = Covar[2][0]*F[0] + Covar[2][1]*F[1] + Covar[2][2]*F[2];
 	float Covar_Old[3][3];
-	memcyp(Covar_Old, Covar, sizeof(Covar_Old) );//Copy over the old Covar
+	memcpy(Covar_Old, Covar, sizeof(Covar_Old) );//Copy over the old Covar
 	Covar[0][0] = F[0]*PF[0] + F[1]*PF[1] + F[2]*PF[2] + Process_Noise[0]*Delta_Time;//Now we update the Covar in place
 	Covar[0][1] = F[0]*Covar_Old[0][1] + F[1]*Covar_Old[1][1] + F[2]*Covar_Old[2][1];
 	Covar[0][2] = F[0]*Covar_Old[0][2] + F[1]*Covar_Old[1][2] + F[2]*Covar_Old[2][2];

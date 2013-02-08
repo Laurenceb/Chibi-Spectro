@@ -1,8 +1,8 @@
 #include <math.h>
 #include <stdint.h>
+#include "EKF_Pressure.h"
 #ifndef EKF_NONLINEAR
 #include "EKF_Estimator.h"
-#include "EKF_Pressure.h"
 
 static void by2multiply(float out[2][2], float inone[2][2], float intwo[2][2]) {
 	uint8_t n,m;

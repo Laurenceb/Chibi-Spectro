@@ -295,7 +295,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		#else
 		if(pressure>PRESSURE_MARGIN) {
 			Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise, actuator_midway_position-old_actuator_midway_position);
-			Update_State(State, Covar, pressure, /*fabs(velocity)+*/0.001); 
+			Update_State(State, Covar, pressure, /*fabs(velocity)+*/0.0004); 
 		}
 		else
 			State[0]=pressure;

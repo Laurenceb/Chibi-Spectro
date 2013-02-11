@@ -305,7 +305,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		old_actuator_midway_position = actuator_midway_position;
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
-			target = actuator_midway_position + logf((Setpoint+State[1]/State[2])/(State[0]+State[1]/State[2]))/State[2];
+			target = actuator_midway_position + logf((Setpoint+State[1]/State[2])/(pressure+State[1]/State[2]))/State[2];
 		#endif
 		Target=target;			/* Debug test output from thread */
 		/* Perform motor driver processing, places results into mailbox fifo */

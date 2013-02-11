@@ -1,9 +1,8 @@
 #include <math.h>
 #include <stdint.h>
 #include <string.h>
-#include "EKF_Pressure.h"
-#ifdef EKF_NONLINEAR
 #include "EKF_Estimator_Nonlin.h"
+#include "EKF_Pressure.h"
 
 //The state vector is: Pressure, K_1, K_2
 //where Delta_P = K_1*Delta_X + K_2*Delta_X*Pressure
@@ -42,7 +41,7 @@ void Predict_State(float State[3], float Covar[3][3], float Delta_Time, float Pr
 	State[0] += (State[1] + State[0]*State[2])*Delta_Pos;//Nonlinear elastic model
 	float F[3];
 	F[0] = 1+State[2]*Delta_Pos; F[1] = Delta_Pos; F[2] = State[0]*Delta_Pos;
-	float PF[3];		//This is actuall the first column of the PF' product, the rest of PF' is just a copy of P
+	float PF[3];		//This is actually the first column of the PF' product, the rest of PF' is just a copy of P
 	PF[0] = Covar[0][0]*F[0] + Covar[0][1]*F[1] + Covar[0][2]*F[2];
 	PF[1] = Covar[1][0]*F[0] + Covar[1][1]*F[1] + Covar[1][2]*F[2];
 	PF[2] = Covar[2][0]*F[0] + Covar[2][1]*F[1] + Covar[2][2]*F[2];
@@ -56,4 +55,3 @@ void Predict_State(float State[3], float Covar[3][3], float Delta_Time, float Pr
 	Covar[2][0] = PF[2];	//Other Covar indices are left unchanged
 	Covar[2][2] += Process_Noise[2]*Delta_Time;
 }
-#endif

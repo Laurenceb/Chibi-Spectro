@@ -79,10 +79,10 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 
 #define MEASUREMENT_COVAR 1/*((PRESSURE_MARGIN/3)*(PRESSURE_MARGIN/3)) // 3 sigma margin */
 
-#define PROCESS_NOISE {0.001,(0.01*0.01),(0.002*0.002)}/* EV of 0.1% shift in modulus, 0.01PSI/mm,0.002PSI/mm/PSI hand properties drift per second */
+#define PROCESS_NOISE {0.0025,(0.005*0.005),(0.004*0.004)}/* EV 0.05psi press mismodel shift, 0.5%K_0, 0.4%K_1 hand properties drift per second */
 
-#define INITIAL_COVAR {{0.01,0,0},{0,MODULUS*MODULUS/9.0,0},{0,0,MODULUS*MODULUS/150.0}}/* EKF covar intialisation */
+#define INITIAL_COVAR {{0.1,0,0},{0,MODULUS*MODULUS/9.0,0},{0,0,MODULUS*MODULUS/100.0}}/* EKF covar intialisation */
 
-#define INITIAL_STATE {0,MODULUS,MODULUS/8}/* Initial settings, zero pressure with low nonlinearity */
+#define INITIAL_STATE {PRESSURE_MARGIN,MODULUS,MODULUS/100}/* Initial settings, zero pressure with low nonlinearity */
 
 #endif

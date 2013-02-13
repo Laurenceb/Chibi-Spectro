@@ -55,7 +55,7 @@ void PPG_LO_Filter(volatile uint16_t* Buff, Mailbox Output_Mailbox[PPG_CHANNELS]
 		Frequency_Bin[n][0]+=I;Frequency_Bin[n][1]+=Q;//I,Q is real,imaginary
 	}
 	//End of decimating filters
-	if(++bindex==PPG_NO_SUBSAMPLES) {	//Decimation factor of 12 - 62.004Hz data output
+	if(++bindex==PPG_NO_SUBSAMPLES) {	//Decimation factor of 12 - 116Hz data output
 		for(uint8_t n=0;n<PPG_CHANNELS;n++) {
 			Last_PPG_Values[n]=sqrtf(((float)Frequency_Bin[n][0]*(float)Frequency_Bin[n][0])\
 						+((float)Frequency_Bin[n][1]*(float)Frequency_Bin[n][1]));

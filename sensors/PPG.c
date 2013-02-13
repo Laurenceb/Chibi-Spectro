@@ -18,14 +18,11 @@ volatile float Last_PPG_Values[PPG_CHANNELS];
 void PPG_LO_Filter(volatile uint16_t* Buff, Mailbox Output_Mailbox[PPG_CHANNELS]) {
 	static uint8_t bindex;			//Baseband decimation index
 	static int32_t Frequency_Bin[PPG_CHANNELS][2];//All Frequencies in use - consisting of and I and Q component
-	static const int8_t sinusoid[120]=STEP_SIN,cosinusoid[120]=STEP_COS;//Lookup tables
-	static uint8_t m=0;
+	static const int8_t sinusoid[150]=STEP_SIN;//Lookup table - same table used for sin and cos
 	int32_t I=0,Q=0;			//I and Q integration bins
 	for(uint16_t n=0;n<ADC_BUFF_SIZE/2;n++) {//Loop through multiplying by the LO
-		I+=(int16_t)Buff[n]*(int16_t)cosinusoid[m];
-		Q+=(int16_t)Buff[n]*(int16_t)sinusoid[m];
-		if(++m>=120)			//There are 120 samples
-			m=0;
+		I+=(int16_t)Buff[n]*(int16_t)sinusoid[(n%120)+30];
+		Q+=(int16_t)Buff[n]*(int16_t)sinusoid[n%120];
 	}
 	//Now run the "baseband" decimating filter(s)
 	//Positive frequencies

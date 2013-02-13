@@ -74,8 +74,9 @@ include board/board.mk
 
 # Define linker script file here
 #LDSCRIPT= $(PORTLD)/STM32F405xG.ld
-LDSCRIPT= $(PORTLD)/STM32F407xG.ld
+#LDSCRIPT= $(PORTLD)/STM32F407xG.ld
 #LDSCRIPT= $(PORTLD)/STM32F407xG_CCM.ld
+LDSCRIPT= STM32F407xG_CCMRAM.ld
 
 # C sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

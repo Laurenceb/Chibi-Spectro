@@ -144,11 +144,16 @@ SECTIONS
         PROVIDE(_bss_end = .);
     } > ram 
 
+    _siccmram = LOADADDR(.ccmram);
     .ccmram :
     {
         . = ALIGN(4);
+        _sccmram = .;		/* create a global symbol at ccmram start */
         *(.ccmram)
-    } > ccmram
+        *(.ccmram*)
+        . = ALIGN(4);
+        _eccmram = .;		/* create a global symbol at ccmram end */
+    } > ccmram AT > flash
    
 }
 

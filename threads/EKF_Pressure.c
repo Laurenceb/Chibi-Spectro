@@ -288,7 +288,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			State[1]=actuator_midway_position;/* Adjust the State position if there is no contact */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK)
-			target = actuator_midway_position + ( (Setpoint-pressure) / (1.5*State[0]) ) ;
+			#ifdef GAIN_FACTOR
+			target = actuator_midway_position + (  ( (Setpoint-pressure) * GAIN_FACTOR) / State[0] ) ;
+			#endif
 			//target = 5.0+(float)Setpoint;/* Debug test code for testing lower level motor control code */
 		else
 			target = State[1];	/* If we arent getting any data, set the Target to the point where we are just touching the target */

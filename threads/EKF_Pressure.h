@@ -47,6 +47,8 @@ static const ADCConversionGroup adcgrpcfg2_pressure;
 	#define CONVERT_POT(adc)	(ACTUATOR_LENGTH*(float)adc[0]/4096.0)
 #endif
 
+//#define GAIN_FACTOR 0.7	/* Can define a gain factor greater than zero and up to 1 : 1==optimal control, less==more stability  */
+
 /* Tells us which EKF to use */
 #define EKF_NONLINEAR
 /* Hand position and properties estimator EKF related macros */

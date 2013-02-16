@@ -214,8 +214,10 @@ ULIBS =
 ##############################################################################
 
 ifeq ($(USE_FPU),yes)
-  USE_OPT += -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -fsingle-precision-constant
+  MARG = -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant
+  USE_OPT += $(MARG)
   DDEFS += -DCORTEX_USE_FPU=TRUE
+  DLIBS += $(MARG)
 else
   DDEFS += -DCORTEX_USE_FPU=FALSE
 endif

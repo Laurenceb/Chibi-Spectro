@@ -31,5 +31,5 @@
 #define DIM_LED		  PWM_PERIOD_CENTER/200
 
 void Setup_PPG_PWM(void);
-void Enable_PPG_PWM(void);
+void Enable_PPG_PWM(uint8_t Mask);
 void Disable_PPG_PWM(void);

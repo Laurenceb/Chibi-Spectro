@@ -74,16 +74,31 @@ void Setup_PPG_PWM(void) {
 }
 
 /**
-  * @brief  Enable PPG PWM outputs to LEDS
-  * @param  None
+  * @brief  Enable/Disable PPG PWM outputs to LEDS
+  * @param  uint8_t PPG channel mask to enable/disable channels
   * @retval None
   */
-void Enable_PPG_PWM(void) {
-	TIM2->CCER|=TIM_CCER_CC4E;
-	TIM3->CCER|=TIM_CCER_CC3E;
-	TIM4->CCER|=TIM_CCER_CC3E;
-	TIM5->CCER|=TIM_CCER_CC2E;
-	TIM9->CCER|=TIM_CCER_CC1E;
+void Enable_PPG_PWM(uint8_t Mask) {
+	if( Mask & (1<<0) )
+		TIM2->CCER|=TIM_CCER_CC4E;
+	else
+		TIM2->CCER&=~TIM_CCER_CC4E;
+	if( Mask & (1<<3) )
+		TIM3->CCER|=TIM_CCER_CC3E;
+	else
+		TIM3->CCER&=~TIM_CCER_CC3E;
+	if( Mask & (1<<1) )	
+		TIM4->CCER|=TIM_CCER_CC3E;
+	else
+		TIM4->CCER&=~TIM_CCER_CC3E;
+	if( Mask & (1<<2) )
+		TIM5->CCER|=TIM_CCER_CC2E;
+	else
+		TIM5->CCER&=~TIM_CCER_CC2E;
+	if( Mask & (1<<4) )
+		TIM9->CCER|=TIM_CCER_CC1E;
+	else
+		TIM9->CCER&=~TIM_CCER_CC1E;
 }
 
 /**

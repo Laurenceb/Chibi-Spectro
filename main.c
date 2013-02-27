@@ -105,6 +105,9 @@ int main(void) {
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
   Actuator_TypeDef Our_Config = { .MaxAcc=400, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6,\
    .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.005, .DeadVel=16, .BackLash=0.05 };
+  /* Explanatory text for terminal interface */
+  const uint8_t instruction_string[]="\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3, PPG Cal=4),\r\n Period:\
+  time in seconds,\r\n Peak pressure: PSI\r\n";
   /* Variables for dumping data */
   //For pressure setting
   //float pressure_setpoints[NUMBER_SETPOINTS];
@@ -117,12 +120,13 @@ int main(void) {
   chprintf(USBout, "core free memory : %u bytes\r\n", chCoreStatus());
   chprintf(USBout, "Data format: Time, Pressure (PSI), PPG channels 1,2,...\r\n");
   chprintf(USBout, "\r\n\r\nEnter config (whitespace separated) or press enter to use default (10s timeout)\r\n");
-  chprintf(USBout, "\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
+  chprintf(USBout, instruction_string);
   /* Try and read input over usb */
   uint8_t scanbuff[255]={};//Buffer for input data
   uint8_t numchars=0, timeout=1, valid_string=1;
   int test=-1;
   float per=30,peak=1.0;
+  uint8_t current_ppg_channel=0;	//Used for the PPG Test/Calibrate mode
   do {
 	  do {
 	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff), MS2ST(100));//100ms second timeout
@@ -140,15 +144,15 @@ int main(void) {
 	  	chprintf(USBout, ", %3f", (float)per);
 	  	chprintf(USBout, ", %3f\r\n", (float)peak);
 	  	//TODO:  autobrightness config ?
-	 	if(valid_string!=3) {
+	 	if(valid_string!=3 || (test>4 || test<-1)) {
 			chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
-  			chprintf(USBout, "\r\nProfile: (Triangle=1, Pulse=2, Dual Pulse=3),\r\n Period: time in seconds, Peak pressure: PSI\r\n");
+  			chprintf(USBout, instruction_string);
 			valid_string=0;
 			numchars=0;
 		}
   	}
   } while(valid_string==0);		//We loop here until string is valid
-  if((test==2 && per>15.0) || (test!=2 && per>30.0)) {
+  if((test==2 && per>15.0) || (test!=2 && per>30.0) ) {
   	chprintf(USBout,"Period is invalid, using default period\r\n");
 	per=(test==2)?15.0:30.0;
   }
@@ -159,6 +163,9 @@ int main(void) {
   }
   /* At present we just have a 1/3 pulse at end of each period */
   for(uint16_t n=0;n<itr;n++) {
+	if(test==4) {
+		pressure_set_array[n]=peak;//The PPG Cal command just uses a constant pressure
+	}
 	if(test==3) {
 		if((itr-n)<itr/6)
 			pressure_set_array[n]=peak;
@@ -189,7 +196,7 @@ int main(void) {
   /* Create the PPG thread */
   Spawn_PPG_Thread();
   /* Turn on the PPG LEDs here */
-  Enable_PPG_PWM();
+  Enable_PPG_PWM(0xFF);
   /* Loop to park the sensor on target with a 0.2PSI application pressure */
   peak=0.2;
   do {
@@ -229,7 +236,14 @@ int main(void) {
 		chprintf(USBout, ",%lu", ppg[n]);
 	chprintf(USBout, "\r\n");
 	chThdSleepMilliseconds(2);
-	iterations++;	
+	iterations++;
+	if(test==4) {			//If we have PPG Cal mode, we need to swap between individual PPG channels so that they can be tested
+		if(!(iterations%200)) {	//This runs every 200 iterations
+			if(current_ppg_channel++>=PPG_CHANNELS)
+				current_ppg_channel=0;
+			Enable_PPG_PWM(0x01<<current_ppg_channel);//Only one channel is enabled at any given time
+		}
+	}	
   }
 }
 

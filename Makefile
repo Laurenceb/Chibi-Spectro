@@ -195,7 +195,7 @@ DLIBS = -lm
 #
 
 # List all user C define here, like -D_DEBUG=1
-UDEFS = -std=gnu99 -DCHPRINTF_USE_FLOAT -D_DEBUG=1 -g3
+UDEFS = -std=gnu99 -DCHPRINTF_USE_FLOAT -D_DEBUG=1 -g3 #-DSTM32_USE_REVISION_A_FIX
 
 # Define ASM defines here
 UADEFS =

@@ -2,7 +2,7 @@
 
 
 /* Pressure sensor related */
-#define SENSOR_DIAMETER 14.0	/* 14mm diameter sensor */
+#define SENSOR_DIAMETER 20.0	/* 20mm diameter sensor - using mold for silicone resin */
 #define SENSOR_GAIN (-1.0/68.01)/* Honeywell sensor calibrated to Newtons of force */
 
 #define PASCALS_2_PSI (1.0/6894.75729)/* Convertion constant to convert pascals to PSI */

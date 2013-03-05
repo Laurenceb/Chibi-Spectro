@@ -239,7 +239,7 @@ int main(void) {
 	iterations++;
 	if(test==4) {			//If we have PPG Cal mode, we need to swap between individual PPG channels so that they can be tested
 		if(!(iterations%200)) {	//This runs every 200 iterations
-			if(current_ppg_channel++>=PPG_CHANNELS)
+			if(++current_ppg_channel>=PPG_CHANNELS)
 				current_ppg_channel=0;
 			Enable_PPG_PWM(0x01<<current_ppg_channel);//Only one channel is enabled at any given time
 		}

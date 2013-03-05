@@ -19,10 +19,12 @@ void PPG_LO_Filter(volatile uint16_t* Buff, Mailbox Output_Mailbox[PPG_CHANNELS]
 	static uint8_t bindex;			//Baseband decimation index
 	static int32_t Frequency_Bin[PPG_CHANNELS][2];//All Frequencies in use - consisting of and I and Q component
 	static const int8_t sinusoid[150]=STEP_SIN;//Lookup table - same table used for sin and cos
+	static uint8_t m=0;			//Index into the LO
 	int32_t I=0,Q=0;			//I and Q integration bins
 	for(uint16_t n=0;n<ADC_BUFF_SIZE/2;n++) {//Loop through multiplying by the LO
-		I+=(int16_t)Buff[n]*(int16_t)sinusoid[(n%120)+30];
-		Q+=(int16_t)Buff[n]*(int16_t)sinusoid[n%120];
+		I+=(int16_t)Buff[n]*(int16_t)sinusoid[m+30];
+		Q+=(int16_t)Buff[n]*(int16_t)sinusoid[m];
+		m=(m+1)%120;
 	}
 	//Now run the "baseband" decimating filter(s)
 	//Positive frequencies

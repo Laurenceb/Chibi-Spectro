@@ -202,7 +202,7 @@ int main(void) {
   do {
 	while(chMBPost(&Pressures_Setpoint, *(msg_t*) &peak, TIME_IMMEDIATE) == RDY_OK);/* Post to the pressure controller - fill its buffer*/
 	chMBFetch(&Pressures_Output, (msg_t*) &pressure, TIME_INFINITE);/* Reads back the pressure - blocks waiting for PPG thread */
-  } while(fabs(pressure-0.2)<0.05 || !pressure);/* Pressure is returned as zero when pressure controller is booting up */
+  } while(fabs(pressure-0.2)>0.05 || !pressure);/* Pressure is returned as zero when pressure controller is booting up */
   /* Set the brightness once on start up - TODO impliment it later on command */
   PPG_Automatic_Brightness_Control();	//Whilst this is running, the filled pressure setpoint buffer will supply the pressure controller
   /* Flush the buffers to align the data (pressure fifo from pressure controller to ppg thread is emptied by itself) */

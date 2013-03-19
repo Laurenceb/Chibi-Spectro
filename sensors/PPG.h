@@ -9,7 +9,7 @@
 #if PPG_CHANNELS==1
 	#define TARGET_ADC 231612662UL*2/(3)/*Target 67% of ADC range used by the pwm led signal*/
 #else
-	#define TARGET_ADC 231612662UL*2/(3*3/*sqrt(PPG_CHANNELS+2)*/)/*This equation is true for arbitrary number of channels with correct phasing*/
+	#define TARGET_ADC 231612662UL*2/(3*sqrt(PPG_CHANNELS+2))/*This equation is true for arbitrary number of channels with correct phasing*/
 #endif
 
 #define ADC_BUFF_SIZE 1500		/* 1500 sample buffer for DMA (120*100/(8*2)) */
@@ -30,5 +30,5 @@ extern volatile float Last_PPG_Values[PPG_CHANNELS];/* Last values from the PPG 
 void PPG_LO_Filter(volatile uint16_t* buff, Mailbox *Output_Mailbox) ;//__attribute__ ((section (".ccmram")));
 void PPG_Frequency_Bin_Rotate(int32_t Bin[2], uint8_t Direction) ;//__attribute__ ((section (".ccmram")));
 void PPG_Automatic_Brightness_Control(void);
-uint16_t PPG_correct_brightness(uint32_t Decimated_value, uint16_t PWM_value);
-float PWM_Linear(uint16_t PWM_value);
+uint16_t PPG_correct_brightness(uint32_t Decimated_value, float PWM_value);
+

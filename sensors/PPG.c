@@ -96,7 +96,7 @@ void PPG_Automatic_Brightness_Control(void) {
 	do {
 		memcpy(old_vals,vals,sizeof(old_vals));	//Copy over to the old values
 		for(channel=0;channel<PPG_CHANNELS;channel++) {	//Loop through the channels
-			uint16_t pwm;
+			float pwm;
 			switch(channel) {
 				case 0:
 					pwm=Get_PWM_0();
@@ -148,20 +148,12 @@ void PPG_Automatic_Brightness_Control(void) {
   * If more leds are added at different pwm frequencies, then we need to take the sum of Decimated values and scale
   * To avoid clipping of the frontend
   */
-uint16_t PPG_correct_brightness(uint32_t Decimated_value, uint16_t PWM_value) {
+uint16_t PPG_correct_brightness(uint32_t Decimated_value, float PWM_value) {
 	//2^adc_bits*samples_in_half_buffer/4*baseband_decimator
-	//(2^12)*(64/4)*21 == 1376256 == 2*target_decimated_value TODO impliment this with macros full - atm just TARGET_ADC
-	float corrected_pwm=PWM_Linear(PWM_value);
-	corrected_pwm*=(float)(TARGET_ADC)/(float)Decimated_value;//This is the linearised pwm value required to get target amplitude
-	corrected_pwm=(corrected_pwm>1.0)?1.0:corrected_pwm;//Enforce limit on range to 100%
+	// TARGET_ADC scales to number of channels
+	float corrected_pwm = sinf(PWM_value*M_PI);//returns the effecive sinusoidal amplitude in range 0-1
+	corrected_pwm *= (float)(TARGET_ADC)/(float)Decimated_value;//This is the linearised pwm value required to get target amplitude
+	corrected_pwm = (corrected_pwm>1.0)?1.0:corrected_pwm;//Enforce limit on range to 100%
 	return ((asinf(corrected_pwm)/M_PI)*PWM_PERIOD_CENTER);//Convert back to a PWM period value
 }
 
-/**
-  * @brief  Output a linearised value in range 0 to 1 from a PWM duty cycle
-  * @param  PWM duty cycle
-  * @retval A linearised value as a float in the range 0 to 1
-  */
-float PWM_Linear(uint16_t PWM_value) {
-	return sinf(((float)PWM_value/(float)PWM_PERIOD_CENTER)*M_PI);//returns the effecive sinusoidal amplitude in range 0-1
-}

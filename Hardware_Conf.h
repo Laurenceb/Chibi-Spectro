@@ -69,11 +69,11 @@
 #define Set_PWM_3(compare) TIM3->CCR3=compare
 #define Set_PWM_4(compare) TIM9->CCR1=compare
 
-#define Get_PWM_0()  TIM2->CCR4
-#define Get_PWM_1()  TIM4->CCR3
-#define Get_PWM_2()  TIM5->CCR2
-#define Get_PWM_3()  TIM3->CCR3
-#define Get_PWM_4()  TIM9->CCR1
+#define Get_PWM_0()  (float)(TIM2->CCR4)/(float)(TIM2->ARR+1)
+#define Get_PWM_1()  (float)(TIM4->CCR3)/(float)(TIM4->ARR+1)
+#define Get_PWM_2()  (float)(TIM5->CCR2)/(float)(TIM5->ARR+1)
+#define Get_PWM_3()  (float)(TIM3->CCR3)/(float)(TIM3->ARR+1)
+#define Get_PWM_4()  (float)(TIM9->CCR1)/(float)(TIM9->ARR+1)
 
 #define SPARE_TIMER TIM10	/* Extra timer used as spare gating source */
 

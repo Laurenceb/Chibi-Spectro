@@ -205,6 +205,22 @@ int main(void) {
   } while(fabs(pressure-0.2)>0.05 || !pressure);/* Pressure is returned as zero when pressure controller is booting up */
   /* Set the brightness once on start up - TODO impliment it later on command */
   PPG_Automatic_Brightness_Control();	//Whilst this is running, the filled pressure setpoint buffer will supply the pressure controller
+  /* After the brightness control has completed, print out the PWM fractions for reference */
+  chprintf(USBout, "Autobrightness:\r\n");
+  chprintf(USBout, "%3f",Get_PWM_0());
+#if PPG_CHANNELS>1
+  chprintf(USBout, ", %3f",Get_PWM_1());
+#if PPG_CHANNELS>2
+  chprintf(USBout, ", %3f",Get_PWM_2());
+#if PPG_CHANNELS>3
+  chprintf(USBout, ", %3f",Get_PWM_3());
+#if PPG_CHANNELS>4
+  chprintf(USBout, ", %3f",Get_PWM_4());
+#endif
+#endif
+#endif
+#endif
+  chprintf(USBout, "\r\n");
   /* Flush the buffers to align the data (pressure fifo from pressure controller to ppg thread is emptied by itself) */
   chMBReset(&Pressures_Output);		
   for(uint8_t n=0; n<PPG_CHANNELS; n++)

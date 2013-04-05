@@ -355,7 +355,8 @@
                                      PIN_MODE_INPUT(14) |                   \
                                      PIN_MODE_INPUT(15))
 #define VAL_GPIOE_OTYPER            0x00000000
-#define VAL_GPIOE_OSPEEDR           (0xFFFFFFFF &~ (PIN_OSPEED_25M(9)))
+#define VAL_GPIOE_OSPEEDR           (0xFFFFFFFF &~ (PIN_OSPEED_25M(9)	    \
+					| PIN_OSPEED_25M(11)))
 #define VAL_GPIOE_PUPDR             (PIN_PUDR_FLOATING(GPIOE_INT1) |        \
                                      PIN_PUDR_FLOATING(GPIOE_INT2) |        \
                                      PIN_PUDR_PULLUP(2) |                   \

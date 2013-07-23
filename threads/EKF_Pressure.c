@@ -158,7 +158,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 	if(chMBFetchI(&Actuator_Velocities, (msg_t*)&Motor_Velocity) == RDY_OK) {/* If we have some data */
 		chSysUnlockFromIsr();
 		if(!Motor_Velocity) {
-			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
+			//GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
 		}
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
@@ -309,7 +309,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */
 		if(chMBFetch(&Pressures_Setpoint, (msg_t*)&Setpoint, TIME_IMMEDIATE) == RDY_OK) {
 			#ifdef GAIN_FACTOR
-			setpoint = pressure + ( setpoint - pressure ) * GAIN_FACTOR;/* Reduce gain down from 1 for sub-optimal but more stable control*/
+			Setpoint = pressure + ( Setpoint - pressure ) * GAIN_FACTOR;/* Reduce gain down from 1 for sub-optimal but more stable control*/
 			#endif
 			target = actuator_midway_position + logf((Setpoint+State[1]/State[2])/(pressure+State[1]/State[2]))/State[2];
 		}

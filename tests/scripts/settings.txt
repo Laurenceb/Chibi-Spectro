@@ -6,4 +6,4 @@ Period is in seconds
 Peak pressure is in PSI
 Enter config below
 ----------------------------------------------------------------------
-4 29 0.25
+2 14 0.5

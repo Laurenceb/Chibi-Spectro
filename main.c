@@ -106,7 +106,7 @@ int main(void) {
   Actuator_TypeDef Our_Config = { .MaxAcc=400, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6,\
    .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.005, .DeadVel=16, .BackLash=0.05 };
   /* Explanatory text for terminal interface */
-  const uint8_t instruction_string[]="\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3, PPG Cal=4),\r\n Period:\
+  const uint8_t instruction_string[]="\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3, Const pressure=4, PPG Cal=5),\r\n Period:\
   time in seconds,\r\n Peak pressure: PSI\r\n";
   /* Variables for dumping data */
   //For pressure setting
@@ -144,7 +144,7 @@ int main(void) {
 	  	chprintf(USBout, ", %3f", (float)per);
 	  	chprintf(USBout, ", %3f\r\n", (float)peak);
 	  	//TODO:  autobrightness config ?
-	 	if(valid_string!=3 || (test>4 || test<-1)) {
+	 	if(valid_string!=3 || (test>5 || test<-1)) {
 			chprintf(USBout,"Invalid config, format is: \r\n");//Message to user
   			chprintf(USBout, instruction_string);
 			valid_string=0;
@@ -163,7 +163,7 @@ int main(void) {
   }
   /* At present we just have a 1/3 pulse at end of each period */
   for(uint16_t n=0;n<itr;n++) {
-	if(test==4) {
+	if(test>=4) {
 		pressure_set_array[n]=peak;//The PPG Cal command just uses a constant pressure
 	}
 	if(test==3) {
@@ -253,7 +253,7 @@ int main(void) {
 	chprintf(USBout, "\r\n");
 	chThdSleepMilliseconds(2);
 	iterations++;
-	if(test==4) {			//If we have PPG Cal mode, we need to swap between individual PPG channels so that they can be tested
+	if(test==5) {			//If we have PPG Cal mode, we need to swap between individual PPG channels so that they can be tested
 		if(!(iterations%200)) {	//This runs every 200 iterations
 			if(++current_ppg_channel>=PPG_CHANNELS)
 				current_ppg_channel=0;

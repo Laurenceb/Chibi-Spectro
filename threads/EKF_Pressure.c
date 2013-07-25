@@ -158,7 +158,7 @@ static void GPT_Stepper_Callback(GPTDriver *gptp){
 	if(chMBFetchI(&Actuator_Velocities, (msg_t*)&Motor_Velocity) == RDY_OK) {/* If we have some data */
 		chSysUnlockFromIsr();
 		if(!Motor_Velocity) {
-			//GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
+			GPIO_Stepper_Enable(0);	/* Disable the stepper driver if zero velocity */
 		}
 		else {
 			GPIO_Stepper_Enable(1);	/* Enable the stepper motor driver */
@@ -311,7 +311,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			#ifdef GAIN_FACTOR
 			Setpoint = pressure + ( Setpoint - pressure ) * GAIN_FACTOR;/* Reduce gain down from 1 for sub-optimal but more stable control*/
 			#endif
-			target = actuator_midway_position + logf((Setpoint+State[1]/State[2])/(pressure+State[1]/State[2]))/State[2];
+			target = actuator_midway_position + logf((Setpoint+(State[1]/State[2]))/(pressure+(State[1]/State[2])))/State[2];
 		}
 		#endif
 		Target=target;			/* Debug test output from thread */

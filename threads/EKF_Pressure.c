@@ -302,8 +302,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		else
 			State[0]=pressure;
 		State[0]=(State[0]<0)?0.0001:State[0];
-		State[1]=(State[1]<0)?0.0001:State[1];
+		State[1]=(State[1]<0.1)?0.1:State[1];
 		State[2]=(State[2]<0)?0.0001:State[2];
+		State[2]=(State[2]>0.5)?0.5:State[2];
 		pressure = (pressure<0)?0.0001:pressure;/* Force everything to keep sane values */
 		old_actuator_midway_position = actuator_midway_position;
 		/* Now that the EKF has been run, we can use the current EKF state to solve for a target position, given our setpoint pressure */

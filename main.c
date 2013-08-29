@@ -222,7 +222,8 @@ int main(void) {
 #endif
   chprintf(USBout, "\r\n");
   /* Flush the buffers to align the data (pressure fifo from pressure controller to ppg thread is emptied by itself) */
-  chMBReset(&Pressures_Output);		
+  chMBReset(&Pressures_Output);
+  chMBReset(&Targets_Reported);		
   for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	chMBReset( &PPG_Demod[n]);	//Flush PPG data output
   /*

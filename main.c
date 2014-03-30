@@ -104,7 +104,7 @@ int main(void) {
 
   /* The pressure control structure with default actuator setup - approx Hardware limits*/
   Actuator_TypeDef Our_Config = { .MaxAcc=400, .MaxVel=50, .LimitPlus=(ACTUATOR_LENGTH*5)/6,\
-   .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.005, .DeadVel=16, .BackLash=0.05 };
+   .LimitMinus=ACTUATOR_LENGTH/6, .DeadPos=0.005, .DeadVel=16, .BackLash=0.05, .EKF_DeadBand=0.35 };
   /* Explanatory text for terminal interface */
   const uint8_t instruction_string[]="\r\nFormat is profile: (Triangle=1, Pulse=2, Dual Pulse=3, Const pressure=4, PPG Cal=5),\r\n Period:\
   time in seconds,\r\n Peak pressure: PSI\r\n";

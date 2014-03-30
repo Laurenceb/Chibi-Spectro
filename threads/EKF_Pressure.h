@@ -15,6 +15,7 @@ typedef struct{
 	float DeadVel;
 	float DeadPos;
 	float BackLash;
+	float EKF_DeadBand;
 } Actuator_TypeDef;
 
 static void GPT_Stepper_Callback(GPTDriver *gptp);

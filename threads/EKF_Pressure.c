@@ -198,7 +198,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 	uint8_t index=0,Direction=0;
 	uint16_t sindex=0,holdoff=0;
 	float velocities[4]={},velocity,prior_velocity=0,position,delta,actuator_midway_position_est=0,actuator_position,actuator_velocity,\
-	actuator_midway_position=0,pot_position,end_position,pressure=0,target=0,Setpoint=0,real_position=0,old_actuator_midway_position=0;
+	actuator_midway_position=0,actuator_midway_position_efk_beadband=0,pot_position,end_position,pressure=0,target=0,Setpoint=0,\
+	real_position=0,old_actuator_midway_position=0;
 	float State[STATE_SIZE]=INITIAL_STATE,Covar[STATE_SIZE][STATE_SIZE]=INITIAL_COVAR;/* Initialisation for the EKF */
 	float Process_Noise[STATE_SIZE]=PROCESS_NOISE,Measurement_Covar=MEASUREMENT_COVAR;
 	uint16_t Pressure_Sample;
@@ -275,9 +276,9 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		pot_position = CONVERT_POT(Pot_sample);/* The membrane pot used in the Firgelli L12 linear actuator is very poor, use for endstops only */
 		/* Generate the actual actuator position (end of actuator) at sampling midpoint using estimated position */
 		/* Only update if the end of the actuator isnt idling in deadband */
-		if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )
-			actuator_midway_position=actuator_midway_position_est+(Actuator->BackLash/2.0)*((actuator_midway_position_est\
-									>actuator_midway_position)?-1.0:1.0);
+		if( fabs(actuator_midway_position-actuator_midway_position_est)>Actuator->BackLash/2.0 )/* This is a backlash corrected position for the EKF */
+			actuator_midway_position=actuator_midway_position_est+Actuator->BackLash*((actuator_midway_position_est\
+									>actuator_midway_position)?-0.5:0.5);
 		/* Run the EKF */
 		#ifndef EKF_NONLINEAR
 		Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise);
@@ -297,7 +298,11 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		#else
 		if(pressure>PRESSURE_MARGIN) {
 			Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise, actuator_midway_position-old_actuator_midway_position);
-			Update_State(State, Covar, pressure, /*fabs(velocity)+*/0.0004); 
+			if(fabs(actuator_midway_position - actuator_midway_position_efk_beadband) > Actuator->EKF_DeadBand/2.0) {/* Dedicated deadband for EKF */
+				Update_State(State, Covar, pressure, /*fabs(velocity)+*/0.0004 );/* Velocity can be used as a surrogate for unmodeled thixotropy */
+				actuator_midway_position_efk_beadband = actuator_midway_position+Actuator->EKF_DeadBand*((actuator_midway_position>\
+							actuator_midway_position_efk_beadband)?-0.5:0.5);
+			} 
 		}
 		else
 			State[0]=pressure;
@@ -329,8 +334,8 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 			target += Actuator->LimitMinus - end_position;/* But at least we dont hit the end stop */
 		/* Loop through the GPT bins, issuing the next 4 instructions (GPT callback at 400hz) */
 		for(index=0;index<5;index++) {	/* Note that there are 5 iterations - we cover the 4th timebin twice allowing backcorrection scheduling*/
-			if( fabs(position-real_position)>Actuator->BackLash/2.0 )
-				real_position=position;//+(Actuator->BackLash/2.0)*((position>real_position)?-1.0:1.0);
+			if( fabs(position-real_position)>Actuator->BackLash/2.0 )/* Here the targetted stepper rotation is corrected for backlash */
+				real_position=position+Actuator->BackLash*((position>real_position)?-0.5:0.5);/* Real target is a corrected one*/
 			delta=target-real_position;/* The travel distance to target - defined starting from next GPT callback */
 			if( fabs(delta)<Actuator->DeadPos && fabs(velocity)<Actuator->DeadVel ) {/* Position,Veloctiy deadband for our hardware */
 				prior_velocity=velocity;/* The initial velocity is stored for reference */

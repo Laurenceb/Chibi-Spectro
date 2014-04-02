@@ -299,7 +299,7 @@ msg_t Pressure_Thread(void *arg) {		/* Initialise as zeros */
 		if(pressure>PRESSURE_MARGIN) {
 			Predict_State(State, Covar, PRESSURE_TIME_SECONDS, Process_Noise, actuator_midway_position-old_actuator_midway_position);
 			if(fabs(actuator_midway_position - actuator_midway_position_efk_beadband) > Actuator->EKF_DeadBand/2.0) {/* Dedicated deadband for EKF */
-				Update_State(State, Covar, pressure, /*fabs(velocity)+*/0.0004 );/* Velocity can be used as a surrogate for unmodeled thixotropy */
+				Update_State(State, Covar, pressure, 2.5e-4*fabs(velocity)+0.0004 );/* Velocity can be used as a surrogate for unmodeled thixotropy */
 				actuator_midway_position_efk_beadband = actuator_midway_position+Actuator->EKF_DeadBand*((actuator_midway_position>\
 							actuator_midway_position_efk_beadband)?-0.5:0.5);
 			} 

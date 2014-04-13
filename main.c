@@ -129,7 +129,7 @@ int main(void) {
   uint8_t current_ppg_channel=0;	//Used for the PPG Test/Calibrate mode
   do {
 	  do {
-	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff), MS2ST(100));//100ms second timeout
+	  	uint8_t a=chnReadTimeout(USBin, &scanbuff[numchars], sizeof(scanbuff)-numchars, MS2ST(100));//100ms second timeout
 		if(a) {
 			timeout=0;
 			chprintf(USBout, "%s", &scanbuff[numchars]);//Echo the typed characters
@@ -223,7 +223,7 @@ int main(void) {
   chprintf(USBout, "\r\n");
   /* Flush the buffers to align the data (pressure fifo from pressure controller to ppg thread is emptied by itself) */
   chMBReset(&Pressures_Output);
-  chMBReset(&Targets_Reported);		
+  chMBReset(&Targets_Reported);
   for(uint8_t n=0; n<PPG_CHANNELS; n++)
 	chMBReset( &PPG_Demod[n]);	//Flush PPG data output
   /*
@@ -260,7 +260,12 @@ int main(void) {
 				current_ppg_channel=0;
 			Enable_PPG_PWM(0x01<<current_ppg_channel);//Only one channel is enabled at any given time
 		}
-	}	
+	}
+	{uint8_t a=chnReadTimeout(USBin, &scanbuff, 1, TIME_IMMEDIATE);//try to read a byte with immediate timeout
+	if(a && scanbuff[0]=='#') {	//If we get a '#' symbol, the board is rebooted
+		NVIC_SystemReset();	//Causes a system reset
+	}
+	}//End of this scope
   }
 }
 

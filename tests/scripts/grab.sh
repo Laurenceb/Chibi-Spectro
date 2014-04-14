@@ -1,14 +1,9 @@
-#!/usr/bin/bash
-tail -n 1 $1 > /dev/ttyACM0
-echo >> /dev/ttyACM0
-cat /dev/ttyACM0 > $2
-
-
+#!/bin/bash
 
 grab_data() {
 	tail -n 1 $1 > /dev/ttyACM0
 	echo >> /dev/ttyACM0
-	cat /dev/ttyACM0 > $2
+	dd if="/dev/ttyACM0" of="$2"
 }
 
 pause() {
@@ -19,22 +14,23 @@ firstfile='_firstcrt.csv'
 secondfile='_firstocclude.csv'
 thirdfile='_secondcrt.csv'
 forthfile='_secondocclude.csv'
+stty -F /dev/ttyACM0 raw
 echo 'Commencing refills'
 grab_data settings_crt.txt "$1$firstfile" &
-pause 'Enter any key to kill data aquisition and move to occlusion stage of experiment'
+pause 'Press enter to kill data aquisition and move to occlusion stage of experiment'
 kill %1
 echo '#' > /dev/ttyACM0
 sleep 5
 grab_data settings_occlude.txt "$1$secondfile" &
-pause 'Enter any key to kill data aquisition and move to water bath stage of experiment'
-kill %2
+pause 'Press enter to kill data aquisition and move to water bath stage of experiment'
+kill %1
 echo '#' > /dev/ttyACM0
-pause 'Reset board then enter any key to commence post water bath refills, wait for flashing LED'
+pause 'Reset board then press enter to commence post water bath refills, wait for flashing LED'
 grab_data settings_crt.txt "$1$thirdfile" &
-pause 'Enter any key to kill data aquisition and move to  bath stage of experiment'
-kill %3
+pause 'Press enter to kill data aquisition and move to  bath stage of experiment'
+kill %1
 echo '#' > /dev/ttyACM0
 sleep 5
 grab_data settings_occlude.txt "$1$forthfile" &
-pause 'Enter any key to kill data aquisition, completing experiment'
-kill %4
+pause 'Press enter to kill data aquisition, completing experiment'
+kill %1

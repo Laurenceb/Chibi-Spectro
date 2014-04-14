@@ -1,0 +1,9 @@
+This file is used to control the settings for the data capture script.
+Call the 'graph.sh' script to record data, e.g. graph.sh ../stepper/log42handsil.csv
+Format is:  Profile, Period, Peak pressure
+Profile code is: Triangle=1, Pulse=2, Dual Pulse=3, Constant Pressure=4, Calibrate crosstalk=5
+Period is in seconds
+Peak pressure is in PSI
+Enter config below
+----------------------------------------------------------------------
+4 10 0.25
